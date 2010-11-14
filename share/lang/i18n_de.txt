@@ -1,0 +1,73 @@
+# language_file de for Business Process AddOns
+# hint for translating in other languages:
+# where ever you find __var1__ __var2__ ... leave it unchanged while
+# translating; these are variables which are replaced at runtime
+
+priority_1_headline=Priorit&auml;t 1
+priority_1_description=Alarmierung rund um die Uhr (24 x 7)
+priority_2_headline=Priorit&auml;t 2
+priority_2_description=Alarmierung Montag bis Sonntag 7:00 bis 22:00 Uhr
+priority_3_headline=Priorit&auml;t 3
+priority_3_description=Alarmierung Montag bis Donnerstag 7:00 bis 17:00 Uhr, Freitag 7:00 bis 15:00 Uhr
+priority_4_headline=Priorit&auml;t 4
+priority_4_description=Abnahme-, Entwicklungs- und Testsysteme -- keine Alarmierung
+priority_5_headline= 
+priority_5_description= 
+manually_set_to_ok=manuell auf OK gesetzt
+manually_set_to=manuell auf __var1__ gesetzt
+bi_head=Business Impact Analyse
+bi_explanation=Die Business Impact Analyse erm&ouml;glicht Ihnen Was-w&auml;re-wenn-Fragestellungen.<br>Sie haben die M&ouml;glichkeit die Stati einzelner Komponenten gezielt zu setzen und sehen dann,<br>wie sich das auf die Anwendungen (Business Prozesse) auswirkt.
+bi_start_session=Start einer neuen Session
+bi_select_starting_point=Ausgangspunkt festlegen:
+bi_actual_state=Aktueller Zustand der Komponenten
+bi_all_set_to_ok=Alle Komponenten auf OK setzen
+bi_hint_session_timeout=Hinweis:<br>Session Timeout nach 30 Minuten
+bi_set_status=Status setzen
+bi_set_host_status_to=Der Status f&uuml;r alle Services auf <b>__var1__</b> soll gesetzt werden auf:
+bi_set_service_status_to=Der Status f&uuml;r Service <b>__var1__</b> auf <b>__var2__</b> soll gesetzt werden auf:
+short_summary_head=&Uuml;bersicht
+prio=Prio
+status=Status
+details=Details
+all_bp=Alle Business Prozesse
+show_trafficlight=Ampel einblenden
+hide_trafficlight=Ampel ausblenden
+for=f&uuml;r
+host=Host
+service=Service
+status=Status
+status_information=Status Information
+hint_and=Die Anwendung ist f&uuml;r den Kunden verf&uuml;gbar, wenn keine der Komponenten im Status CRITICAL ist.
+hint_or=Es handelt sich um redundant ausgelegte Komponenten. Die Anwendung ist f&uuml;r den Kunden verf&uuml;gbar, wenn mindestens eine der Komponenten im Status OK oder WARNING ist.
+hint_of=Die Anwendung ist f&uuml;r den Kunden verf&uuml;gbar, wenn mindestens __var1__ der Komponenten im Status OK oder WARNING sind.
+back_to_top=zur&uuml;ck zur obersten Ebene
+bp_head=Buiness Process View
+business_process=Business Prozess
+tree_view=Baumansicht
+info=Info
+language=Sprache
+
+error_nagios_not_running=<h1>Fehler</h1><h2>Nagios l&auml;uft derzeit auf dieser Maschine nicht!</h2>
+error_wrong_parameter_conf_head=Fehlerhafter Parameter "conf"
+error_wrong_parameter_conf_body=Der Parameter "conf" ist vermutlich fehlerhaft<br>__var1__ ist keine regul&auml;re Datei oder Datei ist nicht lesbar.<br>
+error_not_existing_session_head=Ung&uuml;ltige Session
+error_not_existing_session_body=Diese Session existiert leider nicht. Vermutlich haben Sie zu lange keine Eingaben gemacht.
+
+# new in 0.9.4
+all_prios=Alle Priorit&auml;ten
+version=Version
+
+where_used_head=Wo verwendet?
+where_used_body=Wo wird diese Komponente verwendet?
+not_used_anywhere=__var1__ wird in keinem Business Prozess verwendet
+service_on_host=Service "__var1__" auf "__var2__"
+used_in_these_bps=__var1__ wird in folgenden Business Prozessen verwendet
+
+error_wrong_parameter_host_head=Parameter host fehlt
+error_wrong_parameter_host_body=Der Parameter "host" wurde nicht angegeben und konnte auch nicht aus dem Referer ermittelt werden.<br>Bitte geben Sie mindestens den Parameter "host" ggf. zus&auml;ztlich den Parameter "service" in der URL an.
+
+# new in 0.9.6
+last_updated=Diese Seite wurde generiert
+error_bp_not_existing=Business Process nicht definiert
+error_bp_not_existing_body=Ein Business Process "__var1__" ist nicht definiert.
+

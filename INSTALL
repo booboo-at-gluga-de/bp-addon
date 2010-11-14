@@ -1,0 +1,222 @@
+Nagios Business Process View and Nagios Business Impact Analysis
+----------------------------------------------------------------
+
+This document decribes, how to install.
+If You are new to these AddOns make sure You read README before.
+
+Requirements
+------------
+
+1.  You must have Nagios (http://www.nagios.org) or Icinga 
+    (http://www.icinga.org) installed and running.
+
+2.  You need to have one of the following possibilities to give
+    this software access to the actual status information Nagios or Icinga 
+    provides
+
+2.1 NDOUTILS
+    (The NDOUTILS - Nagios Data Output Utils - addon allows you to move 
+    status and event information from Nagios to a database for later 
+    retrieval and processing.)
+    see: http://www.nagios.org/download/addons/
+
+2.2 IDOUTILS
+    (same for Icinga)
+    see: http://docs.icinga.org/latest/en/quickstart-idoutils.html
+
+2.3 As an alternative, You may use Merlin. Merlin also requires a separate
+    daemon to run, also requires a MySQL database, but some people like it 
+    more then NDOUTILS, because Merlins table structure ist simpler.
+    see: http://www.op5.org/community/projects/merlin
+
+2.4 If You don't like the overhead of a database, You alternatively can
+    use ndo2fs which writes the same information into the file system.
+    (But keep in mind: ndo2fs uses NDOUTILS as well, You don't save the
+    installation of NDOUTILS, but only the overhead of running a database.)
+    see: http://www.pnp4nagios.org/ndo2fs/start
+
+2.5 mk_livestatus
+    This backend is very simple. It does not need NDOUTILS, no
+    database and also no other separate storage in filesystem or where
+    ever, because it directly gets information from Nagios' or Icingas 
+    internal memory structure.
+    You need at least version 1.1.2 of mk_livestatus.
+    see: http://mathias-kettner.de/checkmk_livestatus.html
+
+2.6 Icinga-API
+    If You have the new Icinga Web Interface 
+    (http://docs.icinga.org/latest/en/icinga-web-scratch.html) up and 
+    running, there is the possibility to get status information from the
+    Icinga-API by HTTP/JSON.
+    You need at least Icinga-Web 1.0.3
+    But keep in mind: There are an additional HTTP connection and 
+    additional PHP scripts in between. This way is much slower than
+    all the others!!
+
+3.  You need a WebServer installed, we describe configuration for Apache.
+
+4.  Perl > 5.8 is needed.
+
+5.  The Perl-Modul CGI::Simple must be installed
+    If You are not sure, type
+    perl -e "use CGI::Simple" && echo ok
+    this prints out "ok" if the module is installed and included in the 
+    default INC path and an error otherwise.
+    Maybe Your linux distribution provides this as a package called
+    libcgi-simple-perl or so.
+
+6.  The Perl-Modul DBI must be installed
+    If You are not sure, type
+    perl -e "use DBI" && echo ok
+
+7.  The Perl-Modul JSON::XS must be installed
+    If You are not sure, type
+    perl -e "use JSON::XS" && echo ok
+    Maybe Your linux distribution provides this as a package called
+    libjson-perl or so.
+
+8.  The Perl-Modul LWP::UserAgent must be installed
+    If You are not sure, type
+    perl -e "use LWP::UserAgent" && echo ok
+    Maybe Your linux distribution provides this as a package called
+    perl-libwww-perl or so.
+
+
+Install
+-------
+
+Be root.
+Extract the download file
+		tar xvzf nagios-business-process-addon-<VERSION>.tar.gz
+		cd nagios-business-process-addon-<VERSION>
+
+if using Nagios: For installation in the default path (/usr/local/nagiosbp/) 
+		type
+		./configure
+
+if using Icinga: For installation in the default path (/usr/local/nagiosbp/) 
+		type
+		./configure --with-nagcgiurl=/icinga/cgi-bin --with-naghtmurl=/icinga --with-nagetc=/usr/local/icinga/etc/ --with-apache-authname="Icinga Access"
+
+If You want to install somewhere else or if Your nagios or icinga is not 
+installed in the default path (/usr/local/nagios/ or /usr/local/icinga), 
+you can call configure with different parameters, see
+		./configure --help
+for details.
+At the end, all important parameters are listed. If they are ok, type
+		make install
+to install Nagios Business Process AddOns.
+		
+
+Apache needs to know about the new files. Therefore a file nagiosbp.conf 
+has been put into Your Apache's conf.d directory. 
+The default is, that the given configuration is included in all of
+Apache's virtual hosts. If this is not what you want, You can copy the
+content of nagiosbp.conf into the according VirtualHost section of Your 
+httpd.conf and delete nagiosbp.conf afterwards.
+Another possibility is, to install the file in some other path, by calling
+configure e. g. with
+		./configure --with-httpd-conf=/usr/local/nagiosbp/etc/apache-conf.d/
+and afterwards add an include statement into Apache's section for the
+according VirtualHost:
+		Include /usr/local/nagiosbp/etc/apache-conf.d/nagiosbp.conf
+
+Concerning the AuthName directives (there are two) in this file:
+make sure they are exactly the same as in Nagios' or Icingas Apache 
+config file (conf.d/nagios.conf or conf.d/icinga.conf)
+Otherwise in the web GUI you are prompte twice for Your username and 
+password. Once when accessing a page of Nagios or Icinga and once when
+accessing a page of the Business Process AddOns.
+
+You can give the correct AuthName when calling configure by giving the 
+additional parameter --with-apache-authname or by editing the file
+conf.d/nagiosbp.conf afterwards.
+
+If You are done with Your Apache configuration, by typing
+		apachectl configtest
+You can check Your configuration. If it reports no error, reload Your
+Apache.
+
+For Nagios Business Impact Analysis, a cron job has been created for You, 
+that throws away old session files. It is normally located in /etc/cron.d
+
+In Nagios or Icinga You need some links so that You can use the 2 AddOns
+
+If using Nagios edit /usr/local/nagios/share/side.html
+		e. g. after this section
+			  <tr>
+			    <td width=13><img src="images/greendot.gif" width="13" height="14" name="statuswrl-dot"></td>
+			    <td nowrap><a href="/nagios/cgi-bin/statuswrl.cgi?host=all" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">3-D Status Map</a></td>
+			  </tr>
+		You insert the following lines:  
+			  <tr>
+			    <td width=13><img src="images/greendot.gif" width="13" height="14" name="statuswrl-dot"></td>
+			    <td nowrap><a href="/nagiosbp/cgi-bin/nagios-bp.cgi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Process View</a></td>
+			  </tr>
+			  <tr>
+			    <td width=13><img src="images/greendot.gif" width="13" height="14" name="statuswrl-dot"></td>
+			    <td nowrap><a href="/nagiosbp/cgi-bin/nagios-bp.cgi?mode=bi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Impact</a></td>
+			  </tr>
+
+If using Icinga with the classic web GUI edit 
+/usr/local/icinga/share/menu.html
+		e. g. after this section
+                        <li class="menuli_style1"><a href="/icinga/cgi-bin/extinfo.cgi?&type=7" target="main">Scheduling Queue</a></li>
+		You insert the following lines:  
+                        <li class="menuli_style2"><a href="/nagiosbp/cgi-bin/nagios-bp.cgi" target="main">Business Process View</a></li>
+                        <li class="menuli_style1"><a href="/nagiosbp/cgi-bin/nagios-bp.cgi?mode=bi" target="main">Business Impact</a></li>
+
+As Nagios Business Process AddOns use the stylesheets of Nagios or Icinga
+the web GUI has the look and feel of Nagios when installed with Nagios
+and the look and feel of Icinga when installed with Icinga.
+In very little details they differ. So when using Icinga with the classic 
+web GUI You might want to insert the following line 
+		#nbp_foot_version, #nbp_foot_language, .nbp_text_small, .nbp_text_tiny { font-size:100%; }
+into share/stylesheets/user.css
+Otherwise some elements on the web GUI would look very tiny.
+
+If using Icinga with the new Icinga-Web you need to add the additional 
+cronks there. You find a download link for the Business Process Icinga 
+Cronk at
+		http://nagiosbp.projects.nagiosforge.org/download.shtml
+Please see the documention there to include them into Your installation.
+
+Now it's time to set up some config files.
+
+If You are running with a database (NDO database, IDO database or merlin 
+database) create a user on Your database. 
+The user needs only select privileges.
+
+If You are running NDO with ndo2fs, You have to make sure, the user Your 
+webserver is running under has read access to the output files of ndo2fs.
+You might therefor want to append something like
+		-o UMASK=002
+to the line
+		ndo2fsParam
+in the init-Script of ndo2fs (normally found under /etc/init.d/ndo2fs)
+
+If You are running with mk_livestatus, You have to make sure, the user Your 
+webserver is running under has read access to the unix socket which has
+been created by mk_livestatus (by default: /usr/local/nagios/var/rw/live)
+
+When using the Icinga-API as backend, please note: 
+The cooperation of Icinga-API and Nagios Business Process AddOns is not 
+yet in use in a large number of setups in production. Also this one is the
+backend with the most overhead (an additional layer of HTTP and additional
+PHP scripts are used to get data). Therefor the performance is not as good
+as with the other backends.
+
+So if You have a big setup or a need for well tested software, You might want 
+to use it with a NDO database, IDO database or mk_livestatus.
+
+Now move etc/ndo.cfg-sample to etc/ndo.cfg and edit it
+		change all the parameters there according to Your setup and 
+		- if using a database backend - the user You just created
+		all parameters have comments there.
+		If You did install all components with their default path
+		and settings, You probably will not have to change a lot.
+
+Now You have finished the installation. Go ahead by configuring Your
+Business Processes as described in README
+
+Especially do not miss nagios-bp-check-ndo-connection.pl

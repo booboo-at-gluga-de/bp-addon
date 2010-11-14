@@ -1,0 +1,10 @@
+/* make trafficlight readable from a bigger distance */
+/* #bpa_trafficlight_yes_table td { border-top:30px solid white; padding:5px; font-size:120% } */
+
+/* do not display the selction buttons for single priorities */
+/* #bpa_prio_selection { display:none; } */
+
+/* display the traffic light on the right hand side */
+/* #bpa_cental_table_box_tl_yes { margin-right:9em; margin-left:0; }
+#bpa_trafficlight_yes_box { float:right; } */
+

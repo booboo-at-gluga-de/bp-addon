@@ -1,0 +1,28 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+LOGDIR=@localstatedir@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+CGIDIR=@sbindir@
+LIBDIR=@libdir@
+DATAROOTDIR=@datarootdir@
+CRON_D_DIR=@CRON_D_DIR@
+
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+
+CP=@CP@
+
+all html:
+
+clean:
+
+distclean: clean
+	-rm Makefile
+
+devclean: distclean
+
+install:
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(CRON_D_DIR)
+	$(INSTALL) -m 640 $(INSTALL_OPTS) nagiosbp $(DESTDIR)$(CRON_D_DIR)
+

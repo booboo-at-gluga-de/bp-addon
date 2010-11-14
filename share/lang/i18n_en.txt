@@ -1,0 +1,72 @@
+# language_file en for Business Process AddOns
+# hint for translating in other languages:
+# where ever you find __var1__ __var2__ ... leave it unchanged while
+# translating; these are variables which are replaced at runtime
+
+priority_1_headline=Priority 1
+priority_1_description=Alerting round the clock (24 x 7)
+priority_2_headline=Priority 2
+priority_2_description=Alerting Monday to Sunday 7:00 to 22:00
+priority_3_headline=Priority 3
+priority_3_description=Alerting Monday to Thursday 7:00 to 17:00, Friday 7:00 to 15:00
+priority_4_headline=Priority 4
+priority_4_description=Testsystems -- no Alerting
+priority_5_headline= 
+priority_5_description= 
+manually_set_to_ok=manually set to ok
+manually_set_to=manually set to __var1__
+bi_head=Business Impact Analysis
+bi_explanation=With Business Impact Analysis you can ask, "What would be if...?"<br>You have the possibility to set the status of each single component to any state you want.<br>Afterwards you can see what impact this would have to your Applications (Business Processes)
+bi_start_session=Start a new session
+bi_select_starting_point=Set starting point:
+bi_actual_state=Actual status of all components
+bi_all_set_to_ok=All components set to OK state
+bi_hint_session_timeout=Hint:<br>Your session times out after 30 minutes
+bi_set_status=set status
+bi_set_host_status_to=Set the status for all services on <b>__var1__</b> to:
+bi_set_service_status_to=Set the status for service <b>__var1__</b> on <b>__var2__</b> to:
+short_summary_head=Short Summary
+prio=Priority
+status=Status
+details=Details
+all_bp=All Business Processes
+show_trafficlight=Show Traffic Lights
+hide_trafficlight=Hide Traffic Lights
+for=for
+host=Host
+service=Service
+status=Status
+status_information=Status Information
+hint_and=The application is available to the customer, if none of the components is in CRITICAL status.
+hint_or=Redundant components. The Application is available to the customer if at least one component is in status OK or WARNING.
+hint_of=The application is available to the customer, if at least __var1__ components are in stats OK oder WARNING.
+back_to_top=Back to the top
+bp_head=Buiness Process View
+business_process=Business Process
+tree_view=Tree view
+info=Info
+language=Language
+
+error_nagios_not_running=<h1>Error</h1><h2>Nagios is not running on this machine at the moment!</h2>
+error_wrong_parameter_conf_head=Parameter "conf" invalid.
+error_wrong_parameter_conf_body=The Parameter "conf" is probably invalid.<br>__var1__ is not a regular file or file is not readable.<br>
+error_not_existing_session_head=Invalid Session
+error_not_existing_session_body=This session does not exist. It was probably idle for too long and timed out.
+
+# new in 0.9.4
+all_prios=All Priorities
+version=Version
+
+where_used_head=Where used?
+where_used_body=Where is this component being used?
+not_used_anywhere=__var1__ is not used in any Business Process
+service_on_host=Service "__var1__" on  "__var2__"
+used_in_these_bps=__var1__ is being used in these Business Processes
+
+error_wrong_parameter_host_head=Parameter host is missing
+error_wrong_parameter_host_body=The parameter "host" is missing and also could not be extracted from the referer.<br>Please add the parameter "host" and maybe additional the parameter "service" to the URL.
+
+# new in 0.9.6
+last_updated=This page was last updated
+error_bp_not_existing=Business Process not defined
+error_bp_not_existing_body=A Business Process "__var1__" is not defined.

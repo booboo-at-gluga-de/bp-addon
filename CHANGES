@@ -1,0 +1,178 @@
+version 0.9.6
+-------------
+	Feature Request 2010-003: bp_cfg2service_cfg.pl can optional generate an
+		additional notes line containing the description You did define
+		in nagios-bp.conf
+		use commandline switch "-n 1" if you want this
+		
+	Bug 2010-004 fixed: some translation errors in english
+
+	Feature Request 2010-005: Display the timestamp when page was created
+		on every page.
+
+	Bug 2010-006 fixed: some typing errors in german
+
+	Preformance enhancement 2010-008: when executing check_bp_status.pl, 
+		the info from external_info scripts is never used
+		so we do not execute them any longer for a better performance
+
+	Feature Request 2010-009: Better integration with Icinga.
+		You can use the Icinga-API by HTTP/JSON as an additional backend.
+		There are Cronks to integrate the Business Process View
+		directly in the new Icinga-Web.
+
+	Feature Request 2010-009: Whithin this feature request, Business Process 
+		AddOns have got a JSON-API. This means You can query state 
+		information of business processes from the Nagios Business Process
+		AddOns in JSON format to use the results e. g. in Your own scripts
+		or for building up Your own GUI. For more info, see API-DOC.
+
+	Bug 2010-010 fixed: on more errors we now display a helpful HTML page
+		instead of a technical error
+
+	Bug 2010-011 fixed: most generated HTML pages refresh after a certain
+		amount of time. On error pages this is useless. So took the
+		refresh out.
+
+version 0.9.5
+-------------
+	Bug 2008-008 fixed: info_url directives did not work, if the given URL
+		did contain a = sign
+		we thought, it was fixed in 0.9.2, but the problem still did
+		exist; now it should be fixed.
+	Feature Request 2009-021: bp_cfg2service_cfg.pl got an additional option
+		-o to tell where the result file should be created
+		so You can use each path You like, e. g. directly put it into
+		a cfg_dir used by Nagios
+	Bug 2009-022 fixed: When using whereUsed by giving host and service name
+		by HTTP referer, the URL decoding of the HTTP referer did not work 
+		correct if host or service names had special characters such as / 
+		(slash).
+	Feature Request 2009-023: whereUsed now also works with more than one
+		nagios-bp.conf
+	Improofment 2009-024: rewrite of an internal used method (cutOffSpaces) 
+		for more efficiency
+	Bug 2009-026 fixed: whereUsed did not work, if the hostname did contain
+		a . (dot)
+	Feature Request 2009-027: added mk_livestatus as an alternative backend
+		for getting actual status information from Nagios
+		for more information, see INSTALL
+	Feature Request 2009-028: when calling http://<hostname>/nagiosbp/ You
+		are now redirected to the web GUI.
+		(Thanks to Sven Velt for the idea and the patch)
+	Feature Request 2009-029: Users can adapt the GUI to fit Your personal
+		needs now.
+		for more information see README, section "Adapting the GUI to 
+		fit Your needs"
+		With this step also all generated pages were made fully 
+		compliant to "HTML 4.01 Strict" standard. 
+		They now validate without errors and warnings.
+ 
+
+version 0.9.4
+-------------
+	Feature Request 2008-021: whereUsed.cgi
+		Link this page from Nagios, to see in which Business Processes
+		the according host or service is used in.
+		Details see README, section Where used?
+	Feature Request 2009-004: You can now in the toplevel view display only
+		one priority.
+	Feature Request 2009-006: versionnumber is displayed at several points
+		e. g. in the web interface
+	Bugfix 2009-007: parsing of ndo.cfg had problems with minor inaccuracies
+		e. g. leading blanks
+	Feature Request 2009-008: when reading from NDO backend (NDO database, 
+		ndo2fs, Merlin) You can now do a caching of the values we got from 
+		there for a configurable amount of time to reduce the number of 
+		backend requests.
+		ATTENTION: Use this feature only if there is NO OTHER possibility.
+		Better tune Your database.
+	Feature Request 2009-011: Merlin integration
+		You can now also use Merlin 
+		(http://www.op5.org/community/projects/merlin) instead of NDO 
+		database, see INSTALL for more details
+	Feature Request 2009-012: nagios-bp-check-ndo-connection.pl now reports 
+		which type of backend is being used
+	Bugfix 2009-013: fixed get_lang_string, minor problem in variable
+		substitution
+	Feature Request 2009-014: added an info bubble for all icons while
+		onMouseOver
+	Bugfix 2009-015: when using ndo2fs some special characters like slash in
+		service names did not work
+	Bugfix 2009-017: pending status was not displayed when using ndo2fs as
+		backend
+	Rewrite 2009-018: complete rewrite of function listAllComponentsOf()
+
+
+version 0.9.3
+-------------
+	Feature Request 2008-012: made check_bp_status.pl more compliant to
+		the Nagios Plugin Developers Guideline
+	Bug 2008-025 fixed: in the INSTALL file the section about modifying
+		side.html there was an old (wrong) path
+	Feature Request 2009-001: support for ndo2fs was added
+		If You don't like the overhead of a database, You alternatively 
+		can use ndo2fs (http://www.pnp4nagios.org/ndo2fs/start) which 
+		writes the same information into the file system.
+		Nagios Business Process AddOns can read them from the filesystem
+		now as well.
+		(But keep in mind: ndo2fs uses NDOUTILS as well, You don't save 
+		the installation of NDOUTILS, but only the overhead of running 
+		a database.)
+	Bug 2009-002 fixed: in the Nagios plugin check_bp_status.pl the
+		lib path did contain an old (wrong) path
+	Feature Request 2009-003: a script was added that helps You to find
+		out easyly if the connection to Your NDO works correct
+		nagios-bp-check-ndo-connection.pl
+		Details see README section "Check if everything works"
+
+version 0.9.2
+-------------
+	Feature Request 2007-001: provides an installer now
+		build by autoconf
+	Feature Request 2007-007: different templates for singele business
+		processes
+		new keyword "template" in nagios-bp.conf
+	Bug 2008-004 fixed: nagios-bp-consistency-check.pl on some special
+		mistakes told config would be ok, even if it was not
+	Bug 2008-005 fixed: nagios-bp-consistency-check.pl in some cases was 
+		unable to check if services were defined using hostgroups
+	Bug 2008-007 fixed: some dirty workarounds were necessary, if you wanted
+		to use more than one nagios-bp.conf
+		now everything can be done by parameters
+	Bug 2008-008 fixed: info_url directives did not work, if the given URL
+		did contain a = sign
+	Feature Request 2008-010: the perl modules do not any longer need to be
+		in the system INC path
+	Feature Request 2008-013: there is a config file for apaches conf.d
+		directory, so there is no need to edit Your httpd.conf manually
+		when installing the Nagios Business Process AddOns
+	Bug 2008-014 fixed: the directory for storing sessions of Nagios Business
+		Impact Analysis is now by default a subdirectory of the install
+		root directory
+	Bug 2008-017 fixed: not all names for service_descriptions did work well
+		especially when mixing up camelCase syntax with blanks and 
+		underscores
+	Feature Request 2008-020: the own stylesheet is no longer needed
+		only those of nagios are used from now on
+	
+
+version 0.9.1
+-------------
+	Bug 2007-002 fixed: nagios-bp-consistency-check.pl did not work correct
+		if cfg_dir directives where used in Nagios config files
+	Documentation Update 2007-003: remind Users to use correct spelling
+		in nagios-bp.conf
+	Feature Request 2007-004: support NDO-DB on another host more easyly
+		(separate parameter for hostname and port in ndo_db_readonly.cfg)
+	Bug 2007-005 fixed: nagios-bp-consistency-check.pl did not work correct
+		when services were defined no hostgroups instead of single hosts
+	Bug 2007-006 fixed: nagios-bp-consistency-check.pl did not work correct
+		when using dashes (-) in business process names
+	Documentation Update 2008-001: make the AuthUserFile directive (in 
+		httpd.conf) for Nagios Business	Process View by default point to 
+		the same file as Nagios does
+
+version 0.9.0
+-------------
+	first public release

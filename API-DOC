@@ -1,0 +1,204 @@
+Nagios Business Process JSON-API
+================================
+
+
+Starting with version 0.9.6 the Nagios Business Process AddOns have got a
+JSON-API. This means You can query state information of business processes from
+the Nagios Business Process AddOns in JSON format to use the results e. g. in 
+Your own scripts or for building up Your own GUI.
+
+You can get any information about any business processes also by querying the
+API. That means: Any information available in the Nagios Business Process AddOns 
+can be requested by API too.
+This document describes this API.
+
+The JSON-API is being already used by the Business Process Cronks in the new
+Icinga-Web.
+
+
+Calling the API
+===============
+
+There are two ways:
+1. Call a local script on the machine Nagios Business Process AddOns are 
+   running at, e. g. 
+	sbin/nagios-bp.cgi outformat=json
+   (within Nagios Business Process AddOns' install path)
+
+2. Call the script remote by HTTP(S):
+	http://nagioshost.example.com/nagiosbp/cgi-bin/nagios-bp.cgi?outformat=json
+   Normally You have to give username and password by HTTP basic auth.
+   A browser asks for Your credentials, but on a script You have to add them, 
+   e. g.
+	curl -u nagiosadmin:secret http://nagioshost.example.com/nagiosbp/cgi-bin/nagios-bp.cgi?outformat=json
+
+In both cases You get back a data structure in JSON format. There are modules
+for every common scriping language to read JSON. Use them!
+
+
+Parameters
+==========
+
+By adding more parameters when calling You can decide what information You want
+to get. Append these parameters with a blank when calling local and with a & 
+when using HTTP(S).
+e. g.
+	sbin/nagios-bp.cgi outformat=json tree=mail
+or
+	http://nagioshost.example.com/nagiosbp/cgi-bin/nagios-bp.cgi?outformat=json&tree=mail
+
+If none of the parameters tree or detail is given, a complete list of all
+defined business processes is returned, the default view.
+
+tree
+----
+	give the name of a business process as argument, e. g.
+	tree=mail
+
+	returns: only one level of hierarchy in the tree of one business process
+
+	excludes: detail
+	(give parameter tree or detail or none of them, but never both)
+
+detail
+------
+	give the name of a business process as argument, e. g.
+	detail=mail
+
+	returns: plain list of all components in this business process without 
+	hierarchy, going down recursively
+
+	excludes: tree
+	(give parameter tree or detail or none of them, but never both)
+
+conf
+----
+	give the name of one config as argument, e. g.
+	conf=nagios-bp-second-view
+	to read definition of business processes from 
+	etc/nagios-bp-second-view.conf
+	instead of default file
+	etc/nagios-bp.conf
+
+	hint: the leave out path of the file and the .conf extension
+	
+lang
+----
+	give wanted language of output as argument, e. g.
+	lang=en
+
+	it is only used to determine from which language files You want to
+	take strings for display_prio_description and display_prio_headline
+
+
+Output Description
+==================
+
+The resulting JSON at the top level contains a hash map with the following
+keys:
+
+business_processes
+	only in default view
+	refers to a section with all the business processes 
+
+business_process
+	only in tree or detail view
+	refers to a section with all components of the given business process
+
+priority_definitions
+	refers to a section giving display strings for every priority used
+	in any of the business processes found in the business_process
+	section. Parameter lang is only for this section.
+
+json_created
+	refers to a very simple section containing only on timestamp when this
+	output was created
+
+
+Output sections in detail
+=========================
+
+business_processes
+------------------
+
+hashmap with references to business_process objects
+key is the business process name
+
+business_process
+----------------
+
+hashmap with following keys, where values are taken from the business process 
+definition
+
+bp_id
+	the name of a business process
+display_name
+	the string for displaying it
+display_prio
+	in which prio is the process displayed 
+	may be 0 if not displayed in the top level view of the web GUI
+info_url
+	the URL You get to when clicking the little blue i icon on the GUI
+operator
+	the operator used in definition of this process
+	may be: and, or, of
+hardstate
+	the actual (hard) state of this business process
+components
+	array with all components
+	see description of components below
+
+
+components
+----------
+
+array of components
+in tree view or detail view components can be subprocesses or single services
+in detail view components are always single services
+
+subprocesses have fields:
+
+subprocess
+	the name of a subprocess
+display_name
+	the string for displaying this subprocess
+hardstate
+	the actual (hard) state of this subprocess
+display_prio
+	in which prio is the subprocess displayed 
+	may be 0 if not displayed in the top level view of the web GUI
+
+
+single services have fields
+
+host
+	hostname of the service
+service
+	servicename of the service
+hardstate
+	the actual (hard) state of this service
+plugin_output
+	the plugin output of last check of this service
+
+
+
+priority_definitions
+--------------------
+
+hashmap to priority definitions
+key is the id of the priority
+fields:
+
+display_prio_headline
+	headline defined in language file for this priority
+
+display_prio_description
+	description defined in language file for this priority
+
+
+json_created
+------------
+
+just a timestamp in format YYYY-MM-DD hh:mm:ss
+
+

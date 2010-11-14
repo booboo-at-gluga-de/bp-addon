@@ -1,0 +1,1 @@
+*/10 * * * * @apache_user@ @bindir@/bp-addon-session-timeout 2>&1 | logger -t bp-addon-session-timeout

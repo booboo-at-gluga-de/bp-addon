@@ -1,0 +1,135 @@
+A.status { 
+	background-color: #999797; 
+	color: #DCE5C1; 
+	font-size: 10pt; 
+	text-align: left; 
+}
+
+.bpa_text_small { 
+	font-size:80%; 
+}
+
+.bpa_text_tiny { 
+	font-size:60%; 
+}
+
+.bpa_central_table_spacer { 
+	height:3em; 
+}
+
+.bpa_sub_head { 
+	border-top:1.5em solid transparent; 
+	font-size:100%; 
+	font-weight:bold; 
+}
+
+.bpa_description { 
+	font-size:120%; 
+	text-align:center; 
+}
+
+.bpa_nobr { 
+	white-space:nowrap; 
+}
+
+.bpa_no_border {
+	border:0;
+}
+
+#bpa_central_table, 
+#bpa_trafficlight_yes_table, 
+#bpa_trafficlight_no_table,
+#bpa_trafficlight_only_table, 
+#bpa_wu_service_table, 
+#bpa_wu_host_table { 
+	margin:auto; 
+}
+
+#bpa_trafficlight_short_table { 
+	background-color:black; 
+	margin:auto; 
+}
+
+#bpa_trafficlight_short_head { 
+	display:none; 
+}
+
+#bpa_trafficlight_yes_box { 
+	float:left; 
+	margin:0; 
+	padding:0; 
+	width:8em; 
+}
+
+#bpa_body_short { 
+	background-color:black; 
+}
+
+#bpa_body_bi,  
+#bpa_body_bi table,  
+#bpa_body_bi td.status { 
+	background-color:#FFFFCC; 
+}
+
+#bpa_error_text { 
+	text-align:center; 
+}
+
+#bpa_startingpoint_form_bi, 
+#bpa_select_state_form_bi { 
+	border-top:0.3em solid transparent; 
+}
+
+#bpa_cental_table_box_tl_yes { 
+	margin:0; 
+	margin-left:9em; 
+	padding:0; 
+}
+
+#bpa_single_table_box,
+#bpa_cental_table_box_tl_no { 
+	margin:0; 
+	padding:0; 
+}
+
+#bpa_table_tree, 
+#bpa_table_list { 
+	margin:auto; 
+	margin-top:3em; 
+}
+
+#bpa_button_bar { 
+	margin-top:2em; 
+	text-align:center; 
+}
+
+#bpa_hint { 
+	margin-top:1em; 
+	text-align:center; 
+}
+
+#bpa_foot, 
+#bpa_wu_service_head, 
+#bpa_wu_host_head { 
+	margin-top:2em; 
+}
+
+#bpa_foot_version { 
+	float:left; 
+	font-size:75%; 
+}
+
+#bpa_foot_language { 
+	float:right; 
+	font-size:75%; 
+}
+
+#bpa_head_bi, 
+#bpa_head_act, 
+#bpa_head_wu { 
+	margin-bottom:2em; 
+}
+
+#bpa_curly_brace {
+	background-color:black; 
+}

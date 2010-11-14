@@ -1,0 +1,30 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+LOGDIR=@localstatedir@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+CGIDIR=@sbindir@
+DATAROOTDIR=@datarootdir@
+LIBEXECDIR=@libexecdir@
+
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+
+CP=@CP@
+
+all html:
+
+clean:
+	-rm bp_cfg2service_cfg.pl
+	-rm nagios-bp-consistency-check.pl
+
+distclean: clean
+	-rm Makefile
+
+devclean: distclean
+
+install:
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) *.pl $(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) nagios_bp_session_timeout $(BINDIR)
+

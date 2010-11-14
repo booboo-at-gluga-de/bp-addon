@@ -1,0 +1,178 @@
+If You are updating form a version before 0.9.6 please note, there are
+two more perl modules required now, JSON::XS and LWP::UserAgent, see section 
+"Requirements" in INSTALL
+
+If You want to update from version 0.9.0 or 0.9.1, there are two different 
+ways:
+1. keep the old path and URL settings (not recommended)
+2. use the new path and URL setting
+
+If You are updating from version 0.9.2 or later, please see section 
+"Updating from version 0.9.2 or later" below.
+
+
+Keep the old path and URL settings
+----------------------------------
+
+If You choose this way, You will keep path (/usr/local/nagios-ext) and URL
+(http://yourhost.example.com/nagios-ext/...) as they were in previous versions.
+This has the advantage, that You do not need to change any links.
+
+Do the following steps:
+
+Save the files of Your nagios-ext/etc directory.
+
+Change to the directory directly above nagios-ext, by default
+/usr/local
+	cd /usr/local
+Delete nagios-ext
+	rm -f nagios-ext
+If You did create a separate session directory, e. g.
+/var/www/nagios_bp.sessions
+You can remove this directory too:
+	cd /var/www
+	rm -Rf nagios_bp.sessions
+
+Install this version as described in INSTALL and README.
+As options for configure You should use something like
+	./configure --with-cgiurl=/nagios-ext/cgi-bin --with-htmurl=/nagios-ext --prefix=/usr/local/nagios-ext --with-cron-d-dir=/usr/local/nagios-ext/etc/cron.d --with-httpd-conf=/usr/local/nagios-ext/etc/apache-conf.d
+
+Restore the files in nagios-ext/etc
+
+One change in configuration You have to do: The file which was named 
+ndo_db_readonly.cfg before is now ndo.cfg and has more settings.
+The best solution would be to copy ndo.cfg-sample to ndo.cfg
+	cd etc
+	cp ndo.cfg-sample ndo.cfg
+Afterwards You take over the values You did define in ndo_db_readonly.cfg
+into ndo.cfg. 
+
+If You are updating from version 0.9.0 and Your NDO database is running on 
+another host than Nagios Business Process View, You might want to completely
+reconfigure Your values in the new ndo.cfg, because it's more easy now to 
+configure a different host and port for the database.
+
+Now You can delete the old ndo_db_readonly.cfg.
+
+If You did map Your Business Processes to Nagios service, please note, 
+that You also have to change the service templates and the command You did 
+define in some nagios config file:
+The command check_bp_status must get two parameters now, see README.
+
+The files *-sample in nagios-ext/etc can be removed.
+
+The symlinks You added to Your system's perl INC path pointing to *.pm files
+in /usr/local/nagios-ext/sbin/ should be removed. They are not needed any 
+longer (Nagios Business Process AddOns use local libs now only).
+If You are unsure, which directories are in the INC path, type
+                perl -e 'print join("\n", @INC) . "\n"'
+
+That's it. Now it should work.
+If You have problems, see section Help in README.
+
+
+Use the new path and URL setting
+--------------------------------
+
+If You choose this way, You will install into the new default path 
+(/usr/local/nagiosbp) and URL (http://yourhost.example.com/nagiosbp/...)
+This has the advantage, that You are closer to the standard of 0.9.2
+and further versions.
+
+Do the following steps:
+
+Save the files of Your nagios-ext/etc directory.
+
+Change to the directory directly above nagios-ext, by default
+/usr/local
+	cd /usr/local
+Delete nagios-ext
+	rm -f nagios-ext
+If You did create a separate session directory, e. g.
+/var/www/nagios_bp.sessions
+You can remove this directory too:
+	cd /var/www
+	rm -Rf nagios_bp.sessions
+
+If You did create a cronjob, for cleaning up old session information, You
+can remove this one now. You probably have some line like
+*/10 * * * * /usr/local/nagios-ext/bin/nagios_bp_session_timeout 2>&1 | logger -t nagios_bp_session_timeout
+in the crontab of the user Your webserver is running under.
+Remove it.
+
+On install of Your previous version, You did add some lines in Your httpd.conf
+(one ScriptAlias, one Alias and two directory directives - search for the string
+nagios-ext). Remove them. You will get a separate config file in apache's conf.d
+directory afterwards, when installing the new version.
+
+Now Your installation is as clean as we need it for the installation of the
+new version.
+(the only things we left over are Links in Nagios's side.html and some host
+and service templates and commands You did define in some Nagios config
+file - You will change them later)
+ 
+Now it's time to install this new version as described in INSTALL and README.
+
+When You are at the point to add two links to Nagios' side.html remember to
+just change the links there instead of inserting them.
+
+If You come to the section
+Business Process representation as Nagios services
+and You did map Your Business Processes to Nagios service before, please note, 
+that You also have to change the service templates and the command You did 
+define in some nagios config file:
+The command check_bp_status must get two parameters now, see README.
+
+Now You can restore the files in nagios-ext/etc
+
+One change in configuration You have to do: The file which was named 
+ndo_db_readonly.cfg before is now ndo.cfg and has more settings.
+The best solution would be to copy ndo.cfg-sample to ndo.cfg
+	cd etc
+	cp ndo.cfg-sample ndo.cfg
+Afterwards You take over the values You did define in ndo_db_readonly.cfg
+into ndo.cfg. 
+
+If You are updating from version 0.9.0 and Your NDO database is running on 
+another host than Nagios Business Process View, You might want to completely
+reconfigure Your values in the new ndo.cfg, because it's more easy now to 
+configure a different host and port for the database.
+
+Now You can delete the old ndo_db_readonly.cfg.
+
+The files *-sample in nagios-ext/etc can be removed.
+
+The symlinks You added to Your system's perl INC path pointing to *.pm files
+in /usr/local/nagios-ext/sbin/ should be removed. They are not needed any 
+longer (Nagios Business Process AddOns use local libs now only).
+If You are unsure, which directories are in the INC path, type
+                perl -e 'print join("\n", @INC) . "\n"'
+
+That's it. Now it should work.
+If You have problems, see section Help in README.
+
+
+Updating from version 0.9.2 or later
+------------------------------------
+
+Save the files of Your nagiosbp/etc/ directory and share/stylesheets/user.css
+(just to be sure).
+
+Now You do an normal installation, see INSTALL. 
+As parameters for the configure script You should use the same parameters
+You did use when installing the previous version!
+The section about editing side.html: You do not have to do this again!
+Also You did already create the read-only user for the database last time.
+
+One change in configuration You have to do: The file which was named 
+ndo_db_readonly.cfg before in 0.9.2 is now ndo.cfg and has more settings.
+The best solution would be to copy ndo.cfg-sample to ndo.cfg
+	cd etc
+	cp ndo.cfg-sample ndo.cfg
+Afterwards You take over the values You did define in ndo_db_readonly.cfg
+into ndo.cfg. The other settings in ndo.cfg You do not need to change.
+
+Now You can delete the old ndo_db_readonly.cfg and all *-sample config files.
+
+That's it. Now You should be on the new version and everything should be working.
+If You have problems, see section Help in README.

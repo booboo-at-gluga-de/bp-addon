@@ -1,0 +1,159 @@
+###############################
+# Makefile for NagiosBP
+#
+# Last Modified: 21-02-2008
+###############################
+
+
+# Source code directories
+SRC_CGIBIN=@srcdir@/sbin
+SRC_BIN=@srcdir@/bin
+SRC_CONFIG=@srcdir@/etc
+SRC_LANG=@srcdir@/share/lang
+SRC_LIBEXEC=@srcdir@/libexec
+SRC_LIBS=@srcdir@/lib
+SRC_SHARE=@srcdir@/share
+SRC_VAR=@srcdir@/var
+
+
+#CC=@CC@
+#CFLAGS=@CFLAGS@ @DEFS@
+#LDFLAGS=@LDFLAGS@ @LIBS@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+LOGDIR=@localstatedir@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+LIBEXECDIR=@libexecdir@
+CGIDIR=@sbindir@
+HTMLDIR=@datadir@
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+DATAROOTDIR=@datarootdir@
+CRON_D_DIR=@CRON_D_DIR@
+
+CP=@CP@
+
+@SET_MAKE@
+
+none:
+	@echo "Please supply a command line argument (i.e. 'make all').  Other targets are:"
+	@echo "   clean"
+	@echo "   install install-init install-config install-processperfdata install-html fullinstall"
+#	@echo "   uninstall"
+
+all:
+	cd $(SRC_BASE) && $(MAKE)
+	cd $(SRC_SHARE) && $(MAKE)
+	cd $(SRC_SCRIPTS) && $(MAKE)
+
+	@echo ""
+	@echo "*** Compile finished ***"
+	@echo ""
+	@echo "  make install"
+	@echo "     - This installs the main program and HTML files"
+	@echo ""
+	@echo "Enjoy."
+	@echo ""
+
+scripts:
+	cd $(SRC_SCRIPTS) && $(MAKE)
+
+share:
+	cd $(SRC_SHARE) && $(MAKE)
+
+clean:
+	cd $(SRC_CGIBIN) && $(MAKE) $@
+	cd $(SRC_BIN) && $(MAKE) $@
+	cd $(SRC_CONFIG) && $(MAKE) $@
+	cd $(SRC_CONFIG)/apache-conf.d && $(MAKE) $@
+	cd $(SRC_CONFIG)/cron.d && $(MAKE) $@
+	cd $(SRC_LANG) && $(MAKE) $@
+	cd $(SRC_LIBEXEC) && $(MAKE) $@
+	cd $(SRC_LIBS) && $(MAKE) $@
+	cd $(SRC_SHARE) && $(MAKE) $@
+	cd $(SRC_SHARE)/stylesheets && $(MAKE) $@
+	cd $(SRC_VAR)/nagios_bp.sessions && $(MAKE) $@
+	cd $(SRC_VAR)/cache && $(MAKE) $@
+	-rm -f *.cfg core
+	-rm -f *~ *.*~ */*~ */*.*~
+	-rm -f config.log config.status config.cache
+
+distclean: 
+	cd $(SRC_CGIBIN) && $(MAKE) $@
+	cd $(SRC_BIN) && $(MAKE) $@
+	cd $(SRC_CONFIG) && $(MAKE) $@
+	cd $(SRC_CONFIG)/apache-conf.d && $(MAKE) $@
+	cd $(SRC_CONFIG)/cron.d && $(MAKE) $@
+	cd $(SRC_LANG) && $(MAKE) $@
+	cd $(SRC_LIBEXEC) && $(MAKE) $@
+	cd $(SRC_LIBS) && $(MAKE) $@
+	cd $(SRC_SHARE) && $(MAKE) $@
+	cd $(SRC_SHARE)/stylesheets && $(MAKE) $@
+	cd $(SRC_VAR)/nagios_bp.sessions && $(MAKE) $@
+	cd $(SRC_VAR)/cache && $(MAKE) $@
+	rm -f Makefile config.status config.log subst
+
+devclean: distclean
+
+install-html:
+	cd $(SRC_SHARE) && $(MAKE) install
+
+install-base:
+	cd $(SRC_BASE) && $(MAKE) install
+
+install-processperfdata:
+	cd $(SRC_SCRIPTS) && $(MAKE) install
+
+install-man:
+	cd $(SRC_MAN) && $(MAKE) install
+
+install-init:
+	cd $(SRC_SCRIPTS) && $(MAKE) install-init
+
+install-config:
+	cd $(SRC_CONFIG) && $(MAKE) install-config
+
+install:
+	cd $(SRC_CGIBIN) && $(MAKE) $@
+	cd $(SRC_CONFIG) && $(MAKE) $@
+	cd $(SRC_CONFIG)/apache-conf.d && $(MAKE) $@
+	cd $(SRC_CONFIG)/cron.d && $(MAKE) $@
+	cd $(SRC_LANG) && $(MAKE) $@
+	cd $(SRC_LIBEXEC) && $(MAKE) $@
+	cd $(SRC_LIBS) && $(MAKE) $@
+	cd $(SRC_SHARE) && $(MAKE) $@
+	cd $(SRC_SHARE)/stylesheets && $(MAKE) $@
+	cd $(SRC_VAR)/nagios_bp.sessions && $(MAKE) $@
+	cd $(SRC_VAR)/cache && $(MAKE) $@
+	cd $(SRC_BIN) && $(MAKE) $@
+	$(INSTALL) -m 644 $(INSTALL_OPTS) README  $(DESTDIR)$(exec_prefix)
+	$(INSTALL) -m 644 $(INSTALL_OPTS) AUTHORS $(DESTDIR)$(exec_prefix)
+	$(INSTALL) -m 644 $(INSTALL_OPTS) CHANGES $(DESTDIR)$(exec_prefix)
+	$(INSTALL) -m 644 $(INSTALL_OPTS) INSTALL $(DESTDIR)$(exec_prefix)
+	$(INSTALL) -m 644 $(INSTALL_OPTS) LICENSE $(DESTDIR)$(exec_prefix)
+	$(INSTALL) -m 644 $(INSTALL_OPTS) UPDATE  $(DESTDIR)$(exec_prefix)
+	$(MAKE) install-basic
+
+install-unstripped:
+	cd $(SRC_BASE) && $(MAKE) $@
+	cd $(SRC_SHARE) && $(MAKE) $@
+	cd $(SRC_SCRIPTS) && $(MAKE) $@
+	$(MAKE) install-basic
+
+install-basic:
+#	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)
+#	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)/archives
+
+	@echo ""
+	@echo "*** Main program, Scripts, HTML files and sample configuration files installed ***"
+	@echo "*** There are some more things to do for You, see INSTALL ***"
+	@echo ""
+#	@echo "Please run 'make install-config' to install sample"
+#	@echo "configuration files"
+#	@echo ""
+
+#fullinstall: install install-init install-config
+fullinstall: install
+

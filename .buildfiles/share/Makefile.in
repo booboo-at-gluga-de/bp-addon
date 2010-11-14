@@ -1,0 +1,28 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+LOGDIR=@localstatedir@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+CGIDIR=@sbindir@
+HTMLDIR=@HTML_DIR@
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+#DATAROOTDIR=@datarootdir@
+DATADIR=@datadir@
+
+CP=@CP@
+
+all html:
+
+clean:
+
+distclean: clean
+	-rm Makefile
+
+devclean: distclean
+
+install:
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DATADIR)
+	for file in ./*.gif; \
+	do $(INSTALL) -m 664 $(INSTALL_OPTS) $$file $(DATADIR); done
+	

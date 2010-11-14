@@ -1,0 +1,27 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+DATAROOTDIR=@datarootdir@
+LOGDIR=@localstatedir@
+CFGDIR=@sysconfdir@
+BINDIR=@bindir@
+CGIDIR=@sbindir@
+
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+
+CP=@CP@
+
+all html:
+
+clean:
+	-rm nagios-bp.cgi
+	-rm whereUsed.cgi
+
+distclean: clean
+	-rm Makefile
+
+devclean: distclean
+
+install:
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(CGIDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) *.cgi $(DESTDIR)$(CGIDIR)	
