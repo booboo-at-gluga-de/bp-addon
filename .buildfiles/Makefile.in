@@ -1,7 +1,7 @@
 ###############################
-# Makefile for NagiosBP
+# Makefile for Business Process AddOns
 #
-# Last Modified: 21-02-2008
+# Last Modified: 2010-11-14
 ###############################
 
 
@@ -74,7 +74,7 @@ clean:
 	cd $(SRC_LIBS) && $(MAKE) $@
 	cd $(SRC_SHARE) && $(MAKE) $@
 	cd $(SRC_SHARE)/stylesheets && $(MAKE) $@
-	cd $(SRC_VAR)/nagios_bp.sessions && $(MAKE) $@
+	cd $(SRC_VAR)/bp-addon.sessions && $(MAKE) $@
 	cd $(SRC_VAR)/cache && $(MAKE) $@
 	-rm -f *.cfg core
 	-rm -f *~ *.*~ */*~ */*.*~
@@ -91,7 +91,7 @@ distclean:
 	cd $(SRC_LIBS) && $(MAKE) $@
 	cd $(SRC_SHARE) && $(MAKE) $@
 	cd $(SRC_SHARE)/stylesheets && $(MAKE) $@
-	cd $(SRC_VAR)/nagios_bp.sessions && $(MAKE) $@
+	cd $(SRC_VAR)/bp-addon.sessions && $(MAKE) $@
 	cd $(SRC_VAR)/cache && $(MAKE) $@
 	rm -f Makefile config.status config.log subst
 
@@ -125,7 +125,7 @@ install:
 	cd $(SRC_LIBS) && $(MAKE) $@
 	cd $(SRC_SHARE) && $(MAKE) $@
 	cd $(SRC_SHARE)/stylesheets && $(MAKE) $@
-	cd $(SRC_VAR)/nagios_bp.sessions && $(MAKE) $@
+	cd $(SRC_VAR)/bp-addon.sessions && $(MAKE) $@
 	cd $(SRC_VAR)/cache && $(MAKE) $@
 	cd $(SRC_BIN) && $(MAKE) $@
 	$(INSTALL) -m 644 $(INSTALL_OPTS) README  $(DESTDIR)$(exec_prefix)
@@ -134,6 +134,7 @@ install:
 	$(INSTALL) -m 644 $(INSTALL_OPTS) INSTALL $(DESTDIR)$(exec_prefix)
 	$(INSTALL) -m 644 $(INSTALL_OPTS) LICENSE $(DESTDIR)$(exec_prefix)
 	$(INSTALL) -m 644 $(INSTALL_OPTS) UPDATE  $(DESTDIR)$(exec_prefix)
+	$(INSTALL) -m 644 $(INSTALL_OPTS) API-DOC $(DESTDIR)$(exec_prefix)
 	$(MAKE) install-basic
 
 install-unstripped:

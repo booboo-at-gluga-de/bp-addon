@@ -24,5 +24,5 @@ devclean: distclean
 
 install:
 	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(CRON_D_DIR)
-	$(INSTALL) -m 640 $(INSTALL_OPTS) nagiosbp $(DESTDIR)$(CRON_D_DIR)
+	$(INSTALL) -m 640 $(INSTALL_OPTS) bp-addon $(DESTDIR)$(CRON_D_DIR)
 

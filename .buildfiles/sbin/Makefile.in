@@ -14,7 +14,7 @@ CP=@CP@
 all html:
 
 clean:
-	-rm nagios-bp.cgi
+	-rm bp-addon.cgi
 	-rm whereUsed.cgi
 
 distclean: clean

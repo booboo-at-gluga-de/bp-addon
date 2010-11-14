@@ -2,19 +2,20 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(nagiosbp, 0.9.6, NagiosBP-Users@lists.nagiosforge.org)
+#AC_INIT(bpaddon, 0.9.7-alpha1, NagiosBP-Users@lists.nagiosforge.org)
+AC_INIT(bpaddon, 0.9.7-alpha1, berny1@users.sourceforge.net)
 
 dnl For later filesystem permissions
 AC_DEFINE([DEFAULT_USER], [root], [Default User])
 AC_DEFINE([DEFAULT_GROUP], [root], [Default Group])
 
-AC_PREFIX_DEFAULT(/usr/local/nagiosbp)
+AC_PREFIX_DEFAULT(/usr/local/bp-addon)
 
 dnl Some information about the project
-PKG_NAME=nagiosbp
-PKG_VERSION="0.9.6"
-PKG_HOME_URL="http://nagiosbp.projects.nagiosforge.org"
-PKG_REL_DATE="29-09-2010"
+PKG_NAME=bpaddon
+PKG_VERSION="0.9.7-alpha1"
+PKG_HOME_URL="http://bp-addon.monitoringexchange.org/"
+PKG_REL_DATE="14-11-2010"
 
 AC_SUBST(PKG_NAME)
 AC_SUBST(PKG_VERSION)
@@ -47,21 +48,21 @@ AC_PATH_PROG(PERL,perl)
 
 # Checks for file permissions 
 
-AC_ARG_WITH(nagiosbp_user,[  --with-nagiosbp-user=<user> sets the owner of installed files],nagiosbp_user=$withval,nagiosbp_user=root)
-AC_ARG_WITH(nagiosbp_group,[  --with-nagiosbp-group=<grp> sets group of installed files],nagiosbp_grp=$withval,nagiosbp_grp=root)
+AC_ARG_WITH(bpaddon_user,[  --with-bpaddon-user=<user> sets the owner of installed files],bpaddon_user=$withval,bpaddon_user=root)
+AC_ARG_WITH(bpaddon_group,[  --with-bpaddon-group=<grp> sets group of installed files],bpaddon_grp=$withval,bpaddon_grp=root)
 
-AC_SUBST(nagiosbp_user)
-AC_SUBST(nagiosbp_grp)
+AC_SUBST(bpaddon_user)
+AC_SUBST(bpaddon_grp)
 
-AC_DEFINE_UNQUOTED(DEFAULT_USER,"$nagiosbp_user")
-AC_DEFINE_UNQUOTED(DEFAULT_GROUP,"$nagiosbp_grp")
+AC_DEFINE_UNQUOTED(DEFAULT_USER,"$bpaddon_user")
+AC_DEFINE_UNQUOTED(DEFAULT_GROUP,"$bpaddon_grp")
 
-INSTALL_OPTS="-o $nagiosbp_user -g $nagiosbp_grp"
+INSTALL_OPTS="-o $bpaddon_user -g $bpaddon_grp"
 AC_SUBST(INSTALL_OPTS)
 
 
 #if test "$prefix" = "NONE" ;then
-#	PRE="/usr/local/nagiosbp"
+#	PRE="/usr/local/bp-addon"
 #	LIB_DIR=$PRE/lib
 #	CFG_DIR=$PRE/etc
 #else
@@ -70,8 +71,8 @@ AC_SUBST(INSTALL_OPTS)
 #	CFG_DIR=$sysconfdir
 #fi
 
-AC_ARG_WITH(cgiurl,[  --with-cgiurl=<local-url> sets URL for cgi programs],cgiurl=$withval,cgiurl=/nagiosbp/cgi-bin)
-AC_ARG_WITH(htmurl,[  --with-htmurl=<local-url> sets URL for public html],htmurl=$withval,htmurl=/nagiosbp)
+AC_ARG_WITH(cgiurl,[  --with-cgiurl=<local-url> sets URL for cgi programs],cgiurl=$withval,cgiurl=/bp-addon/cgi-bin)
+AC_ARG_WITH(htmurl,[  --with-htmurl=<local-url> sets URL for public html],htmurl=$withval,htmurl=/bp-addon)
 AC_SUBST(htmurl)
 AC_SUBST(cgiurl)
 
@@ -122,7 +123,7 @@ if test x$CRON_D_DIR = xno; then
 fi
 AC_SUBST(CRON_D_DIR)
 
-#AC_ARG_WITH(cgidir,[  --with-cgidir=/path/for/cgi-bin/ sets directory for cgi programs],cgidir=$withval,cgidir=/usr/local/nagiosbp/sbin)
+#AC_ARG_WITH(cgidir,[  --with-cgidir=/path/for/cgi-bin/ sets directory for cgi programs],cgidir=$withval,cgidir=/usr/local/bp-addon/sbin)
 #AC_SUBST(cgidir)
 
 #langdir=no
@@ -134,13 +135,13 @@ AC_SUBST(CRON_D_DIR)
 #fi
 #AC_SUBST(langdir)
 
-AC_ARG_WITH(nagetc,[  --with-nagetc=/path/to/nagios/etc sets path to nagios etc directory],nagetc=$withval,nagetc=/usr/local/nagios/etc)
+AC_ARG_WITH(nagetc,[  --with-nagetc=/path/to/nagios/etc sets path to Nagios or Icinga etc directory],nagetc=$withval,nagetc=/usr/local/nagios/etc)
 AC_SUBST(nagetc)
 
-AC_ARG_WITH(naghtmurl,[  --with-naghtmurl=<local-url> sets URL for Nagios HTM URL],naghtmurl=$withval,naghtmurl=/nagios)
+AC_ARG_WITH(naghtmurl,[  --with-naghtmurl=<local-url> sets URL for Nagios or Icinga HTM URL],naghtmurl=$withval,naghtmurl=/nagios)
 AC_SUBST(naghtmurl)
 
-AC_ARG_WITH(nagcgiurl,[  --with-nagcgiurl=<local-url> sets URL for Nagios cgi programs],nagcgiurl=$withval,nagcgiurl=/nagios/cgi-bin)
+AC_ARG_WITH(nagcgiurl,[  --with-nagcgiurl=<local-url> sets URL for Nagios or Icinga cgi programs],nagcgiurl=$withval,nagcgiurl=/nagios/cgi-bin)
 AC_SUBST(nagcgiurl)
 
 dnl AuthName directive in apache config
@@ -172,21 +173,21 @@ AC_CONFIG_FILES(
 
 AC_OUTPUT
 
-$PERL subst sbin/nagios-bp.cgi
+$PERL subst sbin/bp-addon.cgi
 $PERL subst sbin/whereUsed.cgi
-$PERL subst lib/nagiosBp.pm
-$PERL subst lib/ndodb.pm
+$PERL subst lib/businessProcessFunctions.pm
+$PERL subst lib/dataBackend.pm
 $PERL subst lib/bsutils.pm
 $PERL subst lib/settings.pm
 $PERL subst libexec/check_bp_status.pl
-$PERL subst bin/bp_cfg2service_cfg.pl
-$PERL subst bin/nagios-bp-consistency-check.pl
-$PERL subst bin/nagios-bp-check-ndo-connection.pl
-$PERL subst bin/nagios_bp_session_timeout
+$PERL subst bin/bp-cfg2service-cfg.pl
+$PERL subst bin/bp-addon-consistency-check.pl
+$PERL subst bin/bp-addon-check-backend-connection.pl
+$PERL subst bin/bp-addon-session-timeout
 $PERL subst etc/settings.cfg
-$PERL subst etc/ndo.cfg-sample
-$PERL subst etc/apache-conf.d/nagiosbp.conf
-$PERL subst etc/cron.d/nagiosbp
+$PERL subst etc/dataBackend.cfg-sample
+$PERL subst etc/apache-conf.d/bp-addon.conf
+$PERL subst etc/cron.d/bp-addon
 
 dnl Review options
 echo ""
@@ -197,7 +198,7 @@ echo ""
 echo " General Options:"
 echo " -------------------------"
 
-AC_MSG_RESULT([       Install user/group:  $nagiosbp_user,$nagiosbp_grp])
+AC_MSG_RESULT([       Install user/group:  $bpaddon_user,$bpaddon_grp])
 AC_MSG_RESULT([        Install \${prefix}:  $prefix])
 AC_MSG_RESULT([   Install \${exec_prefix}:  $exec_prefix])
 AC_MSG_RESULT([                  LIB Dir:  $libdir])

@@ -15,8 +15,10 @@ CP=@CP@
 all html:
 
 clean:
-	-rm bp_cfg2service_cfg.pl
-	-rm nagios-bp-consistency-check.pl
+	-rm bp-addon-check-backend-connection.pl
+	-rm bp-addon-consistency-check.pl
+	-rm bp-addon-session-timeout
+	-rm bp-cfg2service-cfg.pl
 
 distclean: clean
 	-rm Makefile
@@ -26,5 +28,5 @@ devclean: distclean
 install:
 	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(BINDIR)
 	$(INSTALL) -m 755 $(INSTALL_OPTS) *.pl $(BINDIR)
-	$(INSTALL) -m 755 $(INSTALL_OPTS) nagios_bp_session_timeout $(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-addon-session-timeout $(BINDIR)
 

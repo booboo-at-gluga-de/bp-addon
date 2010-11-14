@@ -29,8 +29,8 @@ while ($f = shift @ARGV) {
 
 	while (<IN>) {
 		s|\@PERL\@|@PERL@|g;
-		s|\@nagiosbp_user\@|@nagiosbp_user@|g;
-		s|\@nagiosbp_grp\@|@nagiosbp_grp@|g;
+		s|\@bpaddon_user\@|@bpaddon_user@|g;
+		s|\@bpaddon_grp\@|@bpaddon_grp@|g;
 		# s|\@lockfile\@|@lockfile@|g;
 		s|\@libexecdir\@|@libexecdir@|g; # put all --with-vars before directories
 		s|\@localstatedir\@|@localstatedir@|g;
