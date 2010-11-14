@@ -25,7 +25,7 @@
 	#db connection module
 	use DBI;
         #functions for getting states from the ndo database
-        use ndodb;
+        use dataBackend;
         #functions for parsing nagios_bp_config file
         use nagiosBp;
 	#get installation specific parameters: path variables and so on

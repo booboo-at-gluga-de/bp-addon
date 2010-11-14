@@ -35,7 +35,7 @@
         #some useful functions
         use bsutils;
         #functions for getting states from the ndo database
-        use ndodb;
+        use dataBackend;
         #functions for parsing nagios_bp_config file
         use nagiosBp;
         #get installation specific parameters: path variables and so on
