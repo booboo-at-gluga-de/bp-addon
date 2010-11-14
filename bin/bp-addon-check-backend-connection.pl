@@ -36,14 +36,14 @@ my %backend_description = (
 );
 
 ($hardstates, $statusinfos) = &getStates();
-%dbparam = &getDbParam();
+%dbparam = &getBackendParam();
 
 #printHash($hardstates);
 #printHash($statusinfos);
 
-print "\nReport of actual status information in NDO\n";
-print "------------------------------------------\n\n";
-print "Backend is $dbparam{'ndo'} ($backend_description{$dbparam{'ndo'}})\n";
+print "\nReport of actual status information\n";
+print "-----------------------------------\n\n";
+print "DataBackend is $dbparam{'backend'} ($backend_description{$dbparam{'backend'}})\n";
 print "which got it's last update at " . &getLastUpdateServiceStatus() . "\n\n";
 
 foreach $key (keys %$statusinfos)
