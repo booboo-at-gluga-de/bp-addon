@@ -59,13 +59,13 @@ sub getStates()
 		}
 	}
 	#print STDERR "DEBUG: fetching info from storage backend\n";
-	#print "DEBUG1: ndo=\"$dbparam{'ndo'}\"\n";
-	if ($dbparam{'ndo'} eq "db")
+	#print "DEBUG1: backend=\"$dbparam{'backend'}\"\n";
+	if ($dbparam{'backend'} eq "db")
 	{
-		#print "DEBUG2: ndo=db\n";
-	        my $db_prefix = $dbparam{'ndodb_prefix'};
+		#print "DEBUG2: backend=db\n";
+	        my $db_prefix = $dbparam{'db_prefix'};
 
-	        $dbh = DBI->connect("DBI:mysql:$dbparam{'ndodb_database'}:$dbparam{'ndodb_host'}:$dbparam{'ndodb_port'}", $dbparam{'ndodb_username'}, $dbparam{'ndodb_password'});
+	        $dbh = DBI->connect("DBI:mysql:$dbparam{'db_database'}:$dbparam{'db_host'}:$dbparam{'db_port'}", $dbparam{'db_username'}, $dbparam{'db_password'});
 	        die "Error: $DBI::errstr\n" unless $dbh;
 
 	        #$sql = "select host_name,service_description,last_hard_state,plugin_output from servicestatus";
@@ -106,9 +106,9 @@ sub getStates()
 	        $sth->finish();
 	        $dbh->disconnect();
 	}
-	elsif ($dbparam{'ndo'} eq "fs")
+	elsif ($dbparam{'backend'} eq "fs")
 	{
-		#print "DEBUG2: ndo=fs\n";
+		#print "DEBUG2: backend=fs\n";
 		#print "DEBUG: basedir:  $dbparam{'ndofs_basedir'}\n";
 		#print "DEBUG: instance: $dbparam{'ndofs_instance_name'}\n\n";
 
@@ -141,12 +141,12 @@ sub getStates()
 		}
 		close(LIST);
 	}
-	elsif ($dbparam{'ndo'} eq "merlin")
+	elsif ($dbparam{'backend'} eq "merlin")
 	{
-		#print "DEBUG2: ndo=db\n";
-	        my $db_prefix = $dbparam{'ndodb_prefix'};
+		#print "DEBUG2: backend=db\n";
+	        my $db_prefix = $dbparam{'db_prefix'};
 
-	        $dbh = DBI->connect("DBI:mysql:$dbparam{'ndodb_database'}:$dbparam{'ndodb_host'}:$dbparam{'ndodb_port'}", $dbparam{'ndodb_username'}, $dbparam{'ndodb_password'});
+	        $dbh = DBI->connect("DBI:mysql:$dbparam{'db_database'}:$dbparam{'db_host'}:$dbparam{'db_port'}", $dbparam{'db_username'}, $dbparam{'db_password'});
 	        die "Error: $DBI::errstr\n" unless $dbh;
 
 	        #$sql = "select host_name,service_description,last_hard_state,plugin_output from servicestatus";
@@ -188,9 +188,9 @@ sub getStates()
 	        $sth->finish();
 	        $dbh->disconnect();
 	}
-	elsif ($dbparam{'ndo'} eq "mk_livestatus")
+	elsif ($dbparam{'backend'} eq "mk_livestatus")
 	{
-		$socket = IO::Socket::UNIX->new ("Peer" => $dbparam{'ndo_livestatus_socket'}, "Type" => SOCK_STREAM, "Timeout" => 15) or die "unable to connect to unix socket \"" . $dbparam{'ndo_livestatus_socket'} . "\": $!\n";
+		$socket = IO::Socket::UNIX->new ("Peer" => $dbparam{'livestatus_socket'}, "Type" => SOCK_STREAM, "Timeout" => 15) or die "unable to connect to unix socket \"" . $dbparam{'livestatus_socket'} . "\": $!\n";
 
 		print $socket "GET services\n";
 		print $socket "Columns: host_name description last_hard_state plugin_output\n\n";
@@ -205,7 +205,7 @@ sub getStates()
 	                $statusinfos{"$fields[0];$fields[1]"} = $fields[3];
 		}
 
-		$socket = IO::Socket::UNIX->new ("Peer" => $dbparam{'ndo_livestatus_socket'}, "Type" => SOCK_STREAM, "Timeout" => 15) or die "unable to connect to unix socket \"" . $dbparam{'ndo_livestatus_socket'} . "\": $!\n";
+		$socket = IO::Socket::UNIX->new ("Peer" => $dbparam{'livestatus_socket'}, "Type" => SOCK_STREAM, "Timeout" => 15) or die "unable to connect to unix socket \"" . $dbparam{'livestatus_socket'} . "\": $!\n";
 
 		print $socket "GET hosts\n";
 		print $socket "Columns: name state plugin_output\n\n";
@@ -220,18 +220,18 @@ sub getStates()
 	                $statusinfos{"$fields[0];Hoststatus"} = $fields[2];
 		}
 	}
-	elsif ($dbparam{'ndo'} eq "icinga-web")
+	elsif ($dbparam{'backend'} eq "icinga-web")
 	{
-		#print "DEBUG2: ndo=icinga-web\n";
+		#print "DEBUG2: backend=icinga-web\n";
 		my $maxConnectionTime = 10;
-		#print STDERR "URL prefix: " . $dbparam{'ndo_icinga_web_url_prefix'} . "\n";
-		if(substr($dbparam{'ndo_icinga_web_url_prefix'}, -1) eq "/")
+		#print STDERR "URL prefix: " . $dbparam{'icinga_web_url_prefix'} . "\n";
+		if(substr($dbparam{'icinga_web_url_prefix'}, -1) eq "/")
 		{
-			$dbparam{'ndo_icinga_web_url_prefix'} = substr($dbparam{'ndo_icinga_web_url_prefix'}, 0, length($dbparam{'ndo_icinga_web_url_prefix'}) -1);
+			$dbparam{'icinga_web_url_prefix'} = substr($dbparam{'icinga_web_url_prefix'}, 0, length($dbparam{'icinga_web_url_prefix'}) -1);
 		}
-		#print STDERR "URL prefix: " . $dbparam{'ndo_icinga_web_url_prefix'} . "\n";
-	        my $services_url = $dbparam{'ndo_icinga_web_url_prefix'} . "/web/api/service/columns%5BSERVICE_NAME%7CHOST_NAME%7CSERVICE_LAST_HARD_STATE%7CSERVICE_OUTPUT%5D/authkey=" . $dbparam{'ndo_icinga_web_auth_key'} . "/json";
-	        my $hosts_url = $dbparam{'ndo_icinga_web_url_prefix'} . "/web/api/host/columns%5BHOST_NAME%7CHOST_CURRENT_STATE%7CHOST_OUTPUT%5D/authkey=" . $dbparam{'ndo_icinga_web_auth_key'} . "/json";
+		#print STDERR "URL prefix: " . $dbparam{'icinga_web_url_prefix'} . "\n";
+	        my $services_url = $dbparam{'icinga_web_url_prefix'} . "/web/api/service/columns%5BSERVICE_NAME%7CHOST_NAME%7CSERVICE_LAST_HARD_STATE%7CSERVICE_OUTPUT%5D/authkey=" . $dbparam{'icinga_web_auth_key'} . "/json";
+	        my $hosts_url = $dbparam{'icinga_web_url_prefix'} . "/web/api/host/columns%5BHOST_NAME%7CHOST_CURRENT_STATE%7CHOST_OUTPUT%5D/authkey=" . $dbparam{'icinga_web_auth_key'} . "/json";
 		my ($ua, $request, $result, $content);
 
 		#print STDERR "URL: $services_url\n";
@@ -318,10 +318,10 @@ sub getLastUpdateServiceStatus()
 	my %dbparam = &getBackendParam();
         my ($db_prefix, $return, $socket);
 
-	if ($dbparam{'ndo'} eq "db")
+	if ($dbparam{'backend'} eq "db")
 	{
-        	$db_prefix = $dbparam{'ndodb_prefix'};
-        	$dbh = DBI->connect("DBI:mysql:$dbparam{'ndodb_database'}:$dbparam{'ndodb_host'}:$dbparam{'ndodb_port'}", $dbparam{'ndodb_username'}, $dbparam{'ndodb_password'});
+        	$db_prefix = $dbparam{'db_prefix'};
+        	$dbh = DBI->connect("DBI:mysql:$dbparam{'db_database'}:$dbparam{'db_host'}:$dbparam{'db_port'}", $dbparam{'db_username'}, $dbparam{'db_password'});
 	        die "Error: $DBI::errstr\n" unless $dbh;
 
 	        $sql = "select max(last_check) from ${db_prefix}servicestatus";
@@ -341,7 +341,7 @@ sub getLastUpdateServiceStatus()
 	        $sth->finish();
 	        $dbh->disconnect();
 	}
-	elsif ($dbparam{'ndo'} eq "fs")
+	elsif ($dbparam{'backend'} eq "fs")
 	{
 		$servicelist = $dbparam{'ndofs_basedir'} . "/VOLATILE/"  . $dbparam{'ndofs_instance_name'} . "/VIEWS/SERVICELIST";
 		$parentdirname="$dbparam{'ndofs_basedir'}/VOLATILE/$dbparam{'ndofs_instance_name'}/HOSTS";
@@ -399,10 +399,10 @@ sub getLastUpdateServiceStatus()
 
 		$return = "$lastservicecheck_local[5]-$lastservicecheck_local[4]-$lastservicecheck_local[3] $lastservicecheck_local[2]:$lastservicecheck_local[1]:$lastservicecheck_local[0]";
 	}
-	elsif ($dbparam{'ndo'} eq "merlin")
+	elsif ($dbparam{'backend'} eq "merlin")
 	{
-        	$db_prefix = $dbparam{'ndodb_prefix'};
-        	$dbh = DBI->connect("DBI:mysql:$dbparam{'ndodb_database'}:$dbparam{'ndodb_host'}:$dbparam{'ndodb_port'}", $dbparam{'ndodb_username'}, $dbparam{'ndodb_password'});
+        	$db_prefix = $dbparam{'db_prefix'};
+        	$dbh = DBI->connect("DBI:mysql:$dbparam{'db_database'}:$dbparam{'db_host'}:$dbparam{'db_port'}", $dbparam{'db_username'}, $dbparam{'db_password'});
 	        die "Error: $DBI::errstr\n" unless $dbh;
 
 	        #$sql = "select max(last_check) from ${db_prefix}service";
@@ -423,9 +423,9 @@ sub getLastUpdateServiceStatus()
 	        $sth->finish();
 	        $dbh->disconnect();
 	}
-	elsif ($dbparam{'ndo'} eq "mk_livestatus")
+	elsif ($dbparam{'backend'} eq "mk_livestatus")
 	{
-		$socket = IO::Socket::UNIX->new ("Peer" => $dbparam{'ndo_livestatus_socket'}, "Type" => SOCK_STREAM, "Timeout" => 15) or die "unable to connect to unix socket \"" . $dbparam{'ndo_livestatus_socket'} . "\": $!\n";
+		$socket = IO::Socket::UNIX->new ("Peer" => $dbparam{'livestatus_socket'}, "Type" => SOCK_STREAM, "Timeout" => 15) or die "unable to connect to unix socket \"" . $dbparam{'livestatus_socket'} . "\": $!\n";
 
 		print $socket "GET services\n";
 		print $socket "Stats: max last_check\n\n";
@@ -434,16 +434,16 @@ sub getLastUpdateServiceStatus()
 		chomp($return);
 		#print STDERR "DEBUG: $return\n";
 	}
-	elsif ($dbparam{'ndo'} eq "icinga-web")
+	elsif ($dbparam{'backend'} eq "icinga-web")
 	{
 		$return = 0;
 		my $maxConnectionTime = 10;
 		my ($ua, $request, $result, $content);
-		if(substr($dbparam{'ndo_icinga_web_url_prefix'}, -1) eq "/")
+		if(substr($dbparam{'icinga_web_url_prefix'}, -1) eq "/")
 		{
-			$dbparam{'ndo_icinga_web_url_prefix'} = substr($dbparam{'ndo_icinga_web_url_prefix'}, 0, length($dbparam{'ndo_icinga_web_url_prefix'}) -1);
+			$dbparam{'icinga_web_url_prefix'} = substr($dbparam{'icinga_web_url_prefix'}, 0, length($dbparam{'icinga_web_url_prefix'}) -1);
 		}
-	        my $services_url = $dbparam{'ndo_icinga_web_url_prefix'} . "/web/api/service/columns%5BSERVICE_LAST_CHECK%5D/authkey=" . $dbparam{'ndo_icinga_web_auth_key'} . "/json";
+	        my $services_url = $dbparam{'icinga_web_url_prefix'} . "/web/api/service/columns%5BSERVICE_LAST_CHECK%5D/authkey=" . $dbparam{'icinga_web_auth_key'} . "/json";
 
 		#print STDERR "URL: $services_url\n";
 		$ua = new LWP::UserAgent ( 'timeout' => $maxConnectionTime );
@@ -484,7 +484,7 @@ sub getBackendParam()
         open(IN, "<$dbConfigFile") or die "unable to read $dbConfigFile\n";
                 while ($in = <IN>)
                 {
-                        if ($in =~ m/^\s*(ndodb_\w+|ndofs_\w+|ndo_livestatus_\w+|ndo_icinga_web_\w+|ndo|cache_\w+)\s*=/)
+                        if ($in =~ m/=/)
                         {
                                 ($param, $value) = split(/=/, $in);
                                 chomp($value);
@@ -498,14 +498,19 @@ sub getBackendParam()
         close(IN);
 
 	# set defaults, if we did not get values form config
-	$dbparam{'ndo'}="db" if ($dbparam{'ndo'} eq "");
+	#$dbparam{'ndo'}="db" if ($dbparam{'ndo'} eq "");
+	$dbparam{'backend'}="db" if ($dbparam{'backend'} eq "");
 	$dbparam{'ndofs_basedir'}="/tmp/ndo2fs" if ($dbparam{'ndofs_basedir'} eq "");
 	$dbparam{'ndofs_instance_name'}="default" if ($dbparam{'ndofs_instance_name'} eq "");
-	$dbparam{'ndodb_host'}="localhost" if ($dbparam{'ndodb_host'} eq "");
-	$dbparam{'ndodb_port'}="3306" if ($dbparam{'ndodb_port'} eq "");
-	$dbparam{'ndodb_database'}="nagios" if ($dbparam{'ndodb_database'} eq "");
+	#$dbparam{'ndodb_host'}="localhost" if ($dbparam{'ndodb_host'} eq "");
+	$dbparam{'db_host'}="localhost" if ($dbparam{'db_host'} eq "");
+	#$dbparam{'ndodb_port'}="3306" if ($dbparam{'ndodb_port'} eq "");
+	$dbparam{'db_port'}="3306" if ($dbparam{'db_port'} eq "");
+	#$dbparam{'ndodb_database'}="nagios" if ($dbparam{'ndodb_database'} eq "");
+	$dbparam{'db_database'}="nagios" if ($dbparam{'db_database'} eq "");
 	$dbparam{'cache_time'}=0 if ($dbparam{'cache_time'} !~ m/^\d+$/);
-	$dbparam{'cache_file'}="/tmp/ndo_backend_cache" if ($dbparam{'cache_file'} eq "");
+	#$dbparam{'cache_file'}="/tmp/ndo_backend_cache" if ($dbparam{'cache_file'} eq "");
+	$dbparam{'cache_file'}="/tmp/backend_cache" if ($dbparam{'cache_file'} eq "");
 
 	return (%dbparam);
 }
