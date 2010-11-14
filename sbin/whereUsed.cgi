@@ -62,7 +62,7 @@
         my $service = $query->param("service");
 
 #set defaults
-        if ($conf eq "" || $conf !~ m/^[a-zA-Z0-9_\-]+$/ ) { $conf = "nagios-bp" }
+        if ($conf eq "" || $conf !~ m/^[a-zA-Z0-9_\-]+$/ ) { $conf = "business-processes" }
         $nagios_bp_conf .= $conf . ".conf";
 
         if ($service !~ m/^[a-zA-Z0-9_\-\+\.\/ ]+$/ || $service =~ m/\.\./ ) { $service = "" }
@@ -112,8 +112,8 @@
         if ( ! -f $nagios_bp_conf || ! -r $nagios_bp_conf )
         {
                 &printPageHead();
-                print "<div class=\'statusTitle\' id=\'nbp_error_head\'>" . &get_lang_string("error_wrong_parameter_conf_head") . "</div>\n";
-                print "<P id=\'nbp_error_text\'>\n";
+                print "<div class=\'statusTitle\' id=\'bpa_error_head\'>" . &get_lang_string("error_wrong_parameter_conf_head") . "</div>\n";
+                print "<P id=\'bpa_error_text\'>\n";
                 print &get_lang_string("error_wrong_parameter_conf_body", $nagios_bp_conf) . "\n";
                 print "</P>\n";
                 &printPageFoot();
@@ -123,8 +123,8 @@
         if ( $host eq "" )
         {
                 &printPageHead();
-                print "<div class=\'statusTitle\' id=\'nbp_error_head\'>" . &get_lang_string("error_wrong_parameter_host_head") . "</div>\n";
-                print "<P id=\'nbp_error_text\'>\n";
+                print "<div class=\'statusTitle\' id=\'bpa_error_head\'>" . &get_lang_string("error_wrong_parameter_host_head") . "</div>\n";
+                print "<P id=\'bpa_error_text\'>\n";
                 print &get_lang_string("error_wrong_parameter_host_body") . "\n";
                 print "</P>\n";
                 &printPageFoot();
@@ -134,7 +134,7 @@
 
 # generate output page
 	&printPageHead();
-	print "		<div class=\'statusTitle\' id=\'nbp_head_wu\'>" . &get_lang_string("where_used_body") . "</div>\n";
+	print "		<div class=\'statusTitle\' id=\'bpa_head_wu\'>" . &get_lang_string("where_used_body") . "</div>\n";
 
 	($hardstates, $statusinfos) = &getStates();
 	($display, $display_status, $script_out, $info_url, $components) = &getBPs($nagios_bp_conf, $hardstates);
@@ -185,14 +185,14 @@ sub output()
 
 	if (@resultset == 0)
 	{
-		print "<div class=\'statusTitle\' id=\'nbp_wu_${object_type}_head\'>" . &get_lang_string('not_used_anywhere', $display_string) . "</div>\n";
+		print "<div class=\'statusTitle\' id=\'bpa_wu_${object_type}_head\'>" . &get_lang_string('not_used_anywhere', $display_string) . "</div>\n";
 	}
 	else
 	{
 		$rowcount=0;
-		print "<div class=\'statusTitle\' id=\'nbp_wu_${object_type}_head\'>" . &get_lang_string('used_in_these_bps', $display_string) . ":</div>\n";
-		print "<div id=\'nbp_wu_${object_type}_box\'>\n";
-		print "    <table class='status' id=\'nbp_wu_${object_type}_table\'>\n";
+		print "<div class=\'statusTitle\' id=\'bpa_wu_${object_type}_head\'>" . &get_lang_string('used_in_these_bps', $display_string) . ":</div>\n";
+		print "<div id=\'bpa_wu_${object_type}_box\'>\n";
+		print "    <table class='status' id=\'bpa_wu_${object_type}_table\'>\n";
 		print "		<tr>\n";
 		print "			<th class='status'>" . &get_lang_string('business_process') . "</th>\n";
 		print "			<th class='status'>&nbsp;</th>\n";
@@ -210,7 +210,7 @@ sub output()
 
 				if ($info_url->{$key} ne "")
 				{
-					$infostring = "<a href=\"$info_url->{$key}\"><img class=\"nbp_no_border\" src=\"" . $settings->{'BP_ADDON_HTML_URL'} . "/info4.gif\" alt=\"" .  &get_lang_string("info") . "\" title=\"" .  &get_lang_string("info") . "\"></a>";
+					$infostring = "<a href=\"$info_url->{$key}\"><img class=\"bpa_no_border\" src=\"" . $settings->{'BP_ADDON_HTML_URL'} . "/info4.gif\" alt=\"" .  &get_lang_string("info") . "\" title=\"" .  &get_lang_string("info") . "\"></a>";
 				}
 				else
 				{
@@ -218,8 +218,8 @@ sub output()
 				}
 
 				print "	<tr class='$rowclass'>\n";
-				print "		<td class=\'$rowclass\'><a href=\"$settings->{'BP_ADDON_CGI_URL'}/nagios-bp.cgi?detail=$key&amp;mode=act&amp;conf=$conf\">$display->{$key}</a> - " . &get_lang_string('prio') . " $display_status->{$key}</td>\n";
-				print "		<td class=\'$rowclass\'><a href=\"$settings->{'BP_ADDON_CGI_URL'}/nagios-bp.cgi?tree=$key&amp;ode=act&amp;conf=$conf\"><img class=\"nbp_no_border\" src=\"$settings->{'BP_ADDON_HTML_URL'}/tree.gif\" height=\"20\" alt=\"" . &get_lang_string('tree_view') . "\" title=\"" . &get_lang_string('tree_view') . "\"></a></td>\n";
+				print "		<td class=\'$rowclass\'><a href=\"$settings->{'BP_ADDON_CGI_URL'}/bp-addon.cgi?detail=$key&amp;mode=act&amp;conf=$conf\">$display->{$key}</a> - " . &get_lang_string('prio') . " $display_status->{$key}</td>\n";
+				print "		<td class=\'$rowclass\'><a href=\"$settings->{'BP_ADDON_CGI_URL'}/bp-addon.cgi?tree=$key&amp;ode=act&amp;conf=$conf\"><img class=\"bpa_no_border\" src=\"$settings->{'BP_ADDON_HTML_URL'}/tree.gif\" height=\"20\" alt=\"" . &get_lang_string('tree_view') . "\" title=\"" . &get_lang_string('tree_view') . "\"></a></td>\n";
 				print "		<td class=\'miniStatus$hardstates->{$key}\'>$hardstates->{$key}</td>\n";
 				print "		<td class=\'$rowclass\'>$infostring</td>\n";
 				print "	</tr>\n";
@@ -278,18 +278,18 @@ sub printPageHead()
 	print "         <meta http-equiv=\"Content-type\" content=\"text/html;charset=ISO-8859-1\">\n";
         print "         <title>" .  &get_lang_string("where_used_head") . "</title>\n";
         print "         <link rel=\'stylesheet\' type=\'text/css\' href=\'$settings->{'NAGIOS_BASE_URL'}/stylesheets/status.css\'>\n";
-        print "         <link rel=\'stylesheet\' type=\'text/css\' href=\'$settings->{'BP_ADDON_HTML_URL'}/stylesheets/nagios-bp.css\'>\n";
+        print "         <link rel=\'stylesheet\' type=\'text/css\' href=\'$settings->{'BP_ADDON_HTML_URL'}/stylesheets/bp-addon.css\'>\n";
         print "         <link rel=\'stylesheet\' type=\'text/css\' href=\'$settings->{'BP_ADDON_HTML_URL'}/stylesheets/user.css\'>\n";
         print " </head>\n";
-        print " <body class=\'status\' id=\'nbp_body_wu\'>\n";
+        print " <body class=\'status\' id=\'bpa_body_wu\'>\n";
 }
 
 sub printPageFoot()
 {
 	my $languages = &getAvaiableLanguages();
-        print "                 <div id=\"nbp_foot\">\n";
-        print "                         <div id=\'nbp_foot_version\'>Nagios Business Process AddOn, " . &get_lang_string("version") . " " . &getVersion . "</div>\n";
-        print "                         <div id=\'nbp_foot_language\'>\n";
+        print "                 <div id=\"bpa_foot\">\n";
+        print "                         <div id=\'bpa_foot_version\'>Nagios Business Process AddOn, " . &get_lang_string("version") . " " . &getVersion . "</div>\n";
+        print "                         <div id=\'bpa_foot_language\'>\n";
         print "                         " . &get_lang_string("language") . ":\n";
         foreach $i (@$languages)
         {
