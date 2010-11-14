@@ -31,8 +31,8 @@ our @ISA = qw(Exporter);
 our @EXPORT = qw(getBPs read_language_file get_lang_string getAvaiableLanguages and listAllComponentsOf);
 
 
-#parse nagios-bp.conf (our own config file)
-# parameter 1: the path of nagios-bp.conf file to be used
+#parse business-processes.conf (our own config file)
+# parameter 1: the path of business-processes.conf file to be used
 # parameter 2: a reference to the hardstates hash
 #              this hash is extended by this function (states of business processes are added)
 # parameter 3: "true" or "false", should external scripts be executed

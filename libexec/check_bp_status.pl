@@ -73,7 +73,7 @@
 # defaults
 	if ($nagios_bp_conf eq "")
 	{
-		$nagios_bp_conf = "$settings->{'BP_ADDON_ETC'}/nagios-bp.conf";
+		$nagios_bp_conf = "$settings->{'BP_ADDON_ETC'}/business-processes.conf";
 	}
 	elsif ($nagios_bp_conf !~ m#^/#)
 	{
@@ -87,7 +87,7 @@
 	#	print "$key $hardstates->{$key}\n";
 	#}
 
-#parse nagios-bp.conf (our own config file)
+#parse business-processes.conf (our own config file)
 	($display, $display_status, $script_out, $info_url, $components) = &getBPs($nagios_bp_conf, $hardstates, "false");
 
 # timeout test
@@ -132,7 +132,7 @@
 		print "                    defined\n";
 		print "                    if it starts with a / it is considered to be a absolut path\n";
 		print "                    otherwise it is looked for in $settings->{'BP_ADDON_ETC'}\n";
-		print "                    default is $settings->{'BP_ADDON_ETC'}/nagios-bp.conf\n";
+		print "                    default is $settings->{'BP_ADDON_ETC'}/business-processes.conf\n";
 		print "<timeout>           the plugin execution times out after this number of seconds\n";
 		print "                    defaults to 10 seconds\n";
 		print "-h or --help        to display this help message\n\n";
