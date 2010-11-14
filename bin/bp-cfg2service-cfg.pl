@@ -58,7 +58,7 @@
 		if ($nagios_bp_conf eq "")
 		{
 			# Default values if no config file is given
-			$nagios_bp_conf = "$settings->{'BP_ADDON_ETC'}/nagios-bp.conf";
+			$nagios_bp_conf = "$settings->{'BP_ADDON_ETC'}/business-processes.conf";
 			$service_cfg = "$settings->{'NAGIOS_ETC'}/services-bp.cfg";
 		}
 		elsif ($nagios_bp_conf =~ m/.+\.conf$/)
@@ -67,7 +67,7 @@
 			$service_cfg = $nagios_bp_conf;
 			$service_cfg =~ s#^.*/##;
 			$service_cfg =~ s/\.conf$//;
-			$service_cfg =~ s/^nagios-bp-?//;
+			$service_cfg =~ s/^business-processes-?//;
 			$service_cfg = "$settings->{'NAGIOS_ETC'}/services-bp-$service_cfg.cfg";
 			#print "DEBUG: nagios_bp_conf $nagios_bp_conf\n";
 			#print "DEBUG: service_cfg $service_cfg\n";
@@ -79,7 +79,7 @@
 		if ($nagios_bp_conf eq "")
 		{
 			# Default values if no config file is given
-			$nagios_bp_conf = "$settings->{'BP_ADDON_ETC'}/nagios-bp.conf";
+			$nagios_bp_conf = "$settings->{'BP_ADDON_ETC'}/business-processes.conf";
 		}
 	}
 
@@ -89,7 +89,7 @@
 		print "\ncall using:\n";
 		print "$0\n";
 		print "for use with default parameters\n";
-		print "(generate $settings->{'NAGIOS_ETC'}/services-bp.cfg from $settings->{'BP_ADDON_ETC'}/nagios-bp.conf\n";
+		print "(generate $settings->{'NAGIOS_ETC'}/services-bp.cfg from $settings->{'BP_ADDON_ETC'}/business-processes.conf\n";
 		print "using default templates and default dummy hostnames)\n\n";
 		print "or\n";
 		print "$0 [-f \<config_file\>] [-tt \<template_toplevel\>] [-tm \<template_minor\>] [-o \<output_file\>] [-s 0|1] [-n 0|1]\n";
@@ -113,7 +113,7 @@
 		print "-s 1                means: create services also for business processes with display 0\n";
 		print "                    default is 1\n";
 		print "-n 1                means: for each service we generate, this script should add an additional notes\n";
-		print "                    line containing the description You did define in nagios-bp.conf\n";
+		print "                    line containing the description You did define in business-processes.conf\n";
 		print "-n 0                means: do not add a notes line, this is the default\n";
 		print "                    (same behavior as in versions up to 0.9.5)\n";
 		print "\nFor further information see README, section \"Business Process representation as Nagios services\"\n\n";
@@ -134,7 +134,7 @@
 	}
 
 
-#parse nagios-bp.conf (our own config file)
+#parse business-processes.conf (our own config file)
 	# look for bp's who have an own template defined
 	open (IN, "<$nagios_bp_conf") or die "unable to read $nagios_bp_conf";
 		while ($in = <IN>)
