@@ -27,7 +27,7 @@
         #functions for getting states from the ndo database
         use dataBackend;
         #functions for parsing nagios_bp_config file
-        use nagiosBp;
+        use businessProcessFunctions;
 	#get installation specific parameters: path variables and so on
 	use settings;
 
