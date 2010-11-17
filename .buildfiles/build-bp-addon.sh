@@ -94,6 +94,7 @@ rm -f $BUIDLROOT/$VERSIONSTRING/etc/business-processes-second-view.conf
 #rm -f $BUIDLROOT/$VERSIONSTRING/share/stylesheets/user.css
 rm -f $BUIDLROOT/$VERSIONSTRING/var/bp-addon.sessions/.gitignore
 rm -f $BUIDLROOT/$VERSIONSTRING/var/bp-addon.sessions/.placeholder
+rm -f $BUIDLROOT/$VERSIONSTRING/build-bp-addon.sh
 rm -f $BUIDLROOT/$VERSIONSTRING/var/cache/.placeholder
 
 cd $BUIDLROOT/$VERSIONSTRING || exit 1
@@ -120,8 +121,8 @@ cat $BUIDLROOT/$VERSIONSTRING/etc/settings.cfg.in | sed \
 -e "s#/usr/local/bp-addon/sbin#@sbindir@#" \
 -e "s#/usr/local/bp-addon/share#@datarootdir@#" \
 -e "s#/usr/local/bp-addon/lang#@langdir@#" \
--e "s#NAGIOSBP_HTML_URL=/bp-addon#NAGIOSBP_HTML_URL=@htmurl@#" \
--e "s#NAGIOSBP_CGI_URL=/bp-addon/cgi-bin#NAGIOSBP_CGI_URL=@cgiurl@#" \
+-e "s#BP_ADDON_HTML_URL=/bp-addon#BP_ADDON_HTML_URL=@htmurl@#" \
+-e "s#BP_ADDON_CGI_URL=/bp-addon/cgi-bin#BP_ADDON_CGI_URL=@cgiurl@#" \
 -e "s#NAGIOS_ETC=/usr/local/nagios/etc#NAGIOS_ETC=@nagetc@#" \
 -e "s#NAGIOS_BASE_URL=/nagios#NAGIOS_BASE_URL=@naghtmurl@#" \
 -e "s#NAGIOS_CGI_URL=/nagios/cgi-bin#NAGIOS_CGI_URL=@nagcgiurl@#" >$BUIDLROOT/$VERSIONSTRING/etc/settings.cfg.in.tmp

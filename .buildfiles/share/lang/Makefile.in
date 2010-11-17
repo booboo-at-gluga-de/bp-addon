@@ -4,7 +4,7 @@ LOGDIR=@localstatedir@
 CFGDIR=@sysconfdir@
 BINDIR=@bindir@
 CGIDIR=@sbindir@
-DATAROOTDIR=@datarootdir@
+#DATAROOTDIR=@datarootdir@
 DATADIR=@datadir@
 
 INSTALL=@INSTALL@

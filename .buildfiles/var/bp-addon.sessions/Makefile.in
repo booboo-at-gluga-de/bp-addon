@@ -5,13 +5,12 @@ CFGDIR=@sysconfdir@
 BINDIR=@bindir@
 CGIDIR=@sbindir@
 #DATAROOTDIR=@datarootdir@
-DATADIR=@datadir@
+LIBEXECDIR=@libexecdir@
 
 INSTALL=@INSTALL@
 INSTALL_OPTS=@INSTALL_OPTS@
 
 CP=@CP@
-TOUCH=@TOUCH@
 
 all html:
 
@@ -23,7 +22,6 @@ distclean: clean
 devclean: distclean
 
 install:
-	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DATADIR)/stylesheets
-	for file in ./*.css; \
-	do $(INSTALL) -m 664 $(INSTALL_OPTS) $$file $(DATADIR)/stylesheets; done
-	${TOUCH} $(DATADIR)/stylesheets/user.css
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(LOGDIR)
+	$(INSTALL) -m 1777 $(INSTALL_OPTS) -d $(LOGDIR)/bp-addon.sessions
+

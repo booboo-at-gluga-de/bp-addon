@@ -3,7 +3,7 @@
 
 AC_PREREQ(2.59)
 #AC_INIT(bpaddon, 0.9.7-alpha1, NagiosBP-Users@lists.nagiosforge.org)
-AC_INIT(bpaddon, 0.9.7-alpha1, berny1@users.sourceforge.net)
+AC_INIT(bp-addon, 0.9.7-alpha1, berny1@users.sourceforge.net)
 
 dnl For later filesystem permissions
 AC_DEFINE([DEFAULT_USER], [root], [Default User])
@@ -12,7 +12,7 @@ AC_DEFINE([DEFAULT_GROUP], [root], [Default Group])
 AC_PREFIX_DEFAULT(/usr/local/bp-addon)
 
 dnl Some information about the project
-PKG_NAME=bpaddon
+PKG_NAME=bp-addon
 PKG_VERSION="0.9.7-alpha1"
 PKG_HOME_URL="http://bp-addon.monitoringexchange.org/"
 PKG_REL_DATE="14-11-2010"
@@ -165,7 +165,7 @@ AC_CONFIG_FILES(
 	etc/cron.d/Makefile 
 	lib/Makefile 
 	libexec/Makefile 
-	var/nagios_bp.sessions/Makefile
+	var/bp-addon.sessions/Makefile
 	var/cache/Makefile
 	share/Makefile
 	share/stylesheets/Makefile

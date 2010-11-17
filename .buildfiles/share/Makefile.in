@@ -4,7 +4,6 @@ LOGDIR=@localstatedir@
 CFGDIR=@sysconfdir@
 BINDIR=@bindir@
 CGIDIR=@sbindir@
-HTMLDIR=@HTML_DIR@
 INSTALL=@INSTALL@
 INSTALL_OPTS=@INSTALL_OPTS@
 #DATAROOTDIR=@datarootdir@
