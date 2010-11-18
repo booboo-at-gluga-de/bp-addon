@@ -1,6 +1,6 @@
 
 
-#    Nagios Business Process View and Nagios Business Process Analysis
+#    Business Process AddOns for Nagios and Icinga
 #    Copyright (C) 2003-2010 Sparda-Datenverarbeitung eG, Nuernberg, Germany
 #    Bernd Stroessreuther <berny1@users.sourceforge.net>
 #
