@@ -147,8 +147,8 @@ cat $BUIDLROOT/$VERSIONSTRING/etc/settings.cfg.in | sed \
 mv $BUIDLROOT/$VERSIONSTRING/etc/settings.cfg.in.tmp $BUIDLROOT/$VERSIONSTRING/etc/settings.cfg.in
 echo dataBackend.cfg
 cat $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in | sed \
--e "s+ndodb_prefix=ndo_+#ndodb_prefix=ndo_+" \
--e "s+#ndodb_prefix=nagios_+ndodb_prefix=nagios_+" >$BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in.tmp
+-e "s+db_prefix=ndo_+#db_prefix=ndo_+" \
+-e "s+#db_prefix=nagios_+db_prefix=nagios_+" >$BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in.tmp
 mv $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in.tmp $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in
 echo cleaning backend_cache
 echo -n > $BUIDLROOT/$VERSIONSTRING/var/cache/backend_cache
