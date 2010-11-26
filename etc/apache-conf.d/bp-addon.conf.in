@@ -26,3 +26,8 @@ Alias @htmurl@ "@datarootdir@"
 
 RedirectMatch ^@htmurl@/?$ @cgiurl@/bp-addon.cgi
 
+Redirect /nagiosbp/cgi-bin/nagios-bp.cgi @cgiurl@/bp-addon.cgi
+Redirect /nagiosbp/cgi-bin/whereUsed.cgi @cgiurl@/whereUsed.cgi
+RedirectMatch ^/nagiosbp$ @cgiurl@/bp-addon.cgi
+RedirectMatch ^/nagiosbp/(.*)$ @htmurl@/$1
+
