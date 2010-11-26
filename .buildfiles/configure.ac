@@ -3,7 +3,7 @@
 
 AC_PREREQ(2.59)
 #AC_INIT(bpaddon, 0.9.7-alpha1, NagiosBP-Users@lists.nagiosforge.org)
-AC_INIT(bp-addon, 0.9.7-alpha1, berny1@users.sourceforge.net)
+AC_INIT(bp-addon, 0.9.7-alpha2, berny1@users.sourceforge.net)
 
 dnl For later filesystem permissions
 AC_DEFINE([DEFAULT_USER], [root], [Default User])
@@ -13,9 +13,9 @@ AC_PREFIX_DEFAULT(/usr/local/bp-addon)
 
 dnl Some information about the project
 PKG_NAME=bp-addon
-PKG_VERSION="0.9.7-alpha1"
+PKG_VERSION="0.9.7-alpha2"
 PKG_HOME_URL="http://bp-addon.monitoringexchange.org/"
-PKG_REL_DATE="14-11-2010"
+PKG_REL_DATE="26-11-2010"
 
 AC_SUBST(PKG_NAME)
 AC_SUBST(PKG_VERSION)
