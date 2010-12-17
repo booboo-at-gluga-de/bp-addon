@@ -8,3 +8,6 @@
 /* #bpa_cental_table_box_tl_yes { margin-right:9em; margin-left:0; }
 #bpa_trafficlight_yes_box { float:right; } */
 
+/* if using the Business Process AddOns with Icinga, you might want to uncomment
+   the following line */
+/* #bpa_foot_version, #bpa_foot_language, .bpa_text_small, .bpa_text_tiny { font-size:100%; } */

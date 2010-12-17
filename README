@@ -693,16 +693,16 @@ some examples:
 
 If You want to make Trafficlight readable from a bigger distance, just put
 the following line into user.css:
-#nbp_trafficlight_yes_table td { border-top:30px solid white; padding:5px; font-size:120% }
+#bpa_trafficlight_yes_table td { border-top:30px solid white; padding:5px; font-size:120% }
 
 If You do not want to display the selction buttons for single priorities:
-#nbp_prio_selection { display:none; }
+#bpa_prio_selection { display:none; }
 
 In the same way you can hide other elements too.
 
 To display the traffic light on the right hand side, You need two lines:
-#nbp_cental_table_box_tl_yes { margin-right:9em; margin-left:0; }
-#nbp_trafficlight_yes_box { float:right; }
+#bpa_cental_table_box_tl_yes { margin-right:9em; margin-left:0; }
+#bpa_trafficlight_yes_box { float:right; }
 
 And I'm sure users find much more cool hacks to make the GUI fit their needs.
 If You found one, which You think it is interesting for other users too,

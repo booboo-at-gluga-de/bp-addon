@@ -1,14 +1,14 @@
-Nagios Business Process JSON-API
-================================
+Business Process AddOns: JSON-API
+=================================
 
 
-Starting with version 0.9.6 the Nagios Business Process AddOns have got a
-JSON-API. This means You can query state information of business processes from
-the Nagios Business Process AddOns in JSON format to use the results e. g. in 
+Starting with version 0.9.6 the Business Process AddOns for Nagios and Icinga have 
+got a JSON-API. This means You can query state information of business processes 
+from the Business Process AddOns in JSON format to use the results e. g. in 
 Your own scripts or for building up Your own GUI.
 
 You can get any information about any business processes also by querying the
-API. That means: Any information available in the Nagios Business Process AddOns 
+API. That means: Any information available in the Business Process AddOns 
 can be requested by API too.
 This document describes this API.
 
@@ -20,17 +20,17 @@ Calling the API
 ===============
 
 There are two ways:
-1. Call a local script on the machine Nagios Business Process AddOns are 
-   running at, e. g. 
-	sbin/nagios-bp.cgi outformat=json
-   (within Nagios Business Process AddOns' install path)
+1. Call a local script on the machine Business Process AddOns are running at, 
+   e. g. 
+	sbin/bp-addon.cgi outformat=json
+   (within Business Process AddOns' install path)
 
 2. Call the script remote by HTTP(S):
-	http://nagioshost.example.com/nagiosbp/cgi-bin/nagios-bp.cgi?outformat=json
+	http://nagioshost.example.com/bp-addon/cgi-bin/bp-addon.cgi?outformat=json
    Normally You have to give username and password by HTTP basic auth.
    A browser asks for Your credentials, but on a script You have to add them, 
    e. g.
-	curl -u nagiosadmin:secret http://nagioshost.example.com/nagiosbp/cgi-bin/nagios-bp.cgi?outformat=json
+	curl -u nagiosadmin:secret http://nagioshost.example.com/bp-addon/cgi-bin/bp-addon.cgi?outformat=json
 
 In both cases You get back a data structure in JSON format. There are modules
 for every common scriping language to read JSON. Use them!
@@ -43,9 +43,9 @@ By adding more parameters when calling You can decide what information You want
 to get. Append these parameters with a blank when calling local and with a & 
 when using HTTP(S).
 e. g.
-	sbin/nagios-bp.cgi outformat=json tree=mail
+	sbin/bp-addon.cgi outformat=json tree=mail
 or
-	http://nagioshost.example.com/nagiosbp/cgi-bin/nagios-bp.cgi?outformat=json&tree=mail
+	http://nagioshost.example.com/bp-addon/cgi-bin/bp-addon.cgi?outformat=json&tree=mail
 
 If none of the parameters tree or detail is given, a complete list of all
 defined business processes is returned, the default view.
@@ -74,13 +74,13 @@ detail
 conf
 ----
 	give the name of one config as argument, e. g.
-	conf=nagios-bp-second-view
+	conf=business-processes-second-view
 	to read definition of business processes from 
-	etc/nagios-bp-second-view.conf
+	etc/business-processes-second-view.conf
 	instead of default file
-	etc/nagios-bp.conf
+	etc/business-processes.conf
 
-	hint: the leave out path of the file and the .conf extension
+	hint: leave out the path of the file and the .conf extension
 	
 lang
 ----
@@ -169,7 +169,7 @@ display_prio
 	may be 0 if not displayed in the top level view of the web GUI
 
 
-single services have fields
+single services have fields:
 
 host
 	hostname of the service

@@ -26,6 +26,11 @@ Alias @htmurl@ "@datarootdir@"
 
 RedirectMatch ^@htmurl@/?$ @cgiurl@/bp-addon.cgi
 
+# redirects for backward compatibility
+# (make old URL still work)
+# if You never used Business Process AddOns Version 0.9.6 or elder
+# You may drop them without any impact
+# also if You are sure You use only "new" URL everywhere, You can drop them
 Redirect /nagiosbp/cgi-bin/nagios-bp.cgi @cgiurl@/bp-addon.cgi
 Redirect /nagiosbp/cgi-bin/whereUsed.cgi @cgiurl@/whereUsed.cgi
 RedirectMatch ^/nagiosbp$ @cgiurl@/bp-addon.cgi

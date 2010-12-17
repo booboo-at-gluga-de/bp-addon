@@ -1,5 +1,5 @@
-Nagios Business Process View and Nagios Business Impact Analysis
-----------------------------------------------------------------
+Business Process AddOns for Nagios and Icinga
+---------------------------------------------
 
 This document decribes, how to install.
 If You are new to these AddOns make sure You read README before.
@@ -64,6 +64,7 @@ Requirements
     default INC path and an error otherwise.
     Maybe Your linux distribution provides this as a package called
     libcgi-simple-perl or so.
+    Otherwise get it from CPAN: http://search.cpan.org
 
 6.  The Perl-Modul DBI must be installed
     If You are not sure, type
@@ -87,8 +88,8 @@ Install
 
 Be root.
 Extract the download file
-		tar xvzf nagios-business-process-addon-<VERSION>.tar.gz
-		cd nagios-business-process-addon-<VERSION>
+		tar xvzf business-process-addon-<VERSION>.tar.gz
+		cd business-process-addon-<VERSION>
 
 if using Nagios: For installation in the default path (/usr/local/nagiosbp/) 
 		type
@@ -98,28 +99,28 @@ if using Icinga: For installation in the default path (/usr/local/nagiosbp/)
 		type
 		./configure --with-nagcgiurl=/icinga/cgi-bin --with-naghtmurl=/icinga --with-nagetc=/usr/local/icinga/etc/ --with-apache-authname="Icinga Access"
 
-If You want to install somewhere else or if Your nagios or icinga is not 
+If You want to install somewhere else or if Your Nagios or Icinga is not 
 installed in the default path (/usr/local/nagios/ or /usr/local/icinga), 
 you can call configure with different parameters, see
 		./configure --help
 for details.
 At the end, all important parameters are listed. If they are ok, type
 		make install
-to install Nagios Business Process AddOns.
+to install the Business Process AddOns.
 		
 
-Apache needs to know about the new files. Therefore a file nagiosbp.conf 
+Apache needs to know about the new files. Therefore a file bp-addon.conf
 has been put into Your Apache's conf.d directory. 
 The default is, that the given configuration is included in all of
 Apache's virtual hosts. If this is not what you want, You can copy the
-content of nagiosbp.conf into the according VirtualHost section of Your 
-httpd.conf and delete nagiosbp.conf afterwards.
+content of bp-addon.conf into the according VirtualHost section of Your 
+httpd.conf and delete bp-addon.conf afterwards.
 Another possibility is, to install the file in some other path, by calling
 configure e. g. with
-		./configure --with-httpd-conf=/usr/local/nagiosbp/etc/apache-conf.d/
+		./configure --with-httpd-conf=/usr/local/bp-addon/etc/apache-conf.d/
 and afterwards add an include statement into Apache's section for the
 according VirtualHost:
-		Include /usr/local/nagiosbp/etc/apache-conf.d/nagiosbp.conf
+		Include /usr/local/bp-addon/etc/apache-conf.d/bp-addon.conf
 
 Concerning the AuthName directives (there are two) in this file:
 make sure they are exactly the same as in Nagios' or Icingas Apache 
@@ -130,14 +131,14 @@ accessing a page of the Business Process AddOns.
 
 You can give the correct AuthName when calling configure by giving the 
 additional parameter --with-apache-authname or by editing the file
-conf.d/nagiosbp.conf afterwards.
+conf.d/bp-addon.conf afterwards.
 
 If You are done with Your Apache configuration, by typing
 		apachectl configtest
 You can check Your configuration. If it reports no error, reload Your
 Apache.
 
-For Nagios Business Impact Analysis, a cron job has been created for You, 
+For Business Impact Analysis, a cron job has been created for You, 
 that throws away old session files. It is normally located in /etc/cron.d
 
 In Nagios or Icinga You need some links so that You can use the 2 AddOns
@@ -151,11 +152,11 @@ If using Nagios edit /usr/local/nagios/share/side.html
 		You insert the following lines:  
 			  <tr>
 			    <td width=13><img src="images/greendot.gif" width="13" height="14" name="statuswrl-dot"></td>
-			    <td nowrap><a href="/nagiosbp/cgi-bin/nagios-bp.cgi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Process View</a></td>
+			    <td nowrap><a href="/bp-addon/cgi-bin/bp-addon.cgi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Process View</a></td>
 			  </tr>
 			  <tr>
 			    <td width=13><img src="images/greendot.gif" width="13" height="14" name="statuswrl-dot"></td>
-			    <td nowrap><a href="/nagiosbp/cgi-bin/nagios-bp.cgi?mode=bi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Impact</a></td>
+			    <td nowrap><a href="/bp-addon/cgi-bin/bp-addon.cgi?mode=bi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Impact</a></td>
 			  </tr>
 
 If using Icinga with the classic web GUI edit 
@@ -163,22 +164,22 @@ If using Icinga with the classic web GUI edit
 		e. g. after this section
                         <li class="menuli_style1"><a href="/icinga/cgi-bin/extinfo.cgi?&type=7" target="main">Scheduling Queue</a></li>
 		You insert the following lines:  
-                        <li class="menuli_style2"><a href="/nagiosbp/cgi-bin/nagios-bp.cgi" target="main">Business Process View</a></li>
-                        <li class="menuli_style1"><a href="/nagiosbp/cgi-bin/nagios-bp.cgi?mode=bi" target="main">Business Impact</a></li>
+                        <li class="menuli_style2"><a href="/bp-addon/cgi-bin/bp-addon.cgi" target="main">Business Process View</a></li>
+                        <li class="menuli_style1"><a href="/bp-addon/cgi-bin/bp-addon.cgi?mode=bi" target="main">Business Impact</a></li>
 
 As Nagios Business Process AddOns use the stylesheets of Nagios or Icinga
 the web GUI has the look and feel of Nagios when installed with Nagios
 and the look and feel of Icinga when installed with Icinga.
 In very little details they differ. So when using Icinga with the classic 
-web GUI You might want to insert the following line 
-		#nbp_foot_version, #nbp_foot_language, .nbp_text_small, .nbp_text_tiny { font-size:100%; }
-into share/stylesheets/user.css
+web GUI You might want to uncomment the following line 
+		#bpa_foot_version, #bpa_foot_language, .bpa_text_small, .bpa_text_tiny { font-size:100%; }
+in share/stylesheets/user.css
 Otherwise some elements on the web GUI would look very tiny.
 
 If using Icinga with the new Icinga-Web you need to add the additional 
 cronks there. You find a download link for the Business Process Icinga 
 Cronk at
-		http://nagiosbp.projects.nagiosforge.org/download.shtml
+		http://bp-addon.monitoringexchange.org/download.shtml
 Please see the documention there to include them into Your installation.
 
 Now it's time to set up some config files.
@@ -200,7 +201,7 @@ webserver is running under has read access to the unix socket which has
 been created by mk_livestatus (by default: /usr/local/nagios/var/rw/live)
 
 When using the Icinga-API as backend, please note: 
-The cooperation of Icinga-API and Nagios Business Process AddOns is not 
+The cooperation of Icinga-API and Business Process AddOns is not 
 yet in use in a large number of setups in production. Also this one is the
 backend with the most overhead (an additional layer of HTTP and additional
 PHP scripts are used to get data). Therefor the performance is not as good
@@ -209,7 +210,7 @@ as with the other backends.
 So if You have a big setup or a need for well tested software, You might want 
 to use it with a NDO database, IDO database or mk_livestatus.
 
-Now move etc/ndo.cfg-sample to etc/ndo.cfg and edit it
+Now move etc/dataBackend.cfg-sample to etc/dataBackend.cfg and edit it
 		change all the parameters there according to Your setup and 
 		- if using a database backend - the user You just created
 		all parameters have comments there.
