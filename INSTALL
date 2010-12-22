@@ -27,7 +27,7 @@ Requirements
 2.3 As an alternative, You may use Merlin. Merlin also requires a separate
     daemon to run, also requires a MySQL database, but some people like it 
     more then NDOUTILS, because Merlins table structure ist simpler.
-    see: http://www.op5.org/community/projects/merlin
+    see: http://www.op5.org/community/plugin-inventory/op5-projects/merlin
 
 2.4 If You don't like the overhead of a database, You alternatively can
     use ndo2fs which writes the same information into the file system.
