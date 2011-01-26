@@ -2,8 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-#AC_INIT(bpaddon, 0.9.7-alpha1, NagiosBP-Users@lists.nagiosforge.org)
-AC_INIT(bp-addon, 0.9.7-alpha2, berny1@users.sourceforge.net)
+AC_INIT(bp-addon, 0.9.7-alpha2, bp-addon-users@list.monitoringexchange.org)
 
 dnl For later filesystem permissions
 AC_DEFINE([DEFAULT_USER], [root], [Default User])
