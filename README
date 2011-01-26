@@ -1,5 +1,5 @@
-Nagios Business Process View and Nagios Business Impact Analysis
-----------------------------------------------------------------
+Business Process AddOns for Nagios and Icinga
+---------------------------------------------
 
 The software and documents in this package have been produced by 
 Sparda-Datenverarbeitung eG, Nuernberg, Germany, Bernd Stroessenreuther 
@@ -10,9 +10,9 @@ conditions of GNU General Public License Version 2, see LICENSE.
 Short overview
 --------------
 
-The AddOn "Business Process View" takes results of the single nagios checks out 
-of NDO or IDO backend (NDO database, IDO database, ndo2fs, Merlin, mk_livestatus, 
-Icinga-API) and builds up aggregated states. 
+The AddOn "Business Process View" takes results of the single checks from
+Nagios or Icinga out of NDO or IDO backend (NDO database, IDO database, ndo2fs, 
+Merlin, mk_livestatus, Icinga-API) and builds up aggregated states. 
 How they are associated is described in one or more config files.
 There is the possibility to make "and" conjuctions, "or" conjunction and other...
 A business process (as defined by such a formula) can be used as a part of 
@@ -29,7 +29,7 @@ Help
 
 If You have problems installing or using this AddOns, please visit the
 Support page on our homepage:
-http://nagiosbp.projects.nagiosforge.org/support.shtml
+http://bp-addon.monitoringexchange.org/support.shtml
 Here You find a FAQ and some helpful mailinglists.
 
 Also a very active community of users You find at
@@ -46,7 +46,7 @@ customers because as a system administrator You allways have customers,
 no matter if they are employees or customers of the company You are working
 for.)
 Each application needs a few or a lot of components (like webservers,
-application servers, DNS- or mail servers, LAN- or WAN-connections ...)
+application servers, DNS- or mail servers, LAN- or WAN-connections, ...)
 to work properly.
 There are components You need for only one application, and of course there
 are components which are important for more applications (e. g. DNS-servers)
@@ -55,21 +55,21 @@ I guess. (Otherwise You would not think about this AddOn.)
 
 If You are the only system administrator of Your company, You will probably
 know all Your applications very well, You know which application needs 
-which components - then You will not need this AddOn.
+which components - then maybe You will not need this AddOn.
 If there are more admins, You probably will share work. This means each admin
 knows view applications very well and the other applications only a little 
 bit.
 So maybe You would find it great to visualize, how all these components work
 together. If one ore more components fail, You want to see on one single 
 page, which applications are unavailable for Your customers - in this case:
-Install this addon.
+Install this AddOn.
 
 It has two modes:
-1. Nagios Business Process View
+1. Business Process View
    it shows the actual state of Your applications
-2. Nagios Business Impact Analysis
+2. Business Impact Analysis
    this is a simulation mode.
-   You can set each of Your components to every stat You like.
+   You can set each of Your components to every state You like.
    So if You want to know: What would be if my web server would fail now?
    Just klick the state of Your web server an set it to CRITICAL
    Return to the overview page and look, which applications are now in
@@ -85,7 +85,7 @@ How it works
 
 You have one or more config files in which You define Your applications.
 You define which components are needed and how they are related.
-So go and set up a config file called etc/nagios-bp.conf
+So go and set up a config file called etc/business-processes.conf
 There You have to type some simple formulas for defining business processes.
 e. g.
 		loadbalancers = loadbalancer1;System Health | loadbalancer2;System Health
@@ -139,9 +139,9 @@ Let's have a complete example:
 		display 0;website_webservers;WebServer Cluster
 		display 1;website;WebSite
 
-If these line are the only ones in Your nagios-bp.conf file, this should work.
-You have defined Your first business process! Congratulations!
-Go and view http://your-host/nagiosbp/cgi-bin/nagios-bp.cgi
+If these lines are the only ones in Your business-processes.conf file, this 
+should work. You have defined Your first business process! Congratulations!
+Go and view http://your-host/bp-addon/cgi-bin/bp-addon.cgi
 (I just assume, You have all these services and hosts defined in your Nagios
 or Icinga configuration or adapted the example.)
 
@@ -149,23 +149,23 @@ Care for the correct spelling! The <hostname> and the <servicename> must exactly
 match the spelling, how You defined them in Nagios/Icinga. Watch for correct upper 
 case and lower case.
 
-More examples can be found in etc/nagios-bp.conf
+More examples can be found in etc/business-processes.conf
 
 
 Syntax check
 ------------
 
-To make sure the syntax of Your nagios-bp.conf is correct, run
-		bin/nagios-bp-consistency-check.pl
-In this syntax it checks Your default nagios-bp.conf. If You want to check 
+To make sure the syntax of Your business-processes.conf correct, run
+		bin/bp-addon-consistency-check.pl
+In this syntax it checks Your default business-processes.conf. If You want to check 
 some other file call
-		bin/nagios-bp-consistency-check.pl <file>
+		bin/bp-addon-consistency-check.pl <file>
 		
 
 Some more keywords
 ------------------
 
-In the top level view (http://your-host/nagiosbp/cgi-bin/nagios-bp.cgi)
+In the top level view (http://your-host/bp-addon/cgi-bin/bp-addon.cgi)
 the right column is empty at the moment. It can be used to display some short
 information according the business process. This can be a static or dynamic
 string. e. g. You want to display, how many users are currently logged into
@@ -197,7 +197,7 @@ complete syntax description
 
 PLEASE NOTE: The order of Your definitions is important!!
 If You use a (sub level) business process in the definition of another business 
-process, make sure You define the subl level process BEFORE You use it.
+process, make sure You define the sub level process BEFORE You use it.
 
 
 <bp_name> = <host>;<service> [& <host>;<service>]+
@@ -293,16 +293,16 @@ Maybe You just forgot to restart Your webserver after making the config changes.
 
 Next thing to do to locate the problem is to run a script especially built
 for this:
-	bin/nagios-bp-check-ndo-connection.pl
+	bin/bp-addon-check-backend-connection.pl
 Run it under the user Your Apache runs with. On success it prints out a
-list of all the services Your NDO or IDO backend knows together with status 
-information and the last plugin output.
+list of all the services Your backend knows together with status information and 
+the last plugin output.
 On error You should get an error message that probably will be very helpful
 for locating the problem.
 
-To see if the problem is in the webserver or in Nagios Business Process AddOn
-You can call 
-	sbin/nagios-bp.cgi
+To see if the problem is in the webserver or in Business Process AddOn You can 
+call 
+	sbin/bp-addon.cgi
 form the commandline. Do this as a normal user, not as root.
 It should print out some HTML code on STDOUT, if everything works and
 error or warning messages otherwise.
@@ -326,10 +326,10 @@ notifications, statistics, history, ...
 A simple script is integrated, that generates an additional Nagios/Icinga 
 configuration file with all the business processes as service.
 The script can be found under
-		bin/bp_cfg2service_cfg.pl
+		bin/bp-cfg2service-cfg.pl
 Running this script should produce a new file
 		services-bp.cfg
-in the etc directory of NAGIOS/ICINGA (not etc of Nagios Business Process AddOns)
+in the etc directory of NAGIOS/ICINGA (not etc of Business Process AddOns)
 Do not make any manual changes to this file! If You change Your business 
 processes later You just run this script again. This produces an actual
 services-bp.cfg but would overwrite any changes You made there.
@@ -348,25 +348,25 @@ services.cfg, the hosts in host.cfg and the commands in commands.cfg
 (Do not define them in services-bp.cfg!!)
 
 		define service{
-		        name                            generic-bp-service
-		        use                             generic-service
-		        contact_groups                  nagios-admins
-		        host_name                       business_processes
-		        notification_period             none
-		        max_check_attempts              1
-		        register                        0
+		        name                    generic-bp-service
+		        use                     generic-service
+		        contact_groups          nagios-admins
+		        host_name               business_processes
+		        notification_period     none
+		        max_check_attempts      1
+		        register                0
 		}
 			
 		define service{
-		        name                            generic-bp-detail-service
-		        use                             generic-service
-		        contact_groups                  nagios-admins
-			host_name                       business_processes_detail
-		        notification_period             none
-		        max_check_attempts              1
-		        normal_check_interval           5
-		        retry_check_interval            1
-		        register                        0
+		        name                    generic-bp-detail-service
+		        use                     generic-service
+		        contact_groups          nagios-admins
+			host_name               business_processes_detail
+		        notification_period     none
+		        max_check_attempts      1
+		        normal_check_interval   5
+		        retry_check_interval    1
+		        register                0
 		}
 
 		define host{
@@ -388,13 +388,13 @@ services.cfg, the hosts in host.cfg and the commands in commands.cfg
 		}
 
 		define command{
-		        command_name    check_bp_status
-		        command_line    /usr/local/nagiosbp/libexec/check_bp_status.pl -b $ARG1$ -f $ARG2$
+		        command_name            check_bp_status
+		        command_line            /usr/local/bp-addon/libexec/check_bp_status.pl -b $ARG1$ -f $ARG2$
 		}
 
 		define command{
-		        command_name    return_true
-		        command_line    $USER1$/check_dummy 0
+		        command_name            return_true
+		        command_line            $USER1$/check_dummy 0
 		}
 
 Now reload Your Nagios/Icinga configuration. That's it.
@@ -402,12 +402,12 @@ Nagios/Icinga now checks the states of all business processes regulary.
 
 If only states of business processes in the top level view are of interest to You,
 but not the states of the sub-processes, use 
-		bin/bp_cfg2service_cfg.pl -s 0
+		bin/bp-cfg2service-cfg.pl -s 0
 In this case You do not need the service template generic-bp-detail-service and 
 the host template business_processes_detail
 
 Parameters for this script are displayed, if You type
-		bin/bp_cfg2service_cfg.pl --help
+		bin/bp-cfg2service-cfg.pl --help
 
 If You are using these new services to generate alerts for problems of whole 
 business processes, You might not want to inform the same users or groups for 
@@ -419,7 +419,7 @@ default, You just enter a line in the form
 		template <bp_name>;<service_template>
 e. g. for our example
 		template website;website-bp-service
-to Your etc/nagios-bp.conf. 
+to Your etc/business-processes.conf
 
 This means, the service representing the business process website should be 
 generated with the template website-bp-service.
@@ -434,7 +434,7 @@ Of course, in this case You need to define an other template:
 		        register                        0
 		}
 
-Run bin/bp_cfg2service_cfg.pl again. It will produce a services-bp.cfg where
+Run bin/bp-cfg2service-cfg.pl again. It will produce a services-bp.cfg where
 the according service is now defined referring to this new template.
 Reload Nagios/Icinga and You are done.
 
@@ -450,33 +450,33 @@ business processes.
 So You just go to etc directory and build additional configuration 
 files, each of them defining business processes as described above.
 Let's assume You called them
-		nagios-bp-customer1.conf
-		nagios-bp-customer2.conf
-		nagios-bp-customer3.conf
+		business-processes-customer1.conf
+		business-processes-customer2.conf
+		business-processes-customer3.conf
 		...
-they all must be located in the same directory as nagios-bp.conf
+they all must be located in the same directory as business-processes.conf
 
 Now use the following URLs to view them:
 		For the business process view:
-		http://<servername>/nagiosbp/cgi-bin/nagios-bp.cgi?conf=nagios-bp-customer1
-		http://<servername>/nagiosbp/cgi-bin/nagios-bp.cgi?conf=nagios-bp-customer2
-		http://<servername>/nagiosbp/cgi-bin/nagios-bp.cgi?conf=nagios-bp-customer3
+		http://<servername>/bp-addon/cgi-bin/bp-addon.cgi?conf=business-processes-customer1
+		http://<servername>/bp-addon/cgi-bin/bp-addon.cgi?conf=business-processes-customer2
+		http://<servername>/bp-addon/cgi-bin/bp-addon.cgi?conf=business-processes-customer3
 		...
 		
 		And for the business impact analysis:
-		http://<servername>/nagiosbp/cgi-bin/nagios-bp.cgi?conf=nagios-bp-customer1&mode=bi
-		http://<servername>/nagiosbp/cgi-bin/nagios-bp.cgi?conf=nagios-bp-customer2&mode=bi
-		http://<servername>/nagiosbp/cgi-bin/nagios-bp.cgi?conf=nagios-bp-customer3&mode=bi
+		http://<servername>/bp-addon/cgi-bin/bp-addon.cgi?conf=business-processes-customer1&mode=bi
+		http://<servername>/bp-addon/cgi-bin/bp-addon.cgi?conf=business-processes-customer2&mode=bi
+		http://<servername>/bp-addon/cgi-bin/bp-addon.cgi?conf=business-processes-customer3&mode=bi
 		...		
 		
 Please note: The different configurations do not know each other. So it is not
 possible to use a business process defined in one of them in another configuration.
 
 If You want to map the Business Processes of all of these files to Nagios 
-services, use 
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/nagios-bp-customer1.conf
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/nagios-bp-customer2.conf
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/nagios-bp-customer3.conf
+or Icinga services, use 
+		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/business-processes-customer1.conf
+		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/business-processes-customer2.conf
+		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/business-processes-customer3.conf
 
 Maybe You want different default templates for each of these config files,
 because in the one case contacts of customer1 should be notified, in the
@@ -593,30 +593,31 @@ Where used with more than one Top Level View
 
 If You have more than one Top Level View (see according section above) and
 want to use the "Where used?" feature, by default the whereUsed.cgi looks for
-processes in the default config file nagios-bp.conf. If You want it to look
-in an alternate config file, call it with the additional parameter "conf"
+processes in the default config file business-processes.conf. If You want it to 
+look in an alternate config file, call it with the additional parameter "conf"
 in the same way as described in section "More than one Top Level View".
 e. g.
-	action_url	/nagiosbp/cgi-bin/whereUsed.cgi?conf=nagios-bp-customer1&host=$HOSTNAME$&service=$SERVICEDESC$
+	action_url	/nagiosbp/cgi-bin/whereUsed.cgi?conf=business-processes-customer1&host=$HOSTNAME$&service=$SERVICEDESC$
 or
-	notes		<a href="/nagiosbp/cgi-bin/whereUsed.cgi?conf=nagios-bp-customer1">Where is this service used?</a>
+	notes		<a href="/nagiosbp/cgi-bin/whereUsed.cgi?conf=business-processes-customer1">Where is this service used?</a>
 
 
 Preview Changes
 ---------------
 
-If You make changes to Your nagios-bp.conf file, the new configuration is used
-as soon as You save the file. All Your customers see Your changes immediatelly.
+If You make changes to Your business-processes.conf file, the new configuration 
+is used as soon as You save the file. All Your customers see Your changes 
+immediatelly.
 
 Maybe this is not what You want. Maybe You want to check if everything is how
 You desinged it and there are no errors in the file.
 
-So copy nagios-bp.conf to e. g. nagios-bp-new.conf and make Your changes to
-this copy. Now it's a good idea to make a syntax check of nagios-bp-new.conf
-as described in section Syntax check.
+So copy business-processes.conf to e. g. business-processes-new.conf and make 
+Your changes to this copy. Now it's a good idea to make a syntax check of 
+business-processes-new.conf as described in section Syntax check.
 Now You can preview as described in section More than one Top Level View
-If everything is ok, You copy it over to nagios-bp.conf to bring Your changes
-online.
+If everything is ok, You copy it over to business-processes.conf to bring Your 
+changes online.
 
 
 Using new hosts or service in a Business Process
@@ -643,17 +644,17 @@ MySQL or You decide to write as less information as possible into the NDO or
 IDO backend.
 
 Only if this is impossible, or does not make Your system as fast as required
-You might think about caching values in the Nagios Business Process AddOn for
-a certain amount of time. So access to Your NDO or IDO backend is done not so 
+You might think about caching values in the Business Process AddOn for a 
+certain amount of time. So access to Your NDO or IDO backend is done not so 
 often, but the results are not so fresh as they could be.
 Cache is held in one file in the filesystem, by default
-		var/cache/ndo_backend_cache
+		var/cache/backend_cache
 
 If You did really decide to use caching, You activate it by using the
-parameters cache_time and cache_file in etc/ndo.cfg
+parameters cache_time and cache_file in etc/dataBackend.cfg
 (they have comments there)
 
-Please note: var/cache/ndo_backend_cache is created world-writable 
+Please note: var/cache/backend_cache is created world-writable 
 (permissions 666) by the installer. If You do not want this for security 
 reasons, You can change permissions to whatever You like. The only thing You
 must make sure is that the user Your Nagios/Icinga is running under and the 
@@ -684,8 +685,8 @@ of the GUI to fit special needs using an own CSS.
 
 All pages include an additional CSS file called user.css. This one You can
 change if You like. All the relevant elements in the generated HTML pages have
-an ID now so that everything You can do with CSS can be done with Nagios 
-Business Process AddOn's pages.
+an ID now so that everything You can do with CSS can be done with Business 
+Process AddOn's pages.
 
 user.css is located in share/stylesheets/ directory.
 
@@ -706,7 +707,8 @@ To display the traffic light on the right hand side, You need two lines:
 
 And I'm sure users find much more cool hacks to make the GUI fit their needs.
 If You found one, which You think it is interesting for other users too,
-please mail it to nagiosbp-users@lists.nagiosforge.org and we will publish it.
+please mail it to bp-addon-users@list.monitoringexchange.org and we will 
+publish it.
 
 In the approach described above all users of one installation get the same
 layout of the GUI. If You like different layouts for single users, they might 
