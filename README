@@ -389,13 +389,19 @@ services.cfg, the hosts in host.cfg and the commands in commands.cfg
 
 		define command{
 		        command_name            check_bp_status
-		        command_line            /usr/local/bp-addon/libexec/check_bp_status.pl -b $ARG1$ -f $ARG2$
+		        command_line            /usr/bin/perl /usr/local/bp-addon/libexec/check_bp_status.pl -b $ARG1$ -f $ARG2$
 		}
 
 		define command{
 		        command_name            return_true
 		        command_line            $USER1$/check_dummy 0
 		}
+
+Hint: "/usr/bin/perl" must be replaced by the location where the perl 
+interpreter is installed on Your monitoring server. You should call the
+plugin explicit with the external perl interpreter: Some users tell about
+some sporadically occuring strange behavior when executing the plugin with 
+the embedded perl interpreter (ePN).
 
 Now reload Your Nagios/Icinga configuration. That's it.
 Nagios/Icinga now checks the states of all business processes regulary.
