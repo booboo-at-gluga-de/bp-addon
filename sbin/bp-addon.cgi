@@ -365,34 +365,6 @@
 					&printPageHead("html");
 					print "		<div id=\'nbpTopLevelBox\'>\n";
 	
-					if ( $trafficlight eq "yes" || $trafficlight eq "only" || $trafficlight eq "short")
-					{
-						# display the traffic light section
-						print "			<div id=\"bpa_trafficlight_${trafficlight}_box\">\n";
-						print "				<div class=\'statusTitle\' id=\'bpa_trafficlight_${trafficlight}_head\'>" .  &get_lang_string("short_summary_head") . "</div>\n";
-						print " 			    <table class=\'status\' id=\'bpa_trafficlight_${trafficlight}_table\'>\n";
-						print " 				<tr>\n";
-						print " 					<th class=\'status\'><a class=\'status\' href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=all\">" .  &get_lang_string("prio") . "</a></th>\n";
-						print " 					<th class=\'status\'>" .  &get_lang_string("status") . "</th>\n";
-						print " 				</tr>\n";
-
-						for ($traffic_light_prio=1; $traffic_light_prio<=@defined_priorities; $traffic_light_prio++)
-						{
-							if (defined $defined_priorities[$traffic_light_prio])
-							{
-								if ($traffic_light_prio%2 == 0) { $rowclass = "statusEven" }
-								else { $rowclass = "statusOdd" }
-								print " 				<tr>\n";
-								print "						<td class=\'$rowclass\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=$traffic_light_prio\">" .  &get_lang_string("prio") . " $traffic_light_prio</a></td>\n";
-								print "						<td class=\'miniStatus" .$hardstates->{"__prio$traffic_light_prio"} . "\'>" .$hardstates->{"__prio$traffic_light_prio"} . "</td>\n";
-								print " 				</tr>\n";
-							}
-						}
-	
-						print " 			    </table>\n";
-						print " 			</div>\n";
-					}
-	
 					if ( $trafficlight eq "yes" || $trafficlight eq "no" )
 					{
 						# main tree view area
@@ -433,7 +405,10 @@
 						}
 	
 						print "			</table>\n";
+					}
 
+					if ( $trafficlight eq "yes" || $trafficlight eq "no" )
+					{
 						# buttons below main tree view table: prio selection
 						print "			<div id=\'bpa_button_bar\'>\n";
 						print "			<span id=\'bpa_prio_selection\'>\n";
@@ -475,6 +450,34 @@
 						print "			</div>\n";
 						print "		</div>\n";
 						print "		</div>\n";
+					}
+
+					if ( $trafficlight eq "yes" || $trafficlight eq "only" || $trafficlight eq "short")
+					{
+						# display the traffic light section
+						print "			<div id=\"bpa_trafficlight_${trafficlight}_box\">\n";
+						print "				<div class=\'statusTitle\' id=\'bpa_trafficlight_${trafficlight}_head\'>" .  &get_lang_string("short_summary_head") . "</div>\n";
+						print " 			    <table class=\'status\' id=\'bpa_trafficlight_${trafficlight}_table\'>\n";
+						print " 				<tr>\n";
+						print " 					<th class=\'status\'><a class=\'status\' href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=all\">" .  &get_lang_string("prio") . "</a></th>\n";
+						print " 					<th class=\'status\'>" .  &get_lang_string("status") . "</th>\n";
+						print " 				</tr>\n";
+
+						for ($traffic_light_prio=1; $traffic_light_prio<=@defined_priorities; $traffic_light_prio++)
+						{
+							if (defined $defined_priorities[$traffic_light_prio])
+							{
+								if ($traffic_light_prio%2 == 0) { $rowclass = "statusEven" }
+								else { $rowclass = "statusOdd" }
+								print " 				<tr>\n";
+								print "						<td class=\'$rowclass\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=$traffic_light_prio\">" .  &get_lang_string("prio") . " $traffic_light_prio</a></td>\n";
+								print "						<td class=\'miniStatus" .$hardstates->{"__prio$traffic_light_prio"} . "\'>" .$hardstates->{"__prio$traffic_light_prio"} . "</td>\n";
+								print " 				</tr>\n";
+							}
+						}
+	
+						print " 			    </table>\n";
+						print " 			</div>\n";
 					}
 
 					print "	</div>\n";

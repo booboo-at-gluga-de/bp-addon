@@ -55,10 +55,10 @@ A.status {
 }
 
 #bpa_trafficlight_yes_box { 
-	float:left; 
+	float:right; 
 	margin:0; 
 	padding:0; 
-	width:8em; 
+	width:150px; 
 }
 
 #bpa_body_short { 
@@ -82,7 +82,7 @@ A.status {
 
 #bpa_cental_table_box_tl_yes { 
 	margin:0; 
-	margin-left:9em; 
+	margin-right:150px; 
 	padding:0; 
 }
 
