@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bp-addon, 0.9.7-alpha2, bp-addon-users@list.monitoringexchange.org)
+AC_INIT(bp-addon, 0.9.7-alpha3, bp-addon-users@list.monitoringexchange.org)
 
 dnl For later filesystem permissions
 AC_DEFINE([DEFAULT_USER], [root], [Default User])
@@ -12,9 +12,9 @@ AC_PREFIX_DEFAULT(/usr/local/bp-addon)
 
 dnl Some information about the project
 PKG_NAME=bp-addon
-PKG_VERSION="0.9.7-alpha2"
+PKG_VERSION="0.9.7-alpha3"
 PKG_HOME_URL="http://bp-addon.monitoringexchange.org/"
-PKG_REL_DATE="26-11-2010"
+PKG_REL_DATE="23-02-2011"
 
 AC_SUBST(PKG_NAME)
 AC_SUBST(PKG_VERSION)
