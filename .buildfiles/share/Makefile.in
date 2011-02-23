@@ -21,7 +21,7 @@ distclean: clean
 devclean: distclean
 
 install:
-	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DATADIR)
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(DATADIR)
 	for file in ./*.gif; \
-	do $(INSTALL) -m 664 $(INSTALL_OPTS) $$file $(DATADIR); done
+	do $(INSTALL) -m 664 $(INSTALL_OPTS) $$file $(DESTDIR)$(DATADIR); done
 	

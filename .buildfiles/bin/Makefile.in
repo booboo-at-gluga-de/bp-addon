@@ -26,7 +26,7 @@ distclean: clean
 devclean: distclean
 
 install:
-	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(BINDIR)
-	$(INSTALL) -m 755 $(INSTALL_OPTS) *.pl $(BINDIR)
-	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-addon-session-timeout $(BINDIR)
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) *.pl $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-addon-session-timeout $(DESTDIR)$(BINDIR)
 

@@ -22,6 +22,6 @@ distclean: clean
 devclean: distclean
 
 install:
-	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DATADIR)/lang
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(DATADIR)/lang
 	for file in ./*.txt; \
-	do $(INSTALL) -m 664 $(INSTALL_OPTS) $$file $(DATADIR)/lang; done
+	do $(INSTALL) -m 664 $(INSTALL_OPTS) $$file $(DESTDIR)$(DATADIR)/lang; done

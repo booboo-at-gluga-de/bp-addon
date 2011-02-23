@@ -23,6 +23,6 @@ distclean: clean
 devclean: distclean
 
 install:
-	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(LIBEXECDIR)
-	$(INSTALL) -m 755 $(INSTALL_OPTS) check_bp_status.pl $(LIBEXECDIR)
+	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(LIBEXECDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) check_bp_status.pl $(DESTDIR)$(LIBEXECDIR)
 
