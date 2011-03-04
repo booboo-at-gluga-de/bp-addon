@@ -74,6 +74,10 @@ A.status {
 	width:150px; 
 }
 
+#bpa_trafficlight_only_box {
+	padding-top:1em;
+}
+
 #bpa_right_bar { 
 	float:right; 
 	margin:0; 
