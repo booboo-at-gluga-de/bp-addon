@@ -228,6 +228,32 @@
 		}
 	}
 
+# in mode "bi" set the submitted state, if there is one
+	if ( $mode eq "bi" && $set ne "" && $to ne "" )
+	{
+		$set = $cgi_simple->url_decode($set);
+		#print "Content-Type: text/html\n\n";
+		#print "setting $set to $to<br><br>\n";
+		if ($set =~ m/;/)
+		{
+			$hardstates->{$set}=$to;
+			$statusinfos->{$set}=&get_lang_string("manually_set_to", $to);
+		}
+		else
+		{
+			foreach $key (sort keys %$hardstates)
+			{
+				if ($key =~ m/^$set;/)
+				{
+					$hardstates->{$key}=$to;
+					$statusinfos->{$key}=&get_lang_string("manually_set_to", $to);
+				}
+			}
+		}
+		&saveSession($sessionid);
+	}
+
+
 # process the given nagios_bp_conf file
 
 	($display, $display_status, $script_out, $info_url, $components) = &getBPs($nagios_bp_conf, $hardstates);
@@ -267,31 +293,6 @@
 		}
 	}
 
-
-# in mode "bi" set the submitted state, if there is one
-	if ( $mode eq "bi" && $set ne "" && $to ne "" )
-	{
-		$set = $cgi_simple->url_decode($set);
-		#print "Content-Type: text/html\n\n";
-		#print "setting $set to $to<br><br>\n";
-		if ($set =~ m/;/)
-		{
-			$hardstates->{$set}=$to;
-			$statusinfos->{$set}=&get_lang_string("manually_set_to", $to);
-		}
-		else
-		{
-			foreach $key (sort keys %$hardstates)
-			{
-				if ($key =~ m/^$set;/)
-				{
-					$hardstates->{$key}=$to;
-					$statusinfos->{$key}=&get_lang_string("manually_set_to", $to);
-				}
-			}
-		}
-		&saveSession($sessionid);
-	}
 
 # print out the results as an HTML page
 	if ( $mode eq "bi" && $base eq "" && $new_session == 1 )
