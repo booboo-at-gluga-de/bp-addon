@@ -299,22 +299,24 @@
 		# page: select starting point for business impact analysis
 
 		&printPageHead("html");
-		print "		<div class=\'statusTitle\' id=\'bpa_head_bi\'>". &get_lang_string("bi_head") ."</div>\n";
-		print " 	<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_explanation") . "</p>\n";
-		print " 	<p class=\'bpa_sub_head\'>" .  &get_lang_string("bi_start_session") . "</p>\n";
-		print " 	<span class=\'bpa_text\'>" .  &get_lang_string("bi_select_starting_point") . "</span>\n";
-		print " 	<form action=\"$own_url\" method=\"get\" id=\'bpa_startingpoint_form_bi\'>\n";
-		print " 		<input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
-		print " 		<input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
-		print " 		<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
-		print " 		<input type=\"hidden\" name=\"sessionid\" value=\"$sessionid\">\n";
-		print " 		<input type=\"hidden\" name=\"trafficlight\" value=\"$trafficlight\">\n";
-		print " 		<input type=\"hidden\" name=\"disprio\" value=\"$display_prio\">\n";
-		print " 		<input type=\"radio\" name=\"base\" value=\"act\" checked=\"checked\"> " .  &get_lang_string("bi_actual_state") . "<br>\n";
-		print " 		<input type=\"radio\" name=\"base\" value=\"ok\"> " .  &get_lang_string("bi_all_set_to_ok") . "<br><br>\n";
-		print " 		<input type=\"submit\" value=\"OK\">\n";
-		print " 	</form>\n";
-		print " 	<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_hint_session_timeout") . "</p>\n";
+		print "		<div id=\"bpa_single_table_box\">\n";
+		print "			<div class=\'statusTitle\' id=\'bpa_head_bi\'>". &get_lang_string("bi_head") ."</div>\n";
+		print " 		<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_explanation") . "</p>\n";
+		print " 		<p class=\'bpa_sub_head\'>" .  &get_lang_string("bi_start_session") . "</p>\n";
+		print " 		<span class=\'bpa_text\'>" .  &get_lang_string("bi_select_starting_point") . "</span>\n";
+		print " 		<form action=\"$own_url\" method=\"get\" id=\'bpa_startingpoint_form_bi\'>\n";
+		print "		 		<input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
+		print " 			<input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
+		print " 			<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
+		print " 			<input type=\"hidden\" name=\"sessionid\" value=\"$sessionid\">\n";
+		print " 			<input type=\"hidden\" name=\"trafficlight\" value=\"$trafficlight\">\n";
+		print " 			<input type=\"hidden\" name=\"disprio\" value=\"$display_prio\">\n";
+		print " 			<input type=\"radio\" name=\"base\" value=\"act\" checked=\"checked\"> " .  &get_lang_string("bi_actual_state") . "<br>\n";
+		print " 			<input type=\"radio\" name=\"base\" value=\"ok\"> " .  &get_lang_string("bi_all_set_to_ok") . "<br><br>\n";
+		print " 			<input type=\"submit\" value=\"OK\">\n";
+		print " 		</form>\n";
+		print " 		<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_hint_session_timeout") . "</p>\n";
+		print "		</div>\n";
 		&printPageFoot("html", "display_version_and_timestamp");
 		
 	}
@@ -323,6 +325,14 @@
 		# page: set new state for host/service in business impact analysis
 
 		&printPageHead("html");
+
+		print "		<div id=\'bpa_toplevel_box\'>\n";
+	
+		# right bar
+		displayRightBar();
+
+		print "		<div id=\"bpa_cental_table_box_tl_yes\">\n";
+
 		($tmp_host, $tmp_service) = split(/;/, $set);
 		print "		<div class=\'statusTitle\' id=\'bpa_head_bi\'>" .  &get_lang_string("bi_head") . ": " .  &get_lang_string("bi_set_status") . "</div>\n";
 		if ($tmp_service eq "")
@@ -349,7 +359,8 @@
 		print " 		<input type=\"radio\" name=\"to\" value=\"UNKNOWN\"> UNKNOWN<br><br>\n";
 		print " 		<input type=\"submit\" value=\"OK\">\n";
 		print " 	</form>\n";
-		&printPageFoot("html");
+		print " 	</div>\n";
+		&printPageFoot("html", "no_version_no_timestamp");
 	}
 	else
 	{
@@ -442,7 +453,7 @@
 					}
 
 					print "	</div>\n";
-					&printPageFoot("html");
+					&printPageFoot("html", "no_version_no_timestamp");
 				}
 				else
 				{
@@ -586,7 +597,13 @@
 					# Display tree view in HTML (in every page below top level)
 	
 					&printPageHead("html");
-					print "		<div id=\"bpa_single_table_box\">\n";
+					print "		<div id=\'bpa_toplevel_box\'>\n";
+	
+					# right bar
+					displayRightBar();
+
+					print "		<div id=\"bpa_cental_table_box_tl_yes\">\n";
+
 					print "		<div class=\'statusTitle\'>";
 					if ($mode eq "act") { print &get_lang_string("status") . ": " .  &get_lang_string("details") }
 					elsif ($mode eq "bi") { print &get_lang_string("bi_head") . ": " .  &get_lang_string("details") }
@@ -674,7 +691,8 @@
 					print "				<span id=\'bpa_back_button\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;lang=$lang&amp;sessionid=$sessionid&amp;trafficlight=$trafficlight&amp;disprio=$display_prio\">[" .  &get_lang_string("back_to_top") . "]</a></span>\n";
 					print "			</div>\n";
 					print "		</div>\n";
-					&printPageFoot("html");
+					print "		</div>\n";
+					&printPageFoot("html", "no_version_no_timestamp");
 				}
 				else
 				{
@@ -784,7 +802,12 @@
 				# Display detail view in HTML (plain list without hierarchy)
 
 				&printPageHead("html");
-				print "		<div id=\"bpa_single_table_box\">\n";
+				print "		<div id=\'bpa_toplevel_box\'>\n";
+	
+				# right bar
+				displayRightBar();
+
+				print "		<div id=\"bpa_cental_table_box_tl_yes\">\n";
 				print "		<div class=\'statusTitle\'>";
 				if ($mode eq "act") { print &get_lang_string("status") . ": " .  &get_lang_string("details") }
 				elsif ($mode eq "bi") { print &get_lang_string("bi_head") . ": " .  &get_lang_string("details") }
@@ -855,7 +878,8 @@
 				print "				<span id=\'bpa_back_button\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;lang=$lang&amp;sessionid=$sessionid&amp;trafficlight=$trafficlight&amp;disprio=$display_prio\">[" .  &get_lang_string("back_to_top") . "]</a></span>\n";
 				print "			</div>\n";
 				print "		</div>\n";
-				&printPageFoot("html");
+				print "		</div>\n";
+				&printPageFoot("html", "no_version_no_timestamp");
 			}
 			else
 			{
