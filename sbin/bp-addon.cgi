@@ -71,9 +71,8 @@
 	# in this parameter you can give the name of a business process
 	# if set, print out tree view of this business process
         my $tree = $query->param("tree");
-	# with this parameter you decide, if you want to display the traffic light showing infos for each prio in total
+	# with this parameter you decide, in which way you want to display the traffic light showing infos for each prio in total
 	# my be "yes" display it together with the other view
-	# or "no" do not display
 	# or "only" display traffic light only
 	# or "short" display traffic light only without headline
         my $trafficlight = $query->param("trafficlight");
@@ -103,7 +102,7 @@
 
 #set defaults
 	if ($mode ne "bi") { $mode = "act" }
-	if ($trafficlight ne "yes" && $trafficlight ne "only" && $trafficlight ne "short") { $trafficlight = "no" }
+	if ($trafficlight ne "yes" && $trafficlight ne "only" && $trafficlight ne "short") { $trafficlight = "yes" }
 	if ($base ne "ok" && $base ne "" ) { $base = "act" }
 	if ($to ne "" && $to !~ m/^(OK|WARNING|CRITICAL|UNKNOWN)$/ ) { $to = "UNKNOWN" }
 	$set =~ s/(\/|\.\.|<|>)//g;
@@ -146,7 +145,7 @@
 		print "<p id=\'bpa_error_text\'>\n";
 		print &get_lang_string("error_wrong_parameter_conf_body", $nagios_bp_conf) . "\n";
 		print "</p>\n";
-		&printPageFoot("html");
+		&printPageFoot("html", "display_version_and_timestamp");
 		exit(0);
 	}
 
@@ -175,11 +174,12 @@
 
 	if ($RC != 0)
 	{
-		&printPageHead("html");
+		&printPageHead("html", "norefresh");
+		print "<div class=\'statusTitle\' id=\'bpa_error_head\'>" . &get_lang_string("error_nagios_not_running_head") . "</div>\n";
 		print "<p id=\'bpa_error_text\'>\n";
-		print &get_lang_string("error_nagios_not_running") . "\n";
+		print &get_lang_string("error_nagios_not_running_body") . "\n";
 		print "</p>\n";
-		&printPageFoot("html");
+		&printPageFoot("html", "display_version_and_timestamp");
 		exit(0);
 	}
 
@@ -229,6 +229,32 @@
 		}
 	}
 
+# in mode "bi" set the submitted state, if there is one
+	if ( $mode eq "bi" && $set ne "" && $to ne "" )
+	{
+		$set = $cgi_simple->url_decode($set);
+		#print "Content-Type: text/html\n\n";
+		#print "setting $set to $to<br><br>\n";
+		if ($set =~ m/;/)
+		{
+			$hardstates->{$set}=$to;
+			$statusinfos->{$set}=&get_lang_string("manually_set_to", $to);
+		}
+		else
+		{
+			foreach $key (sort keys %$hardstates)
+			{
+				if ($key =~ m/^$set;/)
+				{
+					$hardstates->{$key}=$to;
+					$statusinfos->{$key}=&get_lang_string("manually_set_to", $to);
+				}
+			}
+		}
+		&saveSession($sessionid);
+	}
+
+
 # process the given nagios_bp_conf file
 
 	($display, $display_status, $script_out, $info_url, $components) = &getBPs($nagios_bp_conf, $hardstates);
@@ -269,54 +295,33 @@
 	}
 
 
-# in mode "bi" set the submitted state, if there is one
-	if ( $mode eq "bi" && $set ne "" && $to ne "" )
-	{
-		$set = $cgi_simple->url_decode($set);
-		#print "Content-Type: text/html\n\n";
-		#print "setting $set to $to<br><br>\n";
-		if ($set =~ m/;/)
-		{
-			$hardstates->{$set}=$to;
-			$statusinfos->{$set}=&get_lang_string("manually_set_to", $to);
-		}
-		else
-		{
-			foreach $key (sort keys %$hardstates)
-			{
-				if ($key =~ m/^$set;/)
-				{
-					$hardstates->{$key}=$to;
-					$statusinfos->{$key}=&get_lang_string("manually_set_to", $to);
-				}
-			}
-		}
-		&saveSession($sessionid);
-	}
-
 # print out the results as an HTML page
 	if ( $mode eq "bi" && $base eq "" && $new_session == 1 )
 	{
 		# page: select starting point for business impact analysis
 
 		&printPageHead("html");
-		print "		<div class=\'statusTitle\' id=\'bpa_head_bi\'>". &get_lang_string("bi_head") ."</div>\n";
-		print " 	<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_explanation") . "</p>\n";
-		print " 	<p class=\'bpa_sub_head\'>" .  &get_lang_string("bi_start_session") . "</p>\n";
-		print " 	<span class=\'nbpText\'>" .  &get_lang_string("bi_select_starting_point") . "</span>\n";
-		print " 	<form action=\"$own_url\" method=\"get\" id=\'bpa_startingpoint_form_bi\'>\n";
-		print " 		<input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
-		print " 		<input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
-		print " 		<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
-		print " 		<input type=\"hidden\" name=\"sessionid\" value=\"$sessionid\">\n";
-		print " 		<input type=\"hidden\" name=\"trafficlight\" value=\"$trafficlight\">\n";
-		print " 		<input type=\"hidden\" name=\"disprio\" value=\"$display_prio\">\n";
-		print " 		<input type=\"radio\" name=\"base\" value=\"act\" checked=\"checked\"> " .  &get_lang_string("bi_actual_state") . "<br>\n";
-		print " 		<input type=\"radio\" name=\"base\" value=\"ok\"> " .  &get_lang_string("bi_all_set_to_ok") . "<br><br>\n";
-		print " 		<input type=\"submit\" value=\"OK\">\n";
-		print " 	</form>\n";
-		print " 	<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_hint_session_timeout") . "</p>\n";
-		&printPageFoot("html");
+		print "		<div id=\"bpa_single_table_box\">\n";
+		print "			<div class=\'statusTitle\' id=\'bpa_head_bi\'>". &get_lang_string("bi_head") ."</div>\n";
+		print " 		<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_explanation") . "</p>\n";
+		print " 		<p class=\'bpa_sub_head\'>" .  &get_lang_string("bi_start_session") . "</p>\n";
+		print " 		<span class=\'bpa_text\'>" .  &get_lang_string("bi_select_starting_point") . "</span>\n";
+		print "                 <form action=\"$own_url\" method=\"get\" id=\'bpa_startingpoint_form_bi\'>\n";
+		print "                     <div id=\"bpa_startingpoint_form_box\">\n";
+		print "                         <input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
+		print "                         <input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
+		print "                         <input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
+		print "                         <input type=\"hidden\" name=\"sessionid\" value=\"$sessionid\">\n";
+		print "                         <input type=\"hidden\" name=\"trafficlight\" value=\"$trafficlight\">\n";
+		print "                         <input type=\"hidden\" name=\"disprio\" value=\"$display_prio\">\n";
+		print "                         <input type=\"radio\" name=\"base\" value=\"act\" checked=\"checked\"> " .  &get_lang_string("bi_actual_state") . "<br>\n";
+		print "                         <input type=\"radio\" name=\"base\" value=\"ok\"> " .  &get_lang_string("bi_all_set_to_ok") . "<br><br>\n";
+		print "                         <input type=\"submit\" value=\"OK\">\n";
+		print "                     </div>\n";
+		print "                 </form>\n";
+		print " 		<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_hint_session_timeout") . "</p>\n";
+		print "		</div>\n";
+		&printPageFoot("html", "display_version_and_timestamp");
 		
 	}
 	elsif ( $mode eq "bi" && $set ne "" && $to eq "")
@@ -324,17 +329,26 @@
 		# page: set new state for host/service in business impact analysis
 
 		&printPageHead("html");
+
+		print "		<div id=\'bpa_toplevel_box\'>\n";
+	
+		# right bar
+		displayRightBar();
+
+		print "		<div id=\"bpa_cental_table_box_tl_yes\">\n";
+
 		($tmp_host, $tmp_service) = split(/;/, $set);
 		print "		<div class=\'statusTitle\' id=\'bpa_head_bi\'>" .  &get_lang_string("bi_head") . ": " .  &get_lang_string("bi_set_status") . "</div>\n";
 		if ($tmp_service eq "")
 		{
-			print " 	<span class=\'nbpText\'>" .  &get_lang_string("bi_set_host_status_to", $tmp_host) . "</span><br>\n";
+			print " 	<span class=\'bpa_text\'>" .  &get_lang_string("bi_set_host_status_to", $tmp_host) . "</span><br>\n";
 		}
 		else
 		{
-			print " 	<span class=\'nbpText\'>" .  &get_lang_string("bi_set_service_status_to", $tmp_service, $tmp_host) . "</span><br>\n";
+			print " 	<span class=\'bpa_text\'>" .  &get_lang_string("bi_set_service_status_to", $tmp_service, $tmp_host) . "</span><br>\n";
 		}
 		print " 	<form action=\"$own_url\" method=\"get\" id=\'bpa_select_state_form_bi\'>\n";
+		print "             <div id=\"bpa_select_state_form_box\">\n";
 		print " 		<input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
 		print " 		<input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
 		print " 		<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
@@ -349,8 +363,11 @@
 		print " 		<input type=\"radio\" name=\"to\" value=\"CRITICAL\"> CRITICAL<br>\n";
 		print " 		<input type=\"radio\" name=\"to\" value=\"UNKNOWN\"> UNKNOWN<br><br>\n";
 		print " 		<input type=\"submit\" value=\"OK\">\n";
+		print "             </div>\n";
 		print " 	</form>\n";
-		&printPageFoot("html");
+		print " 	</div>\n";
+		print " 	</div>\n";
+		&printPageFoot("html", "no_version_no_timestamp");
 	}
 	else
 	{
@@ -363,38 +380,13 @@
 					# Display the default view (overview page) in html
 
 					&printPageHead("html");
-					print "		<div id=\'nbpTopLevelBox\'>\n";
+					print "		<div id=\'bpa_toplevel_box\'>\n";
 	
-					if ( $trafficlight eq "yes" || $trafficlight eq "only" || $trafficlight eq "short")
+					if ( $trafficlight eq "yes")
 					{
-						# display the traffic light section
-						print "			<div id=\"bpa_trafficlight_${trafficlight}_box\">\n";
-						print "				<div class=\'statusTitle\' id=\'bpa_trafficlight_${trafficlight}_head\'>" .  &get_lang_string("short_summary_head") . "</div>\n";
-						print " 			    <table class=\'status\' id=\'bpa_trafficlight_${trafficlight}_table\'>\n";
-						print " 				<tr>\n";
-						print " 					<th class=\'status\'><a class=\'status\' href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=all\">" .  &get_lang_string("prio") . "</a></th>\n";
-						print " 					<th class=\'status\'>" .  &get_lang_string("status") . "</th>\n";
-						print " 				</tr>\n";
+						# right bar
+						displayRightBar();
 
-						for ($traffic_light_prio=1; $traffic_light_prio<=@defined_priorities; $traffic_light_prio++)
-						{
-							if (defined $defined_priorities[$traffic_light_prio])
-							{
-								if ($traffic_light_prio%2 == 0) { $rowclass = "statusEven" }
-								else { $rowclass = "statusOdd" }
-								print " 				<tr>\n";
-								print "						<td class=\'$rowclass\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=$traffic_light_prio\">" .  &get_lang_string("prio") . " $traffic_light_prio</a></td>\n";
-								print "						<td class=\'miniStatus" .$hardstates->{"__prio$traffic_light_prio"} . "\'>" .$hardstates->{"__prio$traffic_light_prio"} . "</td>\n";
-								print " 				</tr>\n";
-							}
-						}
-	
-						print " 			    </table>\n";
-						print " 			</div>\n";
-					}
-	
-					if ( $trafficlight eq "yes" || $trafficlight eq "no" )
-					{
 						# main tree view area
 						print "		<div id=\"bpa_cental_table_box_tl_${trafficlight}\">\n";
 						print "		<div class=\'statusTitle\' id=\'bpa_head_${mode}\'>";
@@ -434,6 +426,7 @@
 	
 						print "			</table>\n";
 
+
 						# buttons below main tree view table: prio selection
 						print "			<div id=\'bpa_button_bar\'>\n";
 						print "			<span id=\'bpa_prio_selection\'>\n";
@@ -443,7 +436,7 @@
 						}
 						else
 						{
-							print "			<span class=\"bpa_nobr\"><a href=\"$own_url?conf=$conf&amp;ode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight&amp;disprio=all\">[" .  &get_lang_string("all_prios") . "]</a></span>\n";
+							print "			<span class=\"bpa_nobr\"><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight&amp;disprio=all\">[" .  &get_lang_string("all_prios") . "]</a></span>\n";
 						}
 						for ($prio=1; $prio<@defined_priorities; $prio++)
 						{
@@ -461,24 +454,51 @@
 						}
 						print "			</span>\n";
 
-						# buttons below main tree view table to switch traffic light on/off
-						print "			<span id=\'bpa_trafficlight_switch\'>\n";
-						if ($trafficlight eq "yes")
-						{
-							print "			<span class=\"bpa_nobr\"><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=no&amp;disprio=$display_prio\">[" .  &get_lang_string("hide_trafficlight") . "]</a></span>\n";
-						}
-						else
-						{
-							print "			<span class=\"bpa_nobr\"><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=yes&amp;disprio=$display_prio\">[" .  &get_lang_string("show_trafficlight") . "]</a></span>\n";
-						}
-						print "			</span>\n";
 						print "			</div>\n";
 						print "		</div>\n";
 						print "		</div>\n";
 					}
 
+
+                                        if ( $trafficlight eq "only" || $trafficlight eq "short")
+                                        {
+                                                # display the traffic light section as "stand alone"
+                                                print "                 <div id=\"bpa_trafficlight_${trafficlight}_box\">\n";
+                                                print "                         <div class=\'statusTitle\' id=\'bpa_trafficlight_${trafficlight}_head\'>" .  &get_lang_string("short_summary_head") . "</div>\n";
+                                                print "                             <table class=\'status\' id=\'bpa_trafficlight_${trafficlight}_table\'>\n";
+                                                print "                                 <tr>\n";
+                                                print "                                         <th class=\'status\'><a class=\'status\' href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=all\">" .  &get_lang_string("prio") . "</a></th>\n";
+                                                print "                                         <th class=\'status\'>" .  &get_lang_string("status") . "</th>\n";
+                                                print "                                 </tr>\n";
+
+                                                for ($traffic_light_prio=1; $traffic_light_prio<=@defined_priorities; $traffic_light_prio++)
+                                                {
+                                                        if (defined $defined_priorities[$traffic_light_prio])
+                                                        {
+                                                                if ($traffic_light_prio%2 == 0) { $rowclass = "statusEven" }
+                                                                else { $rowclass = "statusOdd" }
+                                                                print "                                 <tr>\n";
+                                                                print "                                         <td class=\'$rowclass\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=$traffic_light_prio\">" .  &get_lang_string("prio") . " $traffic_light_prio</a></td>\n";
+                                                                print "                                         <td class=\'miniStatus" .$hardstates->{"__prio$traffic_light_prio"} . "\'>" .$hardstates->{"__prio$traffic_light_prio"} . "</td>\n";
+                                                                print "                                 </tr>\n";
+                                                        }
+                                                }
+
+                                                print "                             </table>\n";
+                                                print "                         </div>\n";
+                                        }
+
 					print "	</div>\n";
-					&printPageFoot("html");
+
+                                        if ( $trafficlight eq "yes" || $trafficlight eq "short")
+                                        {
+						&printPageFoot("html", "no_version_no_timestamp");
+					}
+					else
+                                        {
+						&printPageFoot("html", "display_version_and_timestamp");
+					}
+
 				}
 				else
 				{
@@ -613,7 +633,7 @@
 					print "<p id=\'bpa_error_text\'>\n";
 					print &get_lang_string("error_bp_not_existing_body", $tree) . "\n";
 					print "</p>\n";
-					&printPageFoot("html");
+					&printPageFoot("html", "display_version_and_timestamp");
 					exit(0);
 				}
 
@@ -622,7 +642,13 @@
 					# Display tree view in HTML (in every page below top level)
 	
 					&printPageHead("html");
-					print "		<div id=\"bpa_single_table_box\">\n";
+					print "		<div id=\'bpa_toplevel_box\'>\n";
+	
+					# right bar
+					displayRightBar();
+
+					print "		<div id=\"bpa_cental_table_box_tl_yes\">\n";
+
 					print "		<div class=\'statusTitle\'>";
 					if ($mode eq "act") { print &get_lang_string("status") . ": " .  &get_lang_string("details") }
 					elsif ($mode eq "bi") { print &get_lang_string("bi_head") . ": " .  &get_lang_string("details") }
@@ -665,7 +691,7 @@
 							$service_for_url =~ s/ /+/;
 							if ($mode eq "act")
 							{
-								print "				<td class=\'$rowclass\'><a href=\"$settings->{'NAGIOS_CGI_URL'}/extinfo.cgi?type=1&amp;host=$host\">$host</a></td>\n";
+							print "				<td class=\'$rowclass\'><a href=\"$settings->{'NAGIOS_CGI_URL'}/extinfo.cgi?type=1&amp;host=$host\">$host</a></td>\n";
 								if ($service eq "Hoststatus")
 								{
 									print "				<td class=\'$rowclass\'><a href=\"$settings->{'NAGIOS_CGI_URL'}/extinfo.cgi?type=1&amp;host=$host\">$service</a></td>\n";
@@ -710,7 +736,8 @@
 					print "				<span id=\'bpa_back_button\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;lang=$lang&amp;sessionid=$sessionid&amp;trafficlight=$trafficlight&amp;disprio=$display_prio\">[" .  &get_lang_string("back_to_top") . "]</a></span>\n";
 					print "			</div>\n";
 					print "		</div>\n";
-					&printPageFoot("html");
+					print "		</div>\n";
+					&printPageFoot("html", "no_version_no_timestamp");
 				}
 				else
 				{
@@ -811,7 +838,7 @@
 				print "<p id=\'bpa_error_text\'>\n";
 				print &get_lang_string("error_bp_not_existing_body", $detail) . "\n";
 				print "</p>\n";
-				&printPageFoot("html");
+				&printPageFoot("html", "display_version_and_timestamp");
 				exit(0);
 			}
 
@@ -820,7 +847,12 @@
 				# Display detail view in HTML (plain list without hierarchy)
 
 				&printPageHead("html");
-				print "		<div id=\"bpa_single_table_box\">\n";
+				print "		<div id=\'bpa_toplevel_box\'>\n";
+	
+				# right bar
+				displayRightBar();
+
+				print "		<div id=\"bpa_cental_table_box_tl_yes\">\n";
 				print "		<div class=\'statusTitle\'>";
 				if ($mode eq "act") { print &get_lang_string("status") . ": " .  &get_lang_string("details") }
 				elsif ($mode eq "bi") { print &get_lang_string("bi_head") . ": " .  &get_lang_string("details") }
@@ -891,7 +923,8 @@
 				print "				<span id=\'bpa_back_button\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;lang=$lang&amp;sessionid=$sessionid&amp;trafficlight=$trafficlight&amp;disprio=$display_prio\">[" .  &get_lang_string("back_to_top") . "]</a></span>\n";
 				print "			</div>\n";
 				print "		</div>\n";
-				&printPageFoot("html");
+				print "		</div>\n";
+				&printPageFoot("html", "no_version_no_timestamp");
 			}
 			else
 			{
@@ -972,8 +1005,9 @@
 
 
 
-
+#############################################################################
 sub printPageHead()
+#############################################################################
 {
 	# as first parameter "pagetype" we get the string "html" or "json"
 	# this is used to display errors in HTML even if the requested output type is JSON
@@ -1035,21 +1069,27 @@ sub printPageHead()
 	}
 }
 
+#############################################################################
 sub printPageFoot()
+#############################################################################
 {
 	# as first parameter "pagetype" we get the string "error" if an error page should be displayed
 	# this is used to display errors in HTML even if the requested output type is JSON
 	my $pagetype = shift || "html";
+	
+	# as second parameter we expect the string "display_version_and_timestamp"
+	# if version info and creation timestamp should be displayed in the footer
+	my $display_version_and_timestamp = shift;
 
 	if ( $pagetype eq "html" )
 	{
-		if ($trafficlight ne "short")
+		if ($display_version_and_timestamp eq "display_version_and_timestamp" || $display_version_and_timestamp eq "yes")
 		{
 			$languages = &getAvaiableLanguages();
 			print "			<div id=\"bpa_foot\">\n";
 			print "				<div id=\'bpa_foot_version\'>\n";
 			print "					" . &get_lang_string("last_updated") . ": $timestamp<br>\n";
-			print "					Nagios Business Process AddOn, " . &get_lang_string("version") . " " . &getVersion . "\n";
+			print "					Business Process AddOn, " . &get_lang_string("version") . " " . &getVersion . "\n";
 			print "				</div>\n";
 			print "				<div id=\'bpa_foot_language\'>\n";
 			print "				" . &get_lang_string("language") . ":\n";
@@ -1071,7 +1111,9 @@ sub printPageFoot()
 	}
 }
 
+#############################################################################
 sub displayPrio()
+#############################################################################
 {
 	my $prio = shift;
 
@@ -1116,7 +1158,63 @@ sub displayPrio()
 	print " 			</tr>\n";
 }
 
+#############################################################################
+sub displayRightBar()
+#############################################################################
+{
+	# display the right bar
+	print "			<div id=\"bpa_right_bar\">\n";
+	print "			<a href=\"http://bp-addon.monitoringexchange.org\"><img class=\"bpa_logo\" src=\"$settings->{'BP_ADDON_HTML_URL'}/bp-logo_150.png\" height=\"109\" width=\"150\" alt=\"Business Process AddOn for Nagios and Icinga\" title=\"Business Process AddOn for Nagios and Icinga\"></a>\n";
+	print "				<div class=\'statusTitle\' id=\'bpa_trafficlight_${trafficlight}_head\'>" .  &get_lang_string("short_summary_head") . "</div>\n";
+	print " 			    <table class=\'status\' id=\'bpa_trafficlight_${trafficlight}_table\'>\n";
+	print " 				<tr>\n";
+	print " 					<th class=\'status\'><a class=\'status\' href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=all\">" .  &get_lang_string("prio") . "</a></th>\n";
+	print " 					<th class=\'status\'>" .  &get_lang_string("status") . "</th>\n";
+	print " 				</tr>\n";
+
+	for ($traffic_light_prio=1; $traffic_light_prio<=@defined_priorities; $traffic_light_prio++)
+	{
+		if (defined $defined_priorities[$traffic_light_prio])
+		{
+			if ($traffic_light_prio%2 == 0) { $rowclass = "statusEven" }
+			else { $rowclass = "statusOdd" }
+			print " 				<tr>\n";
+			print "						<td class=\'$rowclass\'><a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;sessionid=$sessionid&amp;lang=$lang&amp;trafficlight=$trafficlight_linkmap{$trafficlight}&amp;disprio=$traffic_light_prio\">" .  &get_lang_string("prio") . " $traffic_light_prio</a></td>\n";
+			print "						<td class=\'miniStatus" .$hardstates->{"__prio$traffic_light_prio"} . "\'>" .$hardstates->{"__prio$traffic_light_prio"} . "</td>\n";
+			print " 				</tr>\n";
+		}
+	}
+	print " 			    </table>\n";
+
+	# language selection in right bar
+	$languages = &getAvaiableLanguages();
+	print "				<div id=\'bpa_language\'>\n";
+	print "				" . &get_lang_string("language") . ":\n";
+	foreach $i (@$languages)
+	{
+		print "				<a href=\"$own_url?detail=$detail&amp;tree=$tree&amp;lang=$i&amp;conf=$conf&amp;mode=$mode&amp;trafficlight=$trafficlight&amp;disprio=$display_prio";
+		# special handling for startpage BI
+		if ( $new_session != 1)
+		{
+			print "&amp;sessionid=$sessionid";
+		}
+		print "\">$i</a>\n";
+	}
+	print "				</div>\n";
+
+	# page creation timestamp
+	print "				<div id=\'bpa_last_updated\'>" . &get_lang_string("last_updated") . ":<br> $timestamp<br></div>\n";
+
+	# version in right bar
+	print "				<div id=\'bpa_version\'>Business Process AddOn, <br>" . &get_lang_string("version") . " " . &getVersion . "</div>\n";
+
+	# end bpa_right_bar
+	print " 			</div>\n";
+}
+
+#############################################################################
 sub loadSession()
+#############################################################################
 {
 	my $session_file = shift;
 	$session_file = "$session_dir/$session_file";
@@ -1131,7 +1229,7 @@ sub loadSession()
 		print "<div id=\'bpa_button_bar\'>\n";
 		print "	<a href=\"$own_url?conf=$conf&amp;mode=$mode&amp;lang=$lang&amp;trafficlight=$trafficlight&amp;disprio=$display_prio\">[" .  &get_lang_string("bi_start_session") . "]</a>\n";
 		print "</div>\n";
-		&printPageFoot();
+		&printPageFoot("html", "display_version_and_timestamp");
 	}
 
 	open(IN, "<$session_file") or die "unable to read session information from $session_file\n";
@@ -1146,7 +1244,9 @@ sub loadSession()
 	close(IN);
 }
 
+#############################################################################
 sub saveSession()
+#############################################################################
 {
 	my $session_file = shift;
 	$session_file = "$session_dir/$session_file";
@@ -1160,7 +1260,9 @@ sub saveSession()
 	close(OUT);
 }
 
+#############################################################################
 sub getPriorityDescriptions()
+#############################################################################
 {
 	my @requested_prios = @_;
 	my %prio_def;

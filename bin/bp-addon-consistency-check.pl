@@ -141,11 +141,11 @@ if ($rc == 0)
 }
 elsif ($undef_count > 0)
 {
-	print "\n     Please note: You must define a host or service in nagios first of all,\n";
-	print "     than You have to reload nagios, wait a minute and after this, You can use it\n";
-	print "     in a Business Process.\n";
-	print "     (The Nagios reload makes sure new defined services and hosts are known in\n";
-	print "     NDO from where they are used by Business Processes.)\n\n";
+	print "\n     Please note: You must define a host or service in Nagios or Icinga first of\n";
+	print "     all, than You have to reload Nagios/Icinga, wait a minute and after this,\n";
+	print "     You can use it in a Business Process.\n";
+	print "     (The reload of Nagios or Icinga makes sure new defined services and hosts are\n";
+	print "     known in the data backend from where they are used by Business Processes.)\n\n";
 }
 
 #printHash($hardstates);

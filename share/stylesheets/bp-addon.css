@@ -13,6 +13,10 @@ A.status {
 	font-size:60%; 
 }
 
+.bpa_text { 
+	padding-left:0.5em;
+}
+
 .bpa_central_table_spacer { 
 	height:3em; 
 }
@@ -36,8 +40,17 @@ A.status {
 	border:0;
 }
 
+.bpa_logo {
+	margin-bottom:1em; 
+	border:0; 
+}
+
+#bpa_trafficlight_yes_table {
+	margin:auto; 
+	margin-bottom:4em; 
+}
+
 #bpa_central_table, 
-#bpa_trafficlight_yes_table, 
 #bpa_trafficlight_no_table,
 #bpa_trafficlight_only_table, 
 #bpa_wu_service_table, 
@@ -55,20 +68,51 @@ A.status {
 }
 
 #bpa_trafficlight_yes_box { 
-	float:left; 
+	float:right; 
 	margin:0; 
 	padding:0; 
-	width:8em; 
+	width:150px; 
+}
+
+#bpa_trafficlight_only_box {
+	padding-top:1em;
+}
+
+#bpa_right_bar { 
+	float:right; 
+	margin:0; 
+	padding:0; 
+	width:150px; 
+	border-left: 5px solid #C4C2C2;
+}
+
+#bpa_body_act { 
+	margin:0; 
+	padding:0; 
+}
+
+#bpa_toplevel_box { 
+	margin:0; 
+	padding:0; 
 }
 
 #bpa_body_short { 
 	background-color:black; 
 }
 
-#bpa_body_bi,  
+#bpa_body_bi { 
+	margin:0; 
+	padding:0; 
+	background-color:#FFFFCC; 
+}
+
 #bpa_body_bi table,  
 #bpa_body_bi td.status { 
 	background-color:#FFFFCC; 
+}
+
+#bpa_error_head { 
+	padding-top:1em;
 }
 
 #bpa_error_text { 
@@ -78,18 +122,23 @@ A.status {
 #bpa_startingpoint_form_bi, 
 #bpa_select_state_form_bi { 
 	border-top:0.3em solid transparent; 
+	padding-left:0.5em;
 }
 
 #bpa_cental_table_box_tl_yes { 
 	margin:0; 
-	margin-left:9em; 
+	margin-right:150px; 
 	padding:0; 
+	padding-top:1em;
+	border-right: 5px solid #C4C2C2;
 }
 
 #bpa_single_table_box,
 #bpa_cental_table_box_tl_no { 
 	margin:0; 
 	padding:0; 
+	padding-top:1em;
+	padding-left:0.5em;
 }
 
 #bpa_table_tree, 
@@ -99,7 +148,8 @@ A.status {
 }
 
 #bpa_button_bar { 
-	margin-top:2em; 
+	margin-top:1em; 
+	padding-bottom:1em; 
 	text-align:center; 
 }
 
@@ -108,10 +158,21 @@ A.status {
 	text-align:center; 
 }
 
-#bpa_foot, 
+#bpa_foot {
+	margin:2em 0.5em 0 0.5em; 
+}
+
 #bpa_wu_service_head, 
 #bpa_wu_host_head { 
 	margin-top:2em; 
+}
+
+#bpa_version,
+#bpa_last_updated,
+#bpa_language { 
+	font-size:75%; 
+	margin-bottom:2em;
+	padding-left:0.5em;
 }
 
 #bpa_foot_version { 
@@ -124,10 +185,10 @@ A.status {
 	font-size:75%; 
 }
 
-#bpa_head_bi, 
-#bpa_head_act, 
+#bpa_head_act,
+#bpa_head_bi,
 #bpa_head_wu { 
-	margin-bottom:2em; 
+	padding-bottom:2em; 
 }
 
 #bpa_curly_brace {
