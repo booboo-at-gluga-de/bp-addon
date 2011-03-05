@@ -47,7 +47,6 @@ tree_view=Tree view
 info=Info
 language=Language
 
-error_nagios_not_running=<h1>Error</h1><h2>Nagios is not running on this machine at the moment!</h2>
 error_wrong_parameter_conf_head=Parameter "conf" invalid.
 error_wrong_parameter_conf_body=The Parameter "conf" is probably invalid.<br>__var1__ is not a regular file or file is not readable.<br>
 error_not_existing_session_head=Invalid Session
@@ -70,3 +69,10 @@ error_wrong_parameter_host_body=The parameter "host" is missing and also could n
 last_updated=This page was last updated
 error_bp_not_existing=Business Process not defined
 error_bp_not_existing_body=A Business Process "__var1__" is not defined.
+
+# new in 0.9.7
+error_nagios_not_running_head=Error
+error_nagios_not_running_body=Nagios/Icinga is not running on this machine at the moment!
+
+# deleted in 0.9.7
+#error_nagios_not_running=<h1>Error</h1><h2>Nagios is not running on this machine at the moment!</h2>

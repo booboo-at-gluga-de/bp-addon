@@ -174,9 +174,10 @@
 
 	if ($RC != 0)
 	{
-		&printPageHead("html");
+		&printPageHead("html", "norefresh");
+		print "<div class=\'statusTitle\' id=\'bpa_error_head\'>" . &get_lang_string("error_nagios_not_running_head") . "</div>\n";
 		print "<p id=\'bpa_error_text\'>\n";
-		print &get_lang_string("error_nagios_not_running") . "\n";
+		print &get_lang_string("error_nagios_not_running_body") . "\n";
 		print "</p>\n";
 		&printPageFoot("html", "display_version_and_timestamp");
 		exit(0);
@@ -305,17 +306,19 @@
 		print " 		<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_explanation") . "</p>\n";
 		print " 		<p class=\'bpa_sub_head\'>" .  &get_lang_string("bi_start_session") . "</p>\n";
 		print " 		<span class=\'bpa_text\'>" .  &get_lang_string("bi_select_starting_point") . "</span>\n";
-		print " 		<form action=\"$own_url\" method=\"get\" id=\'bpa_startingpoint_form_bi\'>\n";
-		print "		 		<input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
-		print " 			<input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
-		print " 			<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
-		print " 			<input type=\"hidden\" name=\"sessionid\" value=\"$sessionid\">\n";
-		print " 			<input type=\"hidden\" name=\"trafficlight\" value=\"$trafficlight\">\n";
-		print " 			<input type=\"hidden\" name=\"disprio\" value=\"$display_prio\">\n";
-		print " 			<input type=\"radio\" name=\"base\" value=\"act\" checked=\"checked\"> " .  &get_lang_string("bi_actual_state") . "<br>\n";
-		print " 			<input type=\"radio\" name=\"base\" value=\"ok\"> " .  &get_lang_string("bi_all_set_to_ok") . "<br><br>\n";
-		print " 			<input type=\"submit\" value=\"OK\">\n";
-		print " 		</form>\n";
+		print "                 <form action=\"$own_url\" method=\"get\" id=\'bpa_startingpoint_form_bi\'>\n";
+		print "                     <div id=\"bpa_startingpoint_form_box\">\n";
+		print "                         <input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
+		print "                         <input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
+		print "                         <input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
+		print "                         <input type=\"hidden\" name=\"sessionid\" value=\"$sessionid\">\n";
+		print "                         <input type=\"hidden\" name=\"trafficlight\" value=\"$trafficlight\">\n";
+		print "                         <input type=\"hidden\" name=\"disprio\" value=\"$display_prio\">\n";
+		print "                         <input type=\"radio\" name=\"base\" value=\"act\" checked=\"checked\"> " .  &get_lang_string("bi_actual_state") . "<br>\n";
+		print "                         <input type=\"radio\" name=\"base\" value=\"ok\"> " .  &get_lang_string("bi_all_set_to_ok") . "<br><br>\n";
+		print "                         <input type=\"submit\" value=\"OK\">\n";
+		print "                     </div>\n";
+		print "                 </form>\n";
 		print " 		<p class=\'bpa_text_small\'>" .  &get_lang_string("bi_hint_session_timeout") . "</p>\n";
 		print "		</div>\n";
 		&printPageFoot("html", "display_version_and_timestamp");
@@ -345,6 +348,7 @@
 			print " 	<span class=\'bpa_text\'>" .  &get_lang_string("bi_set_service_status_to", $tmp_service, $tmp_host) . "</span><br>\n";
 		}
 		print " 	<form action=\"$own_url\" method=\"get\" id=\'bpa_select_state_form_bi\'>\n";
+		print "             <div id=\"bpa_select_state_form_box\">\n";
 		print " 		<input type=\"hidden\" name=\"conf\" value=\"$conf\">\n";
 		print " 		<input type=\"hidden\" name=\"mode\" value=\"$mode\">\n";
 		print " 		<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
@@ -359,7 +363,9 @@
 		print " 		<input type=\"radio\" name=\"to\" value=\"CRITICAL\"> CRITICAL<br>\n";
 		print " 		<input type=\"radio\" name=\"to\" value=\"UNKNOWN\"> UNKNOWN<br><br>\n";
 		print " 		<input type=\"submit\" value=\"OK\">\n";
+		print "             </div>\n";
 		print " 	</form>\n";
+		print " 	</div>\n";
 		print " 	</div>\n";
 		&printPageFoot("html", "no_version_no_timestamp");
 	}
