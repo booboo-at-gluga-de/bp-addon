@@ -1,14 +1,14 @@
-Business Process AddOns: JSON-API
-=================================
+Business Process AddOn: JSON-API
+================================
 
 
-Starting with version 0.9.6 the Business Process AddOns for Nagios and Icinga have 
+Starting with version 0.9.6 the Business Process AddOn for Nagios and Icinga has
 got a JSON-API. This means You can query state information of business processes 
-from the Business Process AddOns in JSON format to use the results e. g. in 
+from the Business Process AddOn in JSON format to use the results e. g. in 
 Your own scripts or for building up Your own GUI.
 
 You can get any information about any business processes also by querying the
-API. That means: Any information available in the Business Process AddOns 
+API. That means: Any information available in the Business Process AddOn 
 can be requested by API too.
 This document describes this API.
 
@@ -20,10 +20,10 @@ Calling the API
 ===============
 
 There are two ways:
-1. Call a local script on the machine Business Process AddOns are running at, 
+1. Call a local script on the machine Business Process AddOn is running at, 
    e. g. 
 	sbin/bp-addon.cgi outformat=json
-   (within Business Process AddOns' install path)
+   (within Business Process AddOn's install path)
 
 2. Call the script remote by HTTP(S):
 	http://nagioshost.example.com/bp-addon/cgi-bin/bp-addon.cgi?outformat=json

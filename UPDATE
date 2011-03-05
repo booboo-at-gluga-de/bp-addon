@@ -9,7 +9,7 @@ Updating from version 0.9.0 or 0.9.1
 You should install into the new default path (/usr/local/bp-addon) and 
 URL (http://yourhost.example.com/bp-addon/...)
 Please note that You have different URLs and a new local path to 
-Business Process AddOns' files afterwards.
+Business Process AddOn's files afterwards.
 
 Do the following steps:
 
@@ -69,7 +69,7 @@ Afterwards You take over the values You did define in ndo_db_readonly.cfg
 into dataBackend.cfg. 
 
 If You are updating from version 0.9.0 and Your NDO database is running on 
-another host than the Business Process AddOns, You might want to completely
+another host than the Business Process AddOn, You might want to completely
 reconfigure Your values in the new dataBackend.cfg, because it's more easy now 
 to configure a different host and port for the database.
 
@@ -77,7 +77,7 @@ The files *-sample in bp-addon/etc can be removed.
 
 The symlinks You added to Your system's perl INC path pointing to *.pm files
 in /usr/local/nagios-ext/sbin/ should be removed. They are not needed any 
-longer (Business Process AddOns use local libs now only).
+longer (Business Process AddOn use local libs now only).
 If You are unsure, which directories are in the INC path, type
                 perl -e 'print join("\n", @INC) . "\n"'
 
@@ -92,7 +92,7 @@ Updating from version 0.9.2, 0.9.3, 0.9.4, 0.9.5 or 0.9.6
 You should install into the new default path (/usr/local/bp-addon) and 
 URL (http://yourhost.example.com/bp-addon/...)
 Please note that You have different URLs and a new local path to 
-Business Process AddOns' files afterwards.
+Business Process AddOn's files afterwards.
 
 You can install the new version completely parallel to the old version because
 it uses a new path (bp-addon). So You do an normal installation first, see 

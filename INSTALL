@@ -1,8 +1,8 @@
-Business Process AddOns for Nagios and Icinga
----------------------------------------------
+Business Process AddOn for Nagios and Icinga
+--------------------------------------------
 
 This document decribes, how to install.
-If You are new to these AddOns make sure You read README before.
+If You are new to these AddOn make sure You read README before.
 
 Requirements
 ------------
@@ -106,7 +106,7 @@ you can call configure with different parameters, see
 for details.
 At the end, all important parameters are listed. If they are ok, type
 		make install
-to install the Business Process AddOns.
+to install the Business Process AddOn.
 		
 
 Apache needs to know about the new files. Therefore a file bp-addon.conf
@@ -127,7 +127,7 @@ make sure they are exactly the same as in Nagios' or Icingas Apache
 config file (conf.d/nagios.conf or conf.d/icinga.conf)
 Otherwise in the web GUI you are prompte twice for Your username and 
 password. Once when accessing a page of Nagios or Icinga and once when
-accessing a page of the Business Process AddOns.
+accessing a page of the Business Process AddOn.
 
 You can give the correct AuthName when calling configure by giving the 
 additional parameter --with-apache-authname or by editing the file
@@ -141,7 +141,8 @@ Apache.
 For Business Impact Analysis, a cron job has been created for You, 
 that throws away old session files. It is normally located in /etc/cron.d
 
-In Nagios or Icinga You need some links so that You can use the 2 AddOns
+In Nagios or Icinga You need some links so that You can use the 2 
+views of the AddOn
 
 If using Nagios edit /usr/local/nagios/share/side.html
 		e. g. after this section
@@ -167,7 +168,7 @@ If using Icinga with the classic web GUI edit
                         <li class="menuli_style2"><a href="/bp-addon/cgi-bin/bp-addon.cgi" target="main">Business Process View</a></li>
                         <li class="menuli_style1"><a href="/bp-addon/cgi-bin/bp-addon.cgi?mode=bi" target="main">Business Impact</a></li>
 
-As Nagios Business Process AddOns use the stylesheets of Nagios or Icinga
+As Nagios Business Process AddOn uses the stylesheets of Nagios or Icinga
 the web GUI has the look and feel of Nagios when installed with Nagios
 and the look and feel of Icinga when installed with Icinga.
 In very little details they differ. So when using Icinga with the classic 
@@ -201,7 +202,7 @@ webserver is running under has read access to the unix socket which has
 been created by mk_livestatus (by default: /usr/local/nagios/var/rw/live)
 
 When using the Icinga-API as backend, please note: 
-The cooperation of Icinga-API and Business Process AddOns is not 
+The cooperation of Icinga-API and Business Process AddOn is not 
 yet in use in a large number of setups in production. Also this one is the
 backend with the most overhead (an additional layer of HTTP and additional
 PHP scripts are used to get data). Therefor the performance is not as good

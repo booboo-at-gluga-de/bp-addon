@@ -1,5 +1,5 @@
-Business Process AddOns for Nagios and Icinga
----------------------------------------------
+Business Process AddOn for Nagios and Icinga
+--------------------------------------------
 
 The software and documents in this package have been produced by 
 Sparda-Datenverarbeitung eG, Nuernberg, Germany, Bernd Stroessenreuther 
@@ -27,7 +27,7 @@ this would impact Your applications.
 Help
 ----
 
-If You have problems installing or using this AddOns, please visit the
+If You have problems installing or using this AddOn, please visit the
 Support page on our homepage:
 http://bp-addon.monitoringexchange.org/support.shtml
 Here You find a FAQ and some helpful mailinglists.
@@ -64,7 +64,7 @@ together. If one ore more components fail, You want to see on one single
 page, which applications are unavailable for Your customers - in this case:
 Install this AddOn.
 
-It has two modes:
+It has two views:
 1. Business Process View
    it shows the actual state of Your applications
 2. Business Impact Analysis
@@ -329,7 +329,7 @@ The script can be found under
 		bin/bp-cfg2service-cfg.pl
 Running this script should produce a new file
 		services-bp.cfg
-in the etc directory of NAGIOS/ICINGA (not etc of Business Process AddOns)
+in the etc directory of NAGIOS/ICINGA (not etc of Business Process AddOn)
 Do not make any manual changes to this file! If You change Your business 
 processes later You just run this script again. This produces an actual
 services-bp.cfg but would overwrite any changes You made there.

@@ -1,7 +1,7 @@
 version 0.9.7
 -------------
 	Renaming of the project (Issue 2010-017): The official project name is now
-		Business Process AddOns for Nagios and Icinga
+		Business Process AddOn for Nagios and Icinga
 		up to 0.9.6 it was
 		Nagios Business Process AddOns
 		within this step, many files and directories got new names
