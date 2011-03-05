@@ -61,7 +61,7 @@
         my $query = new CGI;                    #Instance of CGI module
 	my %trafficlight_linkmap = ( "yes" => "yes", "no" => "no", "short" => "no", "only" => "yes" );
 
-	my ($in, $i, $j, $its_in, $key, @fields_state, $hardstates, $statusinfos, $rowclass, $components, $display, $display_status, @services, @aggregations, $aggregation, $host, $service, $service_for_url, $operator, $title, $prev_host, $script_out, $info_url, %dbparam, $param, $value, $dbh, $sql, $sth , $min_ok, $tmp_host, $tmp_service, $traffic_light_prio, $db_prefix, $RC, $nagios_check_cmd, $language, $languages, @defined_priorities, @used_priorities, $prio, %json, %json_data, $json_coder, @localtime, $timestamp);
+	my ($in, $i, $j, $its_in, $key, @fields_state, $hardstates, $statusinfos, $rowclass, $components, $display, $display_status, @services, @aggregations, $aggregation, $host, $service, $service_for_url, $operator, $title, $prev_host, $script_out, $info_url, %dbparam, $param, $value, $dbh, $sql, $sth , $min_ok, $tmp_host, $tmp_service, $traffic_light_prio, $db_prefix, $RC, $nagios_check_cmd, $language, $languages, @defined_priorities, @used_priorities, $prio, %json, %json_data, $json_coder, $timestamp);
 
 
 #query parameters
@@ -113,15 +113,7 @@
 	$nagios_bp_conf .= $conf . ".conf";
 	if ($display_prio !~ m/^[0-9]+$/ ) { $display_prio = "all" }
 	if ($output_format ne "json" ) { $output_format = "html" }
-
-	@localtime = localtime(time);
-	$localtime[0] = sprintf("%02d", $localtime[0]);
-	$localtime[1] = sprintf("%02d", $localtime[1]);
-	$localtime[2] = sprintf("%02d", $localtime[2]);
-	$localtime[3] = sprintf("%02d", $localtime[3]);
-	$localtime[4] = sprintf("%02d", ++$localtime[4]);
-	$localtime[5] += 1900;
-	$timestamp = "$localtime[5]-$localtime[4]-$localtime[3] $localtime[2]:$localtime[1]:$localtime[0]";
+	$timestamp = getCurrentTimestamp();
 
 
 #load korrekt i18n language file

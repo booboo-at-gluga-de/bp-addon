@@ -134,6 +134,10 @@
 
 # generate output page
 	&printPageHead();
+	print "         <div id=\'bpa_toplevel_box\'>\n";
+	# right bar
+	displayRightBar();
+	print "         <div id=\"bpa_cental_table_box_tl_yes\">\n";
 	print "		<div class=\'statusTitle\' id=\'bpa_head_wu\'>" . &get_lang_string("where_used_body") . "</div>\n";
 
 	($hardstates, $statusinfos) = &getStates();
@@ -148,12 +152,16 @@
 		output("$host;$service", &get_lang_string("service_on_host", $service, $host), "service");
 		output("$host;.+", &get_lang_string("host") . " \"$host\"", "host");
 	}
+	print "		</div>\n";
+	print "		</div>\n";
 	&printPageFoot();
 
 
 # subroutines
 
+#############################################################################
 sub output()
+#############################################################################
 {
 	my $searchfor = shift;
 	my $display_string = shift;
@@ -231,45 +239,9 @@ sub output()
 	}
 }
 
-#sub printBPs()
-#{
-#	my $search = shift;
-#	my $i;
-#
-#	print "DEBUG: search $search\n";
-#
-#	&listAllComponentsOf("website", $components);
-#	foreach $key (keys %$display)
-#	{
-		#print "DEBUG3: key $key\n";
-		#&listAllComponentsOf($key, $components);
-		#$components->{$key} =~ s/\s*\d+\s+of:\s*//;
-		#@component_list = split(/\s*&|\||\+\s*/, $components->{$key});
-		#for ($i=0; $i<@component_list; $i++)
-		#{
-		#	$component_list[$i] = &cutOffSpaces($component_list[$i]);
-		#	print "DEBUG4:     component_list \"$component_list[$i]\"\n";
-		#}
-		#@match = grep(/^$search$/, @component_list);
-		#printArray(\@match);
-		#if (@match > 0)
-		#{
-		#	if ($display_status->{$key} == 0)
-		#	{
-		#		#print "\nDEBUG: putting on stack: $key<br>\n";
-		#		push(@object_stack, $key)
-		#	}
-		#	else
-		#	{
-		#		push(@resultset, $key);
-		#		#print "\nDEBUG: $key (prio " . $display_status->{$key} . ")<br>\n";
-		#		#printArray(\@match);
-		#	}
-		#}
-#	}
-#}
-
+#############################################################################
 sub printPageHead()
+#############################################################################
 {
         print $query->header;
 	print '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">' . "\n";
@@ -284,20 +256,41 @@ sub printPageHead()
         print " <body class=\'status\' id=\'bpa_body_wu\'>\n";
 }
 
+#############################################################################
 sub printPageFoot()
+#############################################################################
 {
-	my $languages = &getAvaiableLanguages();
-        print "                 <div id=\"bpa_foot\">\n";
-        print "                         <div id=\'bpa_foot_version\'>Nagios Business Process AddOn, " . &get_lang_string("version") . " " . &getVersion . "</div>\n";
-        print "                         <div id=\'bpa_foot_language\'>\n";
-        print "                         " . &get_lang_string("language") . ":\n";
-        foreach $i (@$languages)
-        {
-		print "				<a href=\"$own_url?host=$host&amp;service=$service&amp;lang=$i&amp;conf=$conf\">$i</a> \n";
-        }
-        print "                         </div>\n";
-        print "                 </div>\n";
         print " </body>\n";
         print "</html>\n";
 }
 
+
+#############################################################################
+sub displayRightBar()
+#############################################################################
+{
+	# display the right bar
+	my $languages = &getAvaiableLanguages();
+	my $timestamp = getCurrentTimestamp();
+
+	print "			<div id=\"bpa_right_bar\">\n";
+	print "			<a href=\"http://bp-addon.monitoringexchange.org\"><img class=\"bpa_logo\" src=\"$settings->{'BP_ADDON_HTML_URL'}/bp-logo_150.png\" height=\"109\" width=\"150\" alt=\"Business Process AddOn for Nagios and Icinga\" title=\"Business Process AddOn for Nagios and Icinga\"></a>\n";
+
+	# language selection in right bar
+	print "				<div id=\'bpa_language\'>\n";
+	print "				" . &get_lang_string("language") . ":\n";
+        foreach $i (@$languages)
+        {
+		print "				<a href=\"$own_url?host=$host&amp;service=$service&amp;lang=$i&amp;conf=$conf\">$i</a> \n";
+        }
+	print "				</div>\n";
+
+	# page creation timestamp
+	print "				<div id=\'bpa_last_updated\'>" . &get_lang_string("last_updated") . ":<br> $timestamp<br></div>\n";
+
+	# version in right bar
+	print "				<div id=\'bpa_version\'>Business Process AddOn, <br>" . &get_lang_string("version") . " " . &getVersion . "</div>\n";
+
+	# end bpa_right_bar
+	print " 			</div>\n";
+}

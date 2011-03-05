@@ -28,7 +28,7 @@ use settings;
 our $settings = getSettings();
 our %i18n;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(getBPs read_language_file get_lang_string getAvaiableLanguages and listAllComponentsOf);
+our @EXPORT = qw(getBPs read_language_file get_lang_string getAvaiableLanguages and listAllComponentsOf getCurrentTimestamp);
 
 
 #parse business-processes.conf (our own config file)
@@ -429,6 +429,19 @@ sub listAllComponentsOf()
 	#}
 	
 	return(keys %result_list);
+}
+
+sub getCurrentTimestamp()
+{
+	my @localtime = localtime(time);
+	$localtime[0] = sprintf("%02d", $localtime[0]);
+	$localtime[1] = sprintf("%02d", $localtime[1]);
+	$localtime[2] = sprintf("%02d", $localtime[2]);
+	$localtime[3] = sprintf("%02d", $localtime[3]);
+	$localtime[4] = sprintf("%02d", ++$localtime[4]);
+	$localtime[5] += 1900;
+
+	return("$localtime[5]-$localtime[4]-$localtime[3] $localtime[2]:$localtime[1]:$localtime[0]");
 }
 
 return(1);

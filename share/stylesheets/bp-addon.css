@@ -86,6 +86,7 @@ A.status {
 	border-left: 5px solid #C4C2C2;
 }
 
+#bpa_body_wu,
 #bpa_body_act { 
 	margin:0; 
 	padding:0; 
@@ -186,8 +187,7 @@ A.status {
 }
 
 #bpa_head_act,
-#bpa_head_bi,
-#bpa_head_wu { 
+#bpa_head_bi { 
 	padding-bottom:2em; 
 }
 
