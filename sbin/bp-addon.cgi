@@ -499,88 +499,92 @@
 
 					&printPageHead("json");
 
-					foreach $key (sort keys %$display)
+					# suppress output of single business processes if trafficlight only or short
+					if ( $trafficlight eq "yes")
 					{
-						chomp($script_out->{$key});
-						my (%tmp_hash, @tmp_array);
-
-						if ($components->{$key} =~ m/&/) { $operator = "and" }
-						elsif ($components->{$key} =~ m/\+/) { $operator = "of" }
-						else { $operator = "or" }
-						undef $min_ok;
-						if ($operator eq "of")
+						foreach $key (sort keys %$display)
 						{
-							$components->{$key} =~ m/^(\d+) *of: *(.+)/;
-							$min_ok = $1;
-							$components->{$key} = $2;
-						}
-						@services = split(/ *&|\||\+ /, $components->{$key});
-						for ($i=0; $i<@services; $i++)
-						{
-							$services[$i] = &cutOffSpaces($services[$i]);
+							chomp($script_out->{$key});
+							my (%tmp_hash, @tmp_array);
 
-							my %tmp_hash2;
-							# print "\n";
-
-							if ( $services[$i] =~ m/;/ )
+							if ($components->{$key} =~ m/&/) { $operator = "and" }
+							elsif ($components->{$key} =~ m/\+/) { $operator = "of" }
+							else { $operator = "or" }
+							undef $min_ok;
+							if ($operator eq "of")
 							{
-								# this output, if it is a single service
-								($host, $service) = split(/;/, $services[$i]);
-								# print "host:          $host\n";
-								# print "service:       $service\n";
-								$tmp_hash2{"host"}     = $host;
-								$tmp_hash2{"service"}  = $service;
+								$components->{$key} =~ m/^(\d+) *of: *(.+)/;
+								$min_ok = $1;
+								$components->{$key} = $2;
 							}
-							else
+							@services = split(/ *&|\||\+ /, $components->{$key});
+							for ($i=0; $i<@services; $i++)
 							{
-								# this output, if it is an aggregated service
-								# print "subprocess:    $services[$i]\n";
-								# print "displayname:   $display->{$services[$i]}\n";
-								# print "external_info: $script_out->{$services[$i]}\n" if (defined $script_out->{$services[$i]});
+								$services[$i] = &cutOffSpaces($services[$i]);
 
-								$tmp_hash2{"subprocess"}    = $services[$i];
-								$tmp_hash2{"display_prio"}  = $display_status->{$services[$i]};
-								$tmp_hash2{"display_name"}  = $display->{$services[$i]};
-								$tmp_hash2{"info_url"}      = $info_url->{$services[$i]} if (defined $info_url->{$services[$i]});
-								$tmp_hash2{"external_info"} = $script_out->{$services[$i]} if (defined $script_out->{$services[$i]});
+								my %tmp_hash2;
+								# print "\n";
+
+								if ( $services[$i] =~ m/;/ )
+								{
+									# this output, if it is a single service
+									($host, $service) = split(/;/, $services[$i]);
+									# print "host:          $host\n";
+									# print "service:       $service\n";
+									$tmp_hash2{"host"}     = $host;
+									$tmp_hash2{"service"}  = $service;
+								}
+								else
+								{
+									# this output, if it is an aggregated service
+									# print "subprocess:    $services[$i]\n";
+									# print "displayname:   $display->{$services[$i]}\n";
+									# print "external_info: $script_out->{$services[$i]}\n" if (defined $script_out->{$services[$i]});
+
+									$tmp_hash2{"subprocess"}    = $services[$i];
+									$tmp_hash2{"display_prio"}  = $display_status->{$services[$i]};
+									$tmp_hash2{"display_name"}  = $display->{$services[$i]};
+									$tmp_hash2{"info_url"}      = $info_url->{$services[$i]} if (defined $info_url->{$services[$i]});
+									$tmp_hash2{"external_info"} = $script_out->{$services[$i]} if (defined $script_out->{$services[$i]});
+								}
+								# print "hardstate:     $hardstates->{$services[$i]}\n";
+								# print "statusinfo:    $statusinfos->{$services[$i]}\n" if (defined $statusinfos->{$services[$i]});
+	
+								$tmp_hash2{"hardstate"}     = $hardstates->{$services[$i]};
+								$tmp_hash2{"plugin_output"} = $statusinfos->{$services[$i]} if (defined $statusinfos->{$services[$i]});
+	
+								push(@tmp_array, \%tmp_hash2);
 							}
-							# print "hardstate:     $hardstates->{$services[$i]}\n";
-							# print "statusinfo:    $statusinfos->{$services[$i]}\n" if (defined $statusinfos->{$services[$i]});
+
+							#print "bp_id: $key\n";
+							#print "    display_prio:  $display_status->{$key}\n";
+							#print "    display_name:  $display->{$key}\n";
+							#print "    hardstate:     $hardstates->{$key}\n";
+							#print "    info_url:      $info_url->{$key}\n";
+							#print "    external_info: $script_out->{$key}\n";
+							#print "    components:    $components->{$key}\n";
+							#print "    operator:      $operator\n";
+							#print "    min_ok:        $min_ok\n\n";
 	
-							$tmp_hash2{"hardstate"}     = $hardstates->{$services[$i]};
-							$tmp_hash2{"plugin_output"} = $statusinfos->{$services[$i]} if (defined $statusinfos->{$services[$i]});
-	
-							push(@tmp_array, \%tmp_hash2);
+							$tmp_hash{"display_prio"}  = $display_status->{$key};
+							#if ($display_status->{$key} != 0)
+							#{
+							#	$tmp_hash{"display_prio_headline"}    = &get_lang_string("priority_" . $display_status->{$key} . "_headline");
+							#	$tmp_hash{"display_prio_description"} = &get_lang_string("priority_" . $display_status->{$key} . "_description");
+							#}
+							$tmp_hash{"display_name"}  = $display->{$key};
+							$tmp_hash{"hardstate"}     = $hardstates->{$key};
+							$tmp_hash{"info_url"}      = $info_url->{$key} if (defined $info_url->{$key});
+							$tmp_hash{"external_info"} = $script_out->{$key} if (defined $script_out->{$key});
+							$tmp_hash{"components"}    = \@tmp_array;
+							$tmp_hash{"operator"}      = $operator;
+							$tmp_hash{"min_ok"}        = $min_ok if (defined $min_ok);
+
+							$json_data{$key} = \%tmp_hash;
 						}
-
-						#print "bp_id: $key\n";
-						#print "    display_prio:  $display_status->{$key}\n";
-						#print "    display_name:  $display->{$key}\n";
-						#print "    hardstate:     $hardstates->{$key}\n";
-						#print "    info_url:      $info_url->{$key}\n";
-						#print "    external_info: $script_out->{$key}\n";
-						#print "    components:    $components->{$key}\n";
-						#print "    operator:      $operator\n";
-						#print "    min_ok:        $min_ok\n\n";
-
-						$tmp_hash{"display_prio"}  = $display_status->{$key};
-						#if ($display_status->{$key} != 0)
-						#{
-						#	$tmp_hash{"display_prio_headline"}    = &get_lang_string("priority_" . $display_status->{$key} . "_headline");
-						#	$tmp_hash{"display_prio_description"} = &get_lang_string("priority_" . $display_status->{$key} . "_description");
-						#}
-						$tmp_hash{"display_name"}  = $display->{$key};
-						$tmp_hash{"hardstate"}     = $hardstates->{$key};
-						$tmp_hash{"info_url"}      = $info_url->{$key} if (defined $info_url->{$key});
-						$tmp_hash{"external_info"} = $script_out->{$key} if (defined $script_out->{$key});
-						$tmp_hash{"components"}    = \@tmp_array;
-						$tmp_hash{"operator"}      = $operator;
-						$tmp_hash{"min_ok"}        = $min_ok if (defined $min_ok);
-
-						$json_data{$key} = \%tmp_hash;
+						$json{'business_processes'} = \%json_data;
 					}
 
-					$json{'business_processes'} = \%json_data;
 					$json{'priority_definitions'} = getPriorityDescriptions(@defined_priorities);
 					$json{'json_created'} = $timestamp;
 
@@ -1040,7 +1044,7 @@ sub printPageHead()
 
 		if ($mode eq "act" && $refresh eq "refresh") 
 		{ 
-			print "		<meta http-equiv=\"refresh\" content=\"60; URL=$own_url?detail=$detail&amp;tree=$tree&amp;lang=$lang&amp;conf=$conf&amp;trafficlight=$trafficlight\">\n";
+			print "		<meta http-equiv=\"refresh\" content=\"60; URL=$own_url?detail=$detail&amp;tree=$tree&amp;lang=$lang&amp;conf=$conf&amp;trafficlight=$trafficlight&amp;disprio=$display_prio\">\n";
 		}
 
 		if ($trafficlight eq "short")
@@ -1266,6 +1270,7 @@ sub getPriorityDescriptions()
 		{
 			$tmp_hash{"display_prio_headline"}    = &get_lang_string("priority_${prio}_headline");
 			$tmp_hash{"display_prio_description"} = &get_lang_string("priority_${prio}_description");
+			$tmp_hash{"hardstate"}                =	$hardstates->{"__prio${prio}"};
 			$prio_def{$prio} = \%tmp_hash;
 		}
 	}

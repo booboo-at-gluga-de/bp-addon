@@ -90,6 +90,23 @@ lang
 	it is only used to determine from which language files You want to
 	take strings for display_prio_description and display_prio_headline
 
+trafficlight
+------------
+	can be "yes", "only" or "short"
+	(same as in html view, but not so self explaning in json context)
+	trafficlight=yes
+	is the default.
+	
+	give
+	trafficlight=only
+	or
+	trafficlight=short
+	if You want to get only the over all status for each priority
+	but no status information of single business processes
+
+	only valid in the default view
+	excludes: detail, tree
+
 
 Output Description
 ==================
@@ -106,9 +123,9 @@ business_process
 	refers to a section with all components of the given business process
 
 priority_definitions
-	refers to a section giving display strings for every priority used
-	in any of the business processes found in the business_process
-	section. Parameter lang is only for this section.
+	refers to a section giving display strings and over all status for 
+	every priority used in any of the business processes found in the 
+	business_process section. Parameter lang is only for this section.
 
 json_created
 	refers to a very simple section containing only on timestamp when this
@@ -185,7 +202,7 @@ plugin_output
 priority_definitions
 --------------------
 
-hashmap to priority definitions
+hashmap to priority definitions and over all status
 key is the id of the priority
 fields:
 
@@ -194,6 +211,14 @@ display_prio_headline
 
 display_prio_description
 	description defined in language file for this priority
+
+hardstate
+	the status of every business process in the given priority is taken
+	from all of them an "AND" conjunction is made
+	the result is called the over all status of the priority
+	this value is given as hardstate of the priority
+	(simplified You can say: the worst status of any business process
+	in the given priority)
 
 
 json_created
