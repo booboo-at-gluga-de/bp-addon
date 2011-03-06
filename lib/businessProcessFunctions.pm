@@ -241,7 +241,8 @@ sub x_of_y()
 	}
 
 	if ($state_counts{"OK"} >= $min_ok) { $return="OK" }
-	elsif ($state_counts{"OK"} + $state_counts{"WARNING"} >= $min_ok) { $return="WARNING" }
+	elsif ($state_counts{"OK"} + $state_counts{"UNKNOWN"} >= $min_ok) { $return="UNKNOWN" }
+	elsif ($state_counts{"OK"} + $state_counts{"UNKNOWN"} + $state_counts{"WARNING"} >= $min_ok) { $return="WARNING" }
 	else { $return="CRITICAL" }
 
 	#return
