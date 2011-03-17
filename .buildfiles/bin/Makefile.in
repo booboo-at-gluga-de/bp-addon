@@ -15,10 +15,10 @@ CP=@CP@
 all html:
 
 clean:
-	-rm bp-addon-check-backend-connection.pl
-	-rm bp-addon-consistency-check.pl
+	-rm bp-addon-check-backend-connection
+	-rm bp-addon-consistency-check
 	-rm bp-addon-session-timeout
-	-rm bp-cfg2service-cfg.pl
+	-rm bp-cfg2service-cfg
 
 distclean: clean
 	-rm Makefile
@@ -27,6 +27,9 @@ devclean: distclean
 
 install:
 	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(BINDIR)
-	$(INSTALL) -m 755 $(INSTALL_OPTS) *.pl $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-addon-check-backend-connection $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-addon-consistency-check $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-addon-session-timeout $(DESTDIR)$(BINDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-cfg2service-cfg $(DESTDIR)$(BINDIR)
 	$(INSTALL) -m 755 $(INSTALL_OPTS) bp-addon-session-timeout $(DESTDIR)$(BINDIR)
 

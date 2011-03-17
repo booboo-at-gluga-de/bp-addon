@@ -15,7 +15,8 @@ CP=@CP@
 all html:
 
 clean:
-	-rm check_bp_status.pl
+	-rm check_bp_status
+	-rm check_cluster_generic
 
 distclean: clean
 	-rm Makefile
@@ -24,6 +25,6 @@ devclean: distclean
 
 install:
 	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(LIBEXECDIR)
-	$(INSTALL) -m 755 $(INSTALL_OPTS) check_bp_status.pl $(DESTDIR)$(LIBEXECDIR)
-	$(INSTALL) -m 755 $(INSTALL_OPTS) check_cluster_generic.pl $(DESTDIR)$(LIBEXECDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) check_bp_status $(DESTDIR)$(LIBEXECDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) check_cluster_generic $(DESTDIR)$(LIBEXECDIR)
 

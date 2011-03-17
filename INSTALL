@@ -221,4 +221,4 @@ Now move etc/dataBackend.cfg-sample to etc/dataBackend.cfg and edit it
 Now You have finished the installation. Go ahead by configuring Your
 Business Processes as described in README
 
-Especially do not miss bp-addon-check-backend-connection.pl
+Especially do not miss bp-addon-check-backend-connection

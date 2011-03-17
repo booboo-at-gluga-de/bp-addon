@@ -10,10 +10,10 @@ version 0.9.7
 		nagiosbp -> bp-addon (directory)
 		nagiosbp-buildfiles -> bp-addon/.buildfiles (directory)
 		nagiosbp-buildroot -> bp-addon-buildroot (directory)
-		bin/nagios-bp-check-ndo-connection.pl -> bin/bp-addon-check-backend-connection.pl
-		bin/nagios-bp-consistency-check.pl -> bin/bp-addon-consistency-check.pl
+		bin/nagios-bp-check-ndo-connection.pl -> bin/bp-addon-check-backend-connection
+		bin/nagios-bp-consistency-check.pl -> bin/bp-addon-consistency-check
 		bin/nagios_bp_session_timeout -> bin/bp-addon-session-timeout
-		bin/bp_cfg2service_cfg.pl -> bin/bp-cfg2service-cfg.pl
+		bin/bp_cfg2service_cfg.pl -> bin/bp-cfg2service-cfg
 		etc/nagios-bp.conf -> etc/business-processes.conf
 		etc/ndo.cfg -> etc/dataBackend.cfg
 		etc/apache-conf.d/nagiosbp.conf -> etc/apache-conf.d/bp-addon.conf

@@ -121,7 +121,7 @@ rm -Rf $BUIDLROOT/$VERSIONSTRING/autom4te.cache
 echo
 echo string replacement in the following files...
 echo --------------------------------------------
-for INFILE in `find $BUIDLROOT -type f -and \( -name "*.pl" -or -name "bp-addon-session-timeout" -or -name "*.pm" -or -name "settings.cfg" -or -name "dataBackend.cfg-sample" -or -name "*.cgi" \)`
+for INFILE in `find $BUIDLROOT -type f -and \( -name "bp-addon-check-backend-connection" -or -name "bp-addon-consistency-check" -or -name "bp-cfg2service-cfg" -or -name "check_cluster_generic" -or -name "check_bp_status" -or -name "bp-addon-session-timeout" -or -name "*.pm" -or -name "settings.cfg" -or -name "dataBackend.cfg-sample" -or -name "*.cgi" \)`
 do
 	echo $INFILE
 	cat $INFILE | sed -e "s#/usr/local/bp-addon/lib/#@libdir@#" -e "s#/usr/local/bp-addon/etc#@sysconfdir@#" -e "s#/usr/bin/perl#@PERL@#" -e "s#/usr/local/bp-addon/var#@localstatedir@#" >${INFILE}.in

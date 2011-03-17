@@ -178,10 +178,10 @@ $PERL subst lib/businessProcessFunctions.pm
 $PERL subst lib/dataBackend.pm
 $PERL subst lib/bsutils.pm
 $PERL subst lib/settings.pm
-$PERL subst libexec/check_bp_status.pl
-$PERL subst bin/bp-cfg2service-cfg.pl
-$PERL subst bin/bp-addon-consistency-check.pl
-$PERL subst bin/bp-addon-check-backend-connection.pl
+$PERL subst libexec/check_bp_status
+$PERL subst bin/bp-cfg2service-cfg
+$PERL subst bin/bp-addon-consistency-check
+$PERL subst bin/bp-addon-check-backend-connection
 $PERL subst bin/bp-addon-session-timeout
 $PERL subst etc/settings.cfg
 $PERL subst etc/dataBackend.cfg-sample

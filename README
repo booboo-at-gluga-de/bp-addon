@@ -156,10 +156,10 @@ Syntax check
 ------------
 
 To make sure the syntax of Your business-processes.conf correct, run
-		bin/bp-addon-consistency-check.pl
+		bin/bp-addon-consistency-check
 In this syntax it checks Your default business-processes.conf. If You want to check 
 some other file call
-		bin/bp-addon-consistency-check.pl <file>
+		bin/bp-addon-consistency-check <file>
 		
 
 Some more keywords
@@ -293,7 +293,7 @@ Maybe You just forgot to restart Your webserver after making the config changes.
 
 Next thing to do to locate the problem is to run a script especially built
 for this:
-	bin/bp-addon-check-backend-connection.pl
+	bin/bp-addon-check-backend-connection
 Run it under the user Your Apache runs with. On success it prints out a
 list of all the services Your backend knows together with status information and 
 the last plugin output.
@@ -326,7 +326,7 @@ notifications, statistics, history, ...
 A simple script is integrated, that generates an additional Nagios/Icinga 
 configuration file with all the business processes as service.
 The script can be found under
-		bin/bp-cfg2service-cfg.pl
+		bin/bp-cfg2service-cfg
 Running this script should produce a new file
 		services-bp.cfg
 in the etc directory of NAGIOS/ICINGA (not etc of Business Process AddOn)
@@ -389,7 +389,7 @@ services.cfg, the hosts in host.cfg and the commands in commands.cfg
 
 		define command{
 		        command_name            check_bp_status
-		        command_line            /usr/bin/perl /usr/local/bp-addon/libexec/check_bp_status.pl -b $ARG1$ -f $ARG2$
+		        command_line            /usr/bin/perl /usr/local/bp-addon/libexec/check_bp_status -b $ARG1$ -f $ARG2$
 		}
 
 		define command{
@@ -408,12 +408,12 @@ Nagios/Icinga now checks the states of all business processes regulary.
 
 If only states of business processes in the top level view are of interest to You,
 but not the states of the sub-processes, use 
-		bin/bp-cfg2service-cfg.pl -s 0
+		bin/bp-cfg2service-cfg -s 0
 In this case You do not need the service template generic-bp-detail-service and 
 the host template business_processes_detail
 
 Parameters for this script are displayed, if You type
-		bin/bp-cfg2service-cfg.pl --help
+		bin/bp-cfg2service-cfg --help
 
 If You are using these new services to generate alerts for problems of whole 
 business processes, You might not want to inform the same users or groups for 
@@ -440,7 +440,7 @@ Of course, in this case You need to define an other template:
 		        register                        0
 		}
 
-Run bin/bp-cfg2service-cfg.pl again. It will produce a services-bp.cfg where
+Run bin/bp-cfg2service-cfg again. It will produce a services-bp.cfg where
 the according service is now defined referring to this new template.
 Reload Nagios/Icinga and You are done.
 
@@ -480,18 +480,18 @@ possible to use a business process defined in one of them in another configurati
 
 If You want to map the Business Processes of all of these files to Nagios 
 or Icinga services, use 
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/business-processes-customer1.conf
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/business-processes-customer2.conf
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg.pl -f /usr/local/nagiosbp/etc/business-processes-customer3.conf
+		/usr/local/nagiosbp/bin/bp_cfg2service_cfg -f /usr/local/nagiosbp/etc/business-processes-customer1.conf
+		/usr/local/nagiosbp/bin/bp_cfg2service_cfg -f /usr/local/nagiosbp/etc/business-processes-customer2.conf
+		/usr/local/nagiosbp/bin/bp_cfg2service_cfg -f /usr/local/nagiosbp/etc/business-processes-customer3.conf
 
 Maybe You want different default templates for each of these config files,
 because in the one case contacts of customer1 should be notified, in the
 other case contacts of customer2, ...
 For this You do not need to include template directives for every single
-Business Process in every single config file. Just call bp_cfg2service_cfg.pl
+Business Process in every single config file. Just call bp_cfg2service_cfg
 with -tt or -tm parameters.
 Complete description see
-		bin/bp_cfg2service_cfg.pl --help
+		bin/bp_cfg2service_cfg --help
 
 
 Where used?
