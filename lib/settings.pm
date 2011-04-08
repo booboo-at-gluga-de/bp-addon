@@ -53,6 +53,6 @@ sub getSettings()
 	return(\%settings);
 }
 
-sub getVersion() { return("0.9.7-alpha3"); }
+sub getVersion() { return("0.9.7-alpha4"); }
 
 1;

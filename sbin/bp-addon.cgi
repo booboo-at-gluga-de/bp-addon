@@ -53,7 +53,7 @@
 	my $nagios_bp_conf = $settings->{'BP_ADDON_ETC'} . "/";
 	my $own_url = $ENV{"SCRIPT_NAME"};
 	my $rowcount = 0;
-	my $session_dir = $settings->{'BP_ADDON_VAR'} . "/bp-addon.sessions/";
+	my $session_dir = $settings->{'BP_ADDON_VAR'} . "/cache/sessions/";
 	my $new_session = 0;
 	my $cgi_cfg_file = $settings->{'NAGIOS_ETC'} . "/cgi.cfg";
 	my $default_language = "de";

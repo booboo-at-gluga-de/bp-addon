@@ -22,8 +22,8 @@ version 0.9.7
 		lib/ndodb.pm -> lib/dataBackend.pm
 		sbin/nagios-bp.cgi -> sbin/bp-addon.cgi
 		share/stylesheets/nagios-bp.css -> share/stylesheets/bp-addon.css
-		var/cache/ndo_backend_cache -> var/cache/backend_cache
-		var/nagios_bp.sessions -> var/bp-addon.sessions (directory)
+		var/cache/ndo_backend_cache -> var/cache/backend/backend_cache
+		var/nagios_bp.sessions -> var/cache/sessions (directory)
 
 
 version 0.9.6

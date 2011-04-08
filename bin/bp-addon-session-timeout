@@ -22,7 +22,7 @@
 # script is regularly executed by cron under the same user as apache
 # and cleans old sessions from Nagios Business Impact Analysis
 
-for file in `find /usr/local/bp-addon/var/bp-addon.sessions -amin +30 -type f`
+for file in `find /usr/local/bp-addon/var/cache/sessions -amin +30 -type f`
 do
         rm -f $file
 done

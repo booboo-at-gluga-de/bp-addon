@@ -654,13 +654,13 @@ You might think about caching values in the Business Process AddOn for a
 certain amount of time. So access to Your NDO or IDO backend is done not so 
 often, but the results are not so fresh as they could be.
 Cache is held in one file in the filesystem, by default
-		var/cache/backend_cache
+		var/cache/backend/backend_cache
 
 If You did really decide to use caching, You activate it by using the
 parameters cache_time and cache_file in etc/dataBackend.cfg
 (they have comments there)
 
-Please note: var/cache/backend_cache is created world-writable 
+Please note: var/cache/backend/backend_cache is created world-writable 
 (permissions 666) by the installer. If You do not want this for security 
 reasons, You can change permissions to whatever You like. The only thing You
 must make sure is that the user Your Nagios/Icinga is running under and the 

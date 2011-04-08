@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(bp-addon, 0.9.7-alpha3, bp-addon-users@list.monitoringexchange.org)
+AC_INIT(bp-addon, 0.9.7-alpha4, bp-addon-users@list.monitoringexchange.org)
 
 dnl For later filesystem permissions
 AC_DEFINE([DEFAULT_USER], [root], [Default User])
@@ -12,9 +12,9 @@ AC_PREFIX_DEFAULT(/usr/local/bp-addon)
 
 dnl Some information about the project
 PKG_NAME=bp-addon
-PKG_VERSION="0.9.7-alpha3"
+PKG_VERSION="0.9.7-alpha4"
 PKG_HOME_URL="http://bp-addon.monitoringexchange.org/"
-PKG_REL_DATE="23-02-2011"
+PKG_REL_DATE="05-04-2011"
 
 AC_SUBST(PKG_NAME)
 AC_SUBST(PKG_VERSION)
@@ -164,8 +164,9 @@ AC_CONFIG_FILES(
 	etc/cron.d/Makefile 
 	lib/Makefile 
 	libexec/Makefile 
-	var/bp-addon.sessions/Makefile
 	var/cache/Makefile
+	var/cache/sessions/Makefile
+	var/cache/backend/Makefile
 	share/Makefile
 	share/stylesheets/Makefile
 	share/lang/Makefile)
@@ -179,6 +180,7 @@ $PERL subst lib/dataBackend.pm
 $PERL subst lib/bsutils.pm
 $PERL subst lib/settings.pm
 $PERL subst libexec/check_bp_status
+$PERL subst libexec/check_cluster_generic
 $PERL subst bin/bp-cfg2service-cfg
 $PERL subst bin/bp-addon-consistency-check
 $PERL subst bin/bp-addon-check-backend-connection

@@ -22,5 +22,6 @@ distclean: clean
 devclean: distclean
 
 install:
-	$(INSTALL) -m 755 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)/cache
+	$(INSTALL) -m 755 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)/cache/backend
+	$(INSTALL) -m 666 $(INSTALL_OPTS) backend_cache $(DESTDIR)$(LOGDIR)/cache/backend/
 

@@ -22,6 +22,5 @@ distclean: clean
 devclean: distclean
 
 install:
-	$(INSTALL) -m 775 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)
-	$(INSTALL) -m 1777 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)/bp-addon.sessions
+	$(INSTALL) -m 1777 $(INSTALL_OPTS) -d $(DESTDIR)$(LOGDIR)/cache/sessions
 

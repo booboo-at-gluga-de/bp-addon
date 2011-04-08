@@ -103,15 +103,15 @@ echo building $FILE
 rm -Rf $BUIDLROOT/*
 cd /usr/local || exit 1
 mkdir $BUIDLROOT/$VERSIONSTRING || exit 1
-rm -f $SOURCEFILES_DIR/var/bp-addon.sessions/*
+rm -f $SOURCEFILES_DIR/var/cache/sessions/*
 cp -R $SOURCEFILES_DIR/* $BUIDLROOT/$VERSIONSTRING
 cp -R $BUILDFILES_SRCDIR/* $BUIDLROOT/$VERSIONSTRING
 mv $BUIDLROOT/$VERSIONSTRING/etc/business-processes.conf $BUIDLROOT/$VERSIONSTRING/etc/business-processes.conf-sample
 mv $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample
 rm -f $BUIDLROOT/$VERSIONSTRING/etc/business-processes-second-view.conf
 #rm -f $BUIDLROOT/$VERSIONSTRING/share/stylesheets/user.css
-rm -f $BUIDLROOT/$VERSIONSTRING/var/bp-addon.sessions/.gitignore
-rm -f $BUIDLROOT/$VERSIONSTRING/var/bp-addon.sessions/.placeholder
+rm -f $BUIDLROOT/$VERSIONSTRING/var/cache/sessions/.gitignore
+rm -f $BUIDLROOT/$VERSIONSTRING/var/cache/sessions/.placeholder
 rm -f $BUIDLROOT/$VERSIONSTRING/build-bp-addon.sh
 rm -f $BUIDLROOT/$VERSIONSTRING/var/cache/.placeholder
 
@@ -151,7 +151,7 @@ cat $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in | sed \
 -e "s+#db_prefix=nagios_+db_prefix=nagios_+" >$BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in.tmp
 mv $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in.tmp $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample.in
 echo cleaning backend_cache
-echo -n > $BUIDLROOT/$VERSIONSTRING/var/cache/backend_cache
+echo -n > $BUIDLROOT/$VERSIONSTRING/var/cache/backend/backend_cache
 
 echo
 echo checking for errors
@@ -160,7 +160,7 @@ find $BUIDLROOT -type f ! -name UPDATE ! -name `basename $0` -exec grep -H nagio
 
 chown -R root.root $BUIDLROOT
 chmod -R g-w,o+rX $BUIDLROOT
-chmod 1777  $BUIDLROOT/$VERSIONSTRING/var/bp-addon.sessions
+chmod 1777  $BUIDLROOT/$VERSIONSTRING/var/cache/sessions
 cd $BUIDLROOT || exit 1
 echo
 echo tar the result-file
