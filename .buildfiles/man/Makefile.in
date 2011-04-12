@@ -1,0 +1,18 @@
+MANDIR=@datadir@
+
+INSTALL=@INSTALL@
+INSTALL_OPTS=@INSTALL_OPTS@
+
+all html:
+
+clean:
+	-rm *.8
+
+distclean: clean
+	-rm Makefile
+
+devclean: distclean
+
+install:
+	$(INSTALL) -m 664 $(INSTALL_OPTS) *.8 $(DESTDIR)$(MANDIR)/man8
+	
