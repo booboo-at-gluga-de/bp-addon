@@ -14,6 +14,7 @@ SRC_LIBEXEC=@srcdir@/libexec
 SRC_LIBS=@srcdir@/lib
 SRC_SHARE=@srcdir@/share
 SRC_VAR=@srcdir@/var
+SRC_MAN=@srcdir@/man
 
 
 #CC=@CC@
@@ -77,6 +78,7 @@ clean:
 	cd $(SRC_VAR)/cache && $(MAKE) $@
 	cd $(SRC_VAR)/cache/sessions && $(MAKE) $@
 	cd $(SRC_VAR)/cache/backend && $(MAKE) $@
+	cd $(SRC_MAN)/cache && $(MAKE) $@
 	-rm -f *.cfg core
 	-rm -f *~ *.*~ */*~ */*.*~
 	-rm -f config.log config.status config.cache
@@ -95,6 +97,7 @@ distclean:
 	cd $(SRC_VAR)/cache && $(MAKE) $@
 	cd $(SRC_VAR)/cache/sessions && $(MAKE) $@
 	cd $(SRC_VAR)/cache/backend && $(MAKE) $@
+	cd $(SRC_MAN)/cache && $(MAKE) $@
 	rm -f Makefile config.status config.log subst
 
 devclean: distclean
@@ -130,6 +133,7 @@ install:
 	cd $(SRC_VAR)/cache && $(MAKE) $@
 	cd $(SRC_VAR)/cache/sessions && $(MAKE) $@
 	cd $(SRC_VAR)/cache/backend && $(MAKE) $@
+	cd $(SRC_MAN)/cache && $(MAKE) $@
 	cd $(SRC_BIN) && $(MAKE) $@
 	$(INSTALL) -m 644 $(INSTALL_OPTS) README  $(DESTDIR)$(exec_prefix)
 	$(INSTALL) -m 644 $(INSTALL_OPTS) AUTHORS $(DESTDIR)$(exec_prefix)
