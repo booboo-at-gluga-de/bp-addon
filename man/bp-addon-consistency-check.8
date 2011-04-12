@@ -1,0 +1,34 @@
+.\" In .TH, FOO should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.\"
+.\" This template provided by Tom Christiansen <tchrist@jhereg.perl.com>.
+.\" 
+.TH  BP-ADDON-CONSISTENCY-CHECK 8
+.SH NAME
+bp-addon-consistency-check \- Business Process Addon Consistency Check
+Program
+.SH SYNOPSIS
+\fBbp-addon-consistency-check\fR [\fI<configfile>\fR]
+.SH DESCRIPTION
+\fBbp-addon-consistency-check\fR is a script that reads in a business
+process definition file and checks the consistency of the included defintions.
+.PP
+For more information you can visit bp-addon website:
+.IP
+http://bp-addon.monitoringexchange.org/
+.SH OPTIONS
+.TP
+\fI<configfile>\fR
+Name of the business process definition file (if not explicitly specified
+the default file /usr/local/bp-addon/etc/business-processes.conf is used).
+.SH "RETURN VALUE"
+On success running \fBbp-addon-consistency-check\fR 0 is returned.
+.SH ERRORS
+On error running \fBbp-addon-consistency-check\fR an error message is
+returned and the return code is set to 1.
+.SH FILES
+.TP
+\fI/usr/local/bp-addon/etc/business-processes.conf\fR
+business process definition file
+.SH AUTHORS
+Bernd Stroessenreuther <berny1@users.sourceforge.net>
