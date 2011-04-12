@@ -109,6 +109,7 @@ cp -R $BUILDFILES_SRCDIR/* $BUIDLROOT/$VERSIONSTRING
 mv $BUIDLROOT/$VERSIONSTRING/etc/business-processes.conf $BUIDLROOT/$VERSIONSTRING/etc/business-processes.conf-sample
 mv $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg $BUIDLROOT/$VERSIONSTRING/etc/dataBackend.cfg-sample
 rm -f $BUIDLROOT/$VERSIONSTRING/etc/business-processes-second-view.conf
+rm -Rf $BUIDLROOT/$VERSIONSTRING/test-scripts/
 #rm -f $BUIDLROOT/$VERSIONSTRING/share/stylesheets/user.css
 rm -f $BUIDLROOT/$VERSIONSTRING/var/cache/sessions/.gitignore
 rm -f $BUIDLROOT/$VERSIONSTRING/var/cache/sessions/.placeholder
