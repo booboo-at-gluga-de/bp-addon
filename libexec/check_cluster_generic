@@ -28,7 +28,7 @@ use strict;
 use lib ('/usr/local/bp-addon/lib/');
 use dataBackend;
 
-my ($cmd, $in, $param, $value, $i, $type, $clusterDefFile, $warningThresh, $criticalThresh, @clustermembers, $undefMembers, $hardstates, $statusinfos, $key, $member);
+my ($cmd, $in, $param, $value, $i, $type, $clusterDefFile, $warningThresh, $criticalThresh, @clustermembers, $undefMembers, $hardstates, $statusinfos, $key, $member, $timeout);
 my $rc = 3;
 my $okCount = 0;
 my $nonOkCount = 0;
@@ -54,18 +54,19 @@ for ($i=0; $i<@ARGV; $i++)
 	}
 	elsif ($ARGV[$i] eq "-f")
 	{
-		$i++;
-		$clusterDefFile = $ARGV[$i];
+		$clusterDefFile = $ARGV[++$i];
 	}
 	elsif ($ARGV[$i] eq "-w")
 	{
-		$i++;
-		$warningThresh = $ARGV[$i];
+		$warningThresh = $ARGV[++$i];
 	}
 	elsif ($ARGV[$i] eq "-c")
 	{
-		$i++;
-		$criticalThresh = $ARGV[$i];
+		$criticalThresh = $ARGV[++$i];
+	}
+	elsif ($ARGV[$i] eq "-t" || $ARGV[$i] eq "--timeout")
+	{
+		$timeout = $ARGV[++$i];
 	}
 	elsif ($ARGV[$i] eq "-h" || $ARGV[$i] eq "--help")
 	{
@@ -77,7 +78,7 @@ for ($i=0; $i<@ARGV; $i++)
 	}
 }
 
-# display version or help if needed
+# display version or help if needed, set defaults
 if ($version == 1)
 {
 	use settings;
@@ -95,14 +96,34 @@ if ($type !~ m/^(host|service)$/ || $clusterDefFile eq "" || $warningThresh !~ m
 	help();
 	exit(3);
 }
+if ($timeout =~ m/([0-9]+)/)
+{
+	$timeout = $1;
+}
+if ($timeout !~ m/^[0-9]+$/)
+{
+	$timeout = 10;
+}
+
+# set timeout
+$SIG{ALRM} = sub {
+	print "CRITIAL: Plugin timed out after $timeout sec\n";
+	exit(2);
+};
+alarm($timeout);
 
 #read the cluster definition file
 open(IN, "<$clusterDefFile") or die "unable to read $clusterDefFile: $!\n"; 
 	while ($in = <IN>)
 	{
 		#print "$in";
-		chomp($in);
-		push (@clustermembers, $in);
+		if ($in !~ m/^\s*#/ && $in !~ m/^\s*$/)
+		{
+			chomp($in);
+			$in =~ s/^\s+//;
+			$in =~ s/\s+$//;
+			push (@clustermembers, $in);
+		}
 	}
 close(IN);
 
@@ -146,6 +167,9 @@ if ($undefMembers > 0)
 	exit(3);
 }
 
+# stop timeout
+alarm(0);
+
 if ($nonOkCount < $warningThresh) { $rc = 0 }
 if ($nonOkCount >= $warningThresh) { $rc = 1 }
 if ($nonOkCount >= $criticalThresh) { $rc = 2 }
@@ -164,7 +188,7 @@ exit($rc);
 
 sub help()
 {
-	print "Usage: $0 --service|--host -f <clusterDefFile> -w <warn_threshold> -c <crit_threshold> [-d]\n";
+	print "Usage: $0 --service|--host -f <clusterDefFile> -w <warn_threshold> -c <crit_threshold> [-t <timeout>] [-d]\n";
 	print "or:    $0 --help|-h\n";
 	print "or:    $0 --version|-V\n\n";
 	print "--service        Check service cluster status\n";
@@ -178,6 +202,9 @@ sub help()
 	print "<crit_threshold> This is the number of hosts or services in\n";
 	print "                 the cluster that must be in a non-OK state\n";
 	print "                 in order to result in a critical status level\n";
+	print "<timeout>	in seconds\n";
+	print "                 quit execution of this plugin if non result is available\n";
+	print "                 in this time; default is 10 sec\n";
 	print "-d               to enable debugging output\n";
 	print "\n";
 }

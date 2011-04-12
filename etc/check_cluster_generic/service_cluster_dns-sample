@@ -1,0 +1,6 @@
+# sample config file for check_cluster_generic
+# defines a service cluster with three services
+# service "DNS" on server "dns1", ...
+dns1;DNS
+dns2;DNS
+dns3;DNS

@@ -1,0 +1,6 @@
+# sample config file for check_cluster_generic
+# defines a host cluster with three hosts
+# called dns1, dns2, dns3
+dns1
+dns2
+dns3
