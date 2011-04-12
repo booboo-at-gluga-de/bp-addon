@@ -1,0 +1,30 @@
+.\" In .TH, FOO should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.\"
+.\" This template provided by Tom Christiansen <tchrist@jhereg.perl.com>.
+.\" 
+.TH  BP-ADDON-CHECK-BACKEND-CONNECTION 8
+.SH NAME
+bp-addon-check-backend-connection \- Business Process Addon Backend
+Connection Check Program
+.SH SYNOPSIS
+\fBbp-addon-check-backend-connection
+.SH DESCRIPTION
+\fBbp-addon-check-backend-connection\fR is a script that checks the
+connectivity to the backend specified in the backend config file
+and prints out a list of the current states of host and service checks.
+.PP
+For more information you can visit bp-addon website:
+.IP
+http://bp-addon.monitoringexchange.org/
+.SH "RETURN VALUE"
+On success running \fBbp-addon-check-backend-connection\fR 0 is returned.
+.SH ERRORS
+On error running \fBbp-addon-check-backend-connection\fR an error message is
+returned and the return code is set accordingly.
+.SH FILES
+.TP
+\fI/usr/local/bp-addon/etc/dataBackend.cfg\fR
+backend config file
+.SH AUTHORS
+Bernd Stroessenreuther <berny1@users.sourceforge.net>
