@@ -1,0 +1,28 @@
+.\" In .TH, FOO should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.\"
+.\" This template provided by Tom Christiansen <tchrist@jhereg.perl.com>.
+.\" 
+.TH  BP-ADDON-SESSION-TIMEOUT 8
+.SH NAME
+bp-addon-session-timeout \- Business Process Addon Old Session Removing
+Program
+.SH SYNOPSIS
+\fBbp-addon-session-timeout
+.SH DESCRIPTION
+\fBbp-addon-session-timeout\fR is a script which is run periodically by cron
+to remove stale business impact analysis sessions from the cache directory.
+.PP
+For more information you can visit bp-addon website:
+.IP
+http://bp-addon.monitoringexchange.org/
+.SH "RETURN VALUE"
+On exit running \fBbp-addon-session-timeout\fR 0 is returned.
+.SH ERRORS
+On error running \fBbp-addon-session-timeout\fR an error message is returned.
+.SH FILES
+.TP
+\fI/usr/local/bp-addon/var/cache/sessions\fR
+session cache directory	
+.SH AUTHORS
+Bernd Stroessenreuther <berny1@users.sourceforge.net>
