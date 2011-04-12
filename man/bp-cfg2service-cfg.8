@@ -1,0 +1,63 @@
+.\" In .TH, FOO should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.\"
+.\" This template provided by Tom Christiansen <tchrist@jhereg.perl.com>.
+.\" 
+.TH  BP-CFG2SERVICE-CFG 8
+.SH NAME
+bp-cfg2service-cfg \- Business Process Addon Service Creation Program
+.SH SYNOPSIS
+\fBbp-cfg2service-cfg\fR [\fB-f\fR \fI<config_file>\fR]
+[\fB-tt\fR \fI<template_toplevel>\fR] [\fB-tm\fR \fI<template_minor>\fR]
+[\fB-o\fR \fI<output_file>\fR] [\fB-s\fR \fI0\fR|\fI1\fR]
+[\fB-n\fR \fI0\fR|\fI1\fR] [\fB-h\fR]
+.SH DESCRIPTION
+\fBbp-cfg2service-cfg\fR is a script that reads in a business process
+definition file, creates nagios-style service checks according to the included
+business processes and outputs them in a service checks file.
+.PP
+For more information you can visit bp-addon website:
+.IP
+http://bp-addon.monitoringexchange.org/
+.SH OPTIONS
+.TP
+\fB\-f\fR \fI<configfile>\fR
+Name of the business process definition file (if not explicitly specified
+the default file /usr/local/bp-addon/etc/business-processes.conf is used).
+.TP
+\fB-tt\fR \fI<template_toplevel>\fR
+Name of the toplevel template (if not explicitly specified the default
+toplevel template generic-bp-service is used).
+.TP
+\fB-tm\fR \fI<template_minor>\fR
+Name of the sublevel template (if not explicitly specified the default
+sublevel template generic-bp-detail-service is used).
+.TP
+\fB-o\fR \fI<output_file>\fR
+Name of the service checks file (if not explicitly specified the default file
+/usr/local/nagios/etc/services-bp.cfg is used).
+.TP
+\fB-s\fR \fI0\fR|\fI1\fR
+Skip or don't skip the creation of services checks from business processes with
+display 0 (if not explicitly specified the default is to not skip them).
+.TP
+\fB-n\fR \fI0\fR|\fI1\fR
+Skip or don't skip the creation of service check notes from business processes
+descriptions (if not explicitly specified the default is to skip them).
+.TP
+\fB-h\fR
+Display the usage message for \fBbp-cfg2service-cfg\fR.
+.SH "RETURN VALUE"
+On success running \fBbp-cfg2service-cfg\fR 0 is returned.
+.SH ERRORS
+On error running \fBbp-cfg2service-cfg\fR an error message is
+returned and the return code is set accordingly.
+.SH FILES
+.TP
+\fI/usr/local/bp-addon/etc/business-processes.conf\fR
+business process definition file
+.TP
+\fI/usr/local/nagios/etc/services-bp.cfg\fR
+service checks file
+.SH AUTHORS
+Bernd Stroessenreuther <berny1@users.sourceforge.net>
