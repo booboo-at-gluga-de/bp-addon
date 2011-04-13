@@ -1,4 +1,6 @@
-MANDIR=@datadir@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+MANDIR=@mandir@
 
 INSTALL=@INSTALL@
 INSTALL_OPTS=@INSTALL_OPTS@
@@ -14,5 +16,7 @@ distclean: clean
 devclean: distclean
 
 install:
+	$(INSTALL) -m 755 $(INSTALL_OPTS) -d $(DESTDIR)$(MANDIR)
+	$(INSTALL) -m 755 $(INSTALL_OPTS) -d $(DESTDIR)$(MANDIR)/man8
 	$(INSTALL) -m 664 $(INSTALL_OPTS) *.8 $(DESTDIR)$(MANDIR)/man8
 	

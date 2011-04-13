@@ -159,6 +159,7 @@ AC_CONFIG_FILES(
 	Makefile
 	bin/Makefile 
 	sbin/Makefile
+	man/Makefile
 	etc/Makefile 
 	etc/apache-conf.d/Makefile 
 	etc/cron.d/Makefile 
@@ -189,6 +190,10 @@ $PERL subst etc/settings.cfg
 $PERL subst etc/dataBackend.cfg-sample
 $PERL subst etc/apache-conf.d/bp-addon.conf
 $PERL subst etc/cron.d/bp-addon
+$PERL subst man/bp-addon-check-backend-connection.8
+$PERL subst man/bp-addon-consistency-check.8
+$PERL subst man/bp-addon-session-timeout.8
+$PERL subst man/bp-cfg2service-cfg.8
 
 dnl Review options
 echo ""
@@ -204,6 +209,7 @@ AC_MSG_RESULT([        Install \${prefix}:  $prefix])
 AC_MSG_RESULT([   Install \${exec_prefix}:  $exec_prefix])
 AC_MSG_RESULT([                  LIB Dir:  $libdir])
 AC_MSG_RESULT([               Config Dir:  $sysconfdir])
+AC_MSG_RESULT([                  Man Dir:  $mandir])
 #AC_MSG_RESULT([                Share Dir:  $datarootdir])
 AC_MSG_RESULT([                 Data Dir:  $datadir])
 #AC_MSG_RESULT([             Language Dir:  $langdir])
