@@ -223,6 +223,17 @@ AC_MSG_RESULT([        Apache conf.d Dir:  $HTTPD_CONF])
 AC_MSG_RESULT([              Apache User:  $apache_user])
 AC_MSG_RESULT([          Apache AuthName:  $apache_authname])
 AC_MSG_RESULT([               cron.d Dir:  $CRON_D_DIR])
+
+if test "$mandir" != "/usr/local/share/man" -a "$mandir" != "/usr/local/share/man/" -a "$mandir" != "/usr/share/man" -a "$mandir" != "/usr/share/man/"; then
+	echo ""
+	echo "***   A T T E N T I O N   ***"
+	echo "man pages will be installed in $mandir, where they might be not found by the"
+	echo "man command"
+	echo "maybe You want to run the configure script again and give an additional"
+	echo "parameter like"
+	echo "--mandir=/usr/local/share/man"
+fi
+
 echo ""
 echo ""
 echo "Review the options above for accuracy.  If they look okay,"
