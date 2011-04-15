@@ -35,9 +35,8 @@
 #some Variables
 	my $settings = getSettings();
 	my %state_to_rc = ( "OK" => 0, "WARNING" => 1, "CRITICAL" => 2, "UNKNOWN" => 3);
-	my $timeout = 10;
 
-	my ($nagios_bp_conf, $bp, $hardstates, $statusinfos, $display, $display_status, $script_out, $info_url, $components, $key, $i);
+	my ($nagios_bp_conf, $bp, $hardstates, $statusinfos, $display, $display_status, $script_out, $info_url, $components, $key, $i, $timeout);
 
 
 #get command line parameters
@@ -63,9 +62,18 @@
 	help("You did not give any parameters!\n") if ($bp eq "");
 
 # timeout
+	if ($timeout =~ m/([0-9]+)/)
+	{
+		$timeout = $1;
+	}
+	if ($timeout !~ m/^[0-9]+$/)
+	{
+		$timeout = 10;
+	}
+
 	$SIG{ALRM} = sub 
 	{
-		print "The plugin execution timed out\n";
+		print "The plugin execution timed out after $timeout sec\n";
 		exit(3);
 	};
 	alarm($timeout);
@@ -140,7 +148,7 @@
 		exit(3);
 	}
 
-# online help
+# version info
 	sub version
 	{
 		print "Version " . getVersion() . "\n";
