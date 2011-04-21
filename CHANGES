@@ -20,6 +20,7 @@ version 0.9.7
 		etc/cron.d/nagiosbp -> etc/cron.d/bp-addon
 		lib/nagiosBp.pm -> lib/businessProcessFunctions.pm
 		lib/ndodb.pm -> lib/dataBackend.pm
+		libexec/check_bp_status.pl -> libexec/check_bp_status
 		sbin/nagios-bp.cgi -> sbin/bp-addon.cgi
 		share/stylesheets/nagios-bp.css -> share/stylesheets/bp-addon.css
 		var/cache/ndo_backend_cache -> var/cache/backend/backend_cache

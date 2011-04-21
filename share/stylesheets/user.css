@@ -4,11 +4,25 @@
 /* do not display the selction buttons for single priorities */
 /* #bpa_prio_selection { display:none; } */
 
-/* display the traffic light on the right hand side */
-/* #bpa_cental_table_box_tl_yes { margin-right:9em; margin-left:0; }
-#bpa_trafficlight_yes_box { float:right; } */
+/* display Business Process Addon's right bar on the left hand side */
+/* #bpa_right_bar { border-left: 0; border-right:5px solid #C4C2C2; float:left; }
+#bpa_cental_table_box_tl_yes { border-right: 0; border-left:5px solid #C4C2C2; margin:0 0 0 150px; } */
+
+/* a layout looking nearly like the Business Process AddOn's classic style */
+/* (no right bar, traffic lights top left) */
+/* #bpa_right_bar { border-left: 0; border-right: 0; float:left; }
+#bpa_cental_table_box_tl_yes { border-right: 0; border-left: 0; margin:0 0 0 150px; }
+#bpa_version, #bpa_last_updated, img.bpa_logo { display: none; }
+#bpa_trafficlight_yes_head { margin-top: 20px; }
+#bpa_language { text-align: center; } */
+
+/* a layout for installations using only one priority */
+/* (elements not needed in this case are hidden) */
+/* td.statusTitle, td.bpa_description, #bpa_prio_selection { display: none; } */
+/* maybe in this case You also do not want to display the traffic lights 
+/* in the right bar */
+/* #bpa_trafficlight_yes_table, #bpa_trafficlight_yes_head { display: none; } */
 
 /* if using the Business Process AddOns with Icinga, you might want to uncomment
-   the following lines */
-/* #bpa_foot_version, #bpa_foot_language, .bpa_text_small, .bpa_text_tiny { font-size:100%; }
-#bpa_body_short, #bpa_trafficlight_short_table { background-color:#EDEDED; } */
+   the following line */
+/* #bpa_language, #bpa_version, #bpa_last_updated, .bpa_text_small, .bpa_text_tiny, #bpa_foot_version, #bpa_foot_language { font-size:100%; } */

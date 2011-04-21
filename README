@@ -480,9 +480,9 @@ possible to use a business process defined in one of them in another configurati
 
 If You want to map the Business Processes of all of these files to Nagios 
 or Icinga services, use 
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg -f /usr/local/nagiosbp/etc/business-processes-customer1.conf
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg -f /usr/local/nagiosbp/etc/business-processes-customer2.conf
-		/usr/local/nagiosbp/bin/bp_cfg2service_cfg -f /usr/local/nagiosbp/etc/business-processes-customer3.conf
+		/usr/local/bp-addon/bin/bp_cfg2service_cfg -f /usr/local/bp-addon/etc/business-processes-customer1.conf
+		/usr/local/bp-addon/bin/bp_cfg2service_cfg -f /usr/local/bp-addon/etc/business-processes-customer2.conf
+		/usr/local/bp-addon/bin/bp_cfg2service_cfg -f /usr/local/bp-addon/etc/business-processes-customer3.conf
 
 Maybe You want different default templates for each of these config files,
 because in the one case contacts of customer1 should be notified, in the
@@ -511,28 +511,28 @@ into:
 
 define host {
 	# ...
-	notes_url	/nagiosbp/cgi-bin/whereUsed.cgi?host=$HOSTNAME$
+	notes_url	/bp-addon/cgi-bin/whereUsed.cgi?host=$HOSTNAME$
 }
 
 or
 
 define host {
 	# ...
-	action_url	/nagiosbp/cgi-bin/whereUsed.cgi?host=$HOSTNAME$
+	action_url	/bp-addon/cgi-bin/whereUsed.cgi?host=$HOSTNAME$
 }
 
 at services:
 
 define service {
 	# ...
-	notes_url	/nagiosbp/cgi-bin/whereUsed.cgi?host=$HOSTNAME$&service=$SERVICEDESC$
+	notes_url	/bp-addon/cgi-bin/whereUsed.cgi?host=$HOSTNAME$&service=$SERVICEDESC$
 }
 
 or
 
 define service {
 	# ...
-	action_url	/nagiosbp/cgi-bin/whereUsed.cgi?host=$HOSTNAME$&service=$SERVICEDESC$
+	action_url	/bp-addon/cgi-bin/whereUsed.cgi?host=$HOSTNAME$&service=$SERVICEDESC$
 }
 
 These definitions work for Nagios 3.x and Icinga. When still using Nagios 2.x, 
@@ -557,12 +557,12 @@ serviceextinfo section in Nagios 2.x)
 
 define host {
 	# ...
-	notes	On problems with this host, see documentation chapter 16.<br><a href="/nagiosbp/cgi-bin/whereUsed.cgi">Where is this host used?</a>
+	notes	On problems with this host, see documentation chapter 16.<br><a href="/bp-addon/cgi-bin/whereUsed.cgi">Where is this host used?</a>
 }
 
 define service {
 	# ...
-	notes	On problems with this service, see documentation chapter 16.<br><a href="/nagiosbp/cgi-bin/whereUsed.cgi">Where is this service used?</a>
+	notes	On problems with this service, see documentation chapter 16.<br><a href="/bp-addon/cgi-bin/whereUsed.cgi">Where is this service used?</a>
 }
 
 The first part is the normal information for the host or service. You maybe
@@ -603,9 +603,9 @@ processes in the default config file business-processes.conf. If You want it to
 look in an alternate config file, call it with the additional parameter "conf"
 in the same way as described in section "More than one Top Level View".
 e. g.
-	action_url	/nagiosbp/cgi-bin/whereUsed.cgi?conf=business-processes-customer1&host=$HOSTNAME$&service=$SERVICEDESC$
+	action_url	/bp-addon/cgi-bin/whereUsed.cgi?conf=business-processes-customer1&host=$HOSTNAME$&service=$SERVICEDESC$
 or
-	notes		<a href="/nagiosbp/cgi-bin/whereUsed.cgi?conf=business-processes-customer1">Where is this service used?</a>
+	notes		<a href="/bp-addon/cgi-bin/whereUsed.cgi?conf=business-processes-customer1">Where is this service used?</a>
 
 
 Preview Changes
@@ -698,18 +698,36 @@ user.css is located in share/stylesheets/ directory.
 
 some examples:
 
-If You want to make Trafficlight readable from a bigger distance, just put
+If You want to make traffic lights readable from a bigger distance, just put
 the following line into user.css:
 #bpa_trafficlight_yes_table td { border-top:30px solid white; padding:5px; font-size:120% }
 
-If You do not want to display the selction buttons for single priorities:
+If You do not want to display the selction buttons for single priorities
+in the foot area:
 #bpa_prio_selection { display:none; }
 
 In the same way you can hide other elements too.
 
-To display the traffic light on the right hand side, You need two lines:
-#bpa_cental_table_box_tl_yes { margin-right:9em; margin-left:0; }
-#bpa_trafficlight_yes_box { float:right; }
+To e. g. display Business Process Addon's right bar on the left hand side,
+You need two lines:
+#bpa_right_bar { border-left: 0; border-right:5px solid #C4C2C2; float:left; }
+#bpa_cental_table_box_tl_yes { border-right: 0; border-left:5px solid #C4C2C2; margin:0 0 0 150px; }
+
+To get a layout looking nearly like the Business Process AddOn's classic style
+(no right bar, traffic lights top left), You add: 
+#bpa_right_bar { border-left: 0; border-right: 0; float:left; }
+#bpa_cental_table_box_tl_yes { border-right: 0; border-left: 0; margin:0 0 0 150px; }
+#bpa_version, #bpa_last_updated, img.bpa_logo { display: none; }
+#bpa_trafficlight_yes_head { margin-top: 20px; }
+#bpa_language { text-align: center; }
+
+A layout for installations using only one priority
+(elements not needed in this case are hidden)
+td.statusTitle, td.bpa_description, #bpa_prio_selection { display: none; }
+
+Maybe in this case You also do not want to display the traffic lights
+in the right bar
+#bpa_trafficlight_yes_table, #bpa_trafficlight_yes_head { display: none; }
 
 And I'm sure users find much more cool hacks to make the GUI fit their needs.
 If You found one, which You think it is interesting for other users too,

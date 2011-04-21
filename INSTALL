@@ -91,13 +91,16 @@ Extract the download file
 		tar xvzf business-process-addon-<VERSION>.tar.gz
 		cd business-process-addon-<VERSION>
 
-if using Nagios: For installation in the default path (/usr/local/nagiosbp/) 
+if using Nagios: For installation in the default path (/usr/local/bp-addon/) 
 		type
 		./configure
+		or even better (to avoid changing the man path for all users)
+		./configure --mandir=/usr/local/share/man
 
-if using Icinga: For installation in the default path (/usr/local/nagiosbp/) 
+
+if using Icinga: For installation in the default path (/usr/local/bp-addon/) 
 		type
-		./configure --with-nagcgiurl=/icinga/cgi-bin --with-naghtmurl=/icinga --with-nagetc=/usr/local/icinga/etc/ --with-apache-authname="Icinga Access"
+		./configure --with-nagcgiurl=/icinga/cgi-bin --with-naghtmurl=/icinga --with-nagetc=/usr/local/icinga/etc/ --with-apache-authname="Icinga Access" --mandir=/usr/local/share/man
 
 If You want to install somewhere else or if Your Nagios or Icinga is not 
 installed in the default path (/usr/local/nagios/ or /usr/local/icinga), 
@@ -173,7 +176,7 @@ the web GUI has the look and feel of Nagios when installed with Nagios
 and the look and feel of Icinga when installed with Icinga.
 In very little details they differ. So when using Icinga with the classic 
 web GUI You might want to uncomment the following line 
-		#bpa_foot_version, #bpa_foot_language, .bpa_text_small, .bpa_text_tiny { font-size:100%; }
+	#bpa_language, #bpa_version, #bpa_last_updated, .bpa_text_small, .bpa_text_tiny, #bpa_foot_version, #bpa_foot_language { font-size:100%; }
 in share/stylesheets/user.css
 Otherwise some elements on the web GUI would look very tiny.
 
