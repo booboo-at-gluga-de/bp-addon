@@ -26,6 +26,33 @@ version 0.9.7
 		var/cache/ndo_backend_cache -> var/cache/backend/backend_cache
 		var/nagios_bp.sessions -> var/cache/sessions (directory)
 
+	Feature Request 2010-013: created right bar in the web GUI
+		with Business Process AddOn's logo, traffic lights and other
+		information
+
+	Feature Request 2010-014: traffic lights only view now also available
+		in JSON outputformat
+
+	Feature Request 2010-018: added hint in README: avoid using check_bp_status
+		with embedded perl interpreter
+
+	Bug 2010-020 fixed: Aggregation function AND returned wrong result if
+		all input parameters were UNKNOWN (returned CRITICAL in this case)
+		Fixed: now UNKNOWN is the (correct) returned value
+
+	Feature Request 2010-021: Included check_cluster_generic
+		see FAQ or check_cluster_generic --help for more information
+
+	Bug 2010-022 fixed: whereUsed.cgi now also contains information about when
+		the page was generated
+
+	Feature Request 2011-003: some minor changes at makefiles for getting clean
+		debian packages
+
+	Bug 2011-005 fixed: if user selected to display only on priority in top level
+		view, this selection was lost after the first automatic refresh of
+		the page (parameter disprio was missing at meta refresh)
+
 
 version 0.9.6
 -------------
