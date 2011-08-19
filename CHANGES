@@ -53,6 +53,9 @@ version 0.9.7
 		view, this selection was lost after the first automatic refresh of
 		the page (parameter disprio was missing at meta refresh)
 
+	Documentation update 2011-010: how to include Business Process AddOns in side.php
+		of Nagios 3.2 and higher
+
 
 version 0.9.6
 -------------

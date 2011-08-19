@@ -147,7 +147,7 @@ that throws away old session files. It is normally located in /etc/cron.d
 In Nagios or Icinga You need some links so that You can use the 2 
 views of the AddOn
 
-If using Nagios edit /usr/local/nagios/share/side.html
+If using Nagios with version bevor 3.2 edit /usr/local/nagios/share/side.html
 		e. g. after this section
 			  <tr>
 			    <td width=13><img src="images/greendot.gif" width="13" height="14" name="statuswrl-dot"></td>
@@ -162,6 +162,13 @@ If using Nagios edit /usr/local/nagios/share/side.html
 			    <td width=13><img src="images/greendot.gif" width="13" height="14" name="statuswrl-dot"></td>
 			    <td nowrap><a href="/bp-addon/cgi-bin/bp-addon.cgi?mode=bi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Impact</a></td>
 			  </tr>
+
+If using Nagios with version 3.2 or higher edit /usr/local/nagios/share/side.php
+         e. g. after this section
+			<li><a href="<?php echo $cfg["cgi_base_url"];?>/statusmap.cgi?host=all" target="<?php echo $link_target;?>">Map</a></li>
+         You insert the following lines:
+			<li><a href="/bp-addon/cgi-bin/bp-addon.cgi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Process View</a></li>
+			<li><a href="/bp-addon/cgi-bin/bp-addon.cgi?mode=bi" target="main" onMouseOver="switchdot('statuswrl-dot',1)" onMouseOut="switchdot('statuswrl-dot',0)" class="NavBarItem">Business Impact</a></li>
 
 If using Icinga with the classic web GUI edit 
 /usr/local/icinga/share/menu.html
